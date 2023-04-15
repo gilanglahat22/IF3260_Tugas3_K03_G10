@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Hollow Objects - G10</title>
+    <title>Articulated Model - G10</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,17 +13,312 @@
     <link href="styles.css" rel="stylesheet" />
 
     <!-- Utils -->
-    
+    <script src="Utils/webgl-utils.js" defer></script>
+
     <!-- Main -->
     <script src="script.js" defer></script>
   </head>
 
   <body>
     <div class="flex-container">
-      <div style="width: 25.5vw; padding: 30px">
-        <h1 style="font-size: 20px">3D WebGL Articulated Model - G10</h1>
+      <div style="width: 25vw; padding: 30px">
+        <h1 style="font-size: 20px">Hollow Objects - G10</h1>
         <div>
-            <!-- Implement here -->
+          <div class="inline-flex">
+            <p>Color:</p>
+            <input
+              type="color"
+              id="color-picker"
+              class="button-elmt"
+              value="#00FF00"
+            />
+          </div>
+          <div>
+            Projection:
+            <select id="perspectiveOption" name="perspectiveOption">
+              <option value="perspective" selected="selected">
+                perspective
+              </option>
+              <option value="orthographic">orthographic</option>
+              <option value="oblique">oblique</option>
+            </select>
+          </div>
+          <br />
+          <div>
+            <label for="rotasiX">Rotation on axis X:</label>
+            <input
+              type="range"
+              name="rotasiX"
+              min="-180"
+              max="180"
+              value="0"
+              id="rotasiX"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-rot-x">0</output>
+            <br />
+            <label for="rotasiY">Rotation on axis Y:</label>
+            <input
+              type="range"
+              name="rotasiY"
+              min="-180"
+              max="180"
+              value="0"
+              id="rotasiY"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-rot-y">0</output>
+            <br />
+            <label for="rotasiZ">Rotation on axis Z:</label>
+            <input
+              type="range"
+              name="rotasiZ"
+              min="-180"
+              max="180"
+              value="0"
+              id="rotasiZ"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-rot-z">0</output>
+            <br />
+            <br />
+            <label for="translasiX">Translation X:</label>
+            <input
+              type="range"
+              name="translasiX"
+              min="-100"
+              max="100"
+              value="0"
+              id="translasiX"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-trans-x">0</output>
+            <br />
+            <label for="translasiY">Translation Y:</label>
+            <input
+              type="range"
+              name="translasiY"
+              min="-100"
+              max="100"
+              value="0"
+              id="translasiY"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-trans-y"t>0</output>
+            <br />
+            <label for="translasiZ">Translation Z:</label>
+            <input
+              type="range"
+              name="translasiZ"
+              min="-100"
+              max="100"
+              value="0"
+              id="translasiZ"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-trans-z">0</output>
+            <br />
+            <br />
+            <label for="scalingX">Scale X:</label>
+            <input
+              type="range"
+              name="scalingX"
+              min="0"
+              max="3"
+              value="1"
+              step="0.1"
+              id="scalingX"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-scale-x">1</output>
+            <br />
+            <label for="scalingY">Scale Y:</label>
+            <input
+              type="range"
+              name="scalingY"
+              min="0"
+              max="3"
+              value="1"
+              step="0.1"
+              id="scalingY"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-scale-y">1</output>
+            <br />
+            <label for="scalingZ">Scale Z:</label>
+            <input
+              type="range"
+              name="scalingZ"
+              min="0"
+              max="3"
+              value="1"
+              step="0.1"
+              id="scalingZ"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-scale-z">1</output>
+          </div>
+          <br />
+          <div>
+            <label for="cam-radius">Radius Camera:</label>
+            <input
+              type="range"
+              name="cam-radius"
+              min="0"
+              id="cam-radius"
+              max="100"
+              value="0"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-cam-rad">0</output>
+            <br />
+            <label for="eye-y">Angle Camera:</label>
+            <input
+              type="range"
+              name="cam-rotation"
+              min="0"
+              id="cam-rotation"
+              max="360"
+              value="60"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-range">60</output>
+          </div>
+          <br />
+          <div class="shading">
+            <label for="shading">Shading: </label>
+            <input
+              type="checkbox"
+              id="shading"
+              name="shading"
+              value="shading"
+              checked
+            />
+          </div>
+          <div class="idle">
+            <label for="shading">Idle animation: </label>
+            <input type="checkbox" id="idle" name="idle" value="idle" checked />
+          </div>
+          <br>
+          <br>
+          <label for="lightX">Light Position X:</label>
+            <input
+              type="range"
+              name="lightX"
+              min="-10"
+              max="10"
+              value="1"
+              step="0.1"
+              id="lightX"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-light-x">1</output>
+          <br />
+          <label for="lightY">Light Position Y:</label>
+            <input
+              type="range"
+              name="lightY"
+              min="-10"
+              max="10"
+              value="1"
+              step="0.1"
+              id="lightY"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-light-y">1</output>
+            <br>
+            <label for="lightZ">Light Position Z:</label>
+            <input
+              type="range"
+              name="lightZ"
+              min="-10"
+              max="10"
+              value="-1"
+              step="0.1"
+              id="lightZ"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-light-z">-1</output>
+          <br>
+          <br>
+          <label for="ka">ka:</label>
+            <input
+              type="range"
+              name="ka"
+              min="0"
+              max="1"
+              value="0.1"
+              step="0.1"
+              id="ka"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-ka">0.1</output>
+            <input
+              type="color"
+              id="ambient-color"
+              class="button-elmt"
+              value="#00FF00"
+            />
+          <br>
+          <label for="kd">kd:</label>
+            <input
+              type="range"
+              name="kd"
+              min="0"
+              max="1"
+              value="0.8"
+              step="0.1"
+              id="kd"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-kd">0.8</output>
+            <input
+              type="color"
+              id="diffuse-color"
+              class="button-elmt"
+              value="#00FF00"
+            />
+          <br>
+          <label for="ks">ks:</label>
+            <input
+              type="range"
+              name="ks"
+              min="0"
+              max="1"
+              value="1"
+              step="0.1"
+              id="ks"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-ks">1</output>
+            <input
+              type="color"
+              id="specular-color"
+              class="button-elmt"
+              value="#00FF00"
+            />
+          <br>
+          <br>
+          <label for="shininess">Shininess:</label>
+            <input
+              type="range"
+              name="shininess"
+              min="1"
+              max="128"
+              value="10.0"
+              step="0.1"
+              id="shininess"
+              oninput="this.nextElementSibling.value = this.value"
+            />
+            <output id="output-Shininess">10.0</output>
+          <br>
+          <br>
+          <button id="reset-view">Reset Default View</button>
+          <button id="help-canvas">help</button>
+          <label class="file-button">
+            <input type="file" id="load-file" />
+            Upload File
+          </label>
         </div>
       </div>
 
