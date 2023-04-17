@@ -20,311 +20,331 @@
   </head>
 
   <body>
+    <h1 style="font-size: 35px">Hollow Objects - G10</h1>
     <div class="flex-container">
-      <div style="width: 25vw; padding: 30px">
-        <h1 style="font-size: 20px">Articulated Model - G10</h1>
-        <div>
-          <div class="inline-flex">
-            <p>Color:</p>
-            <input
-              type="color"
-              id="color-picker"
-              class="button-elmt"
-              value="#00FF00"
-            />
-          </div>
-          <div>
-            Projection:
-            <select id="perspectiveOption" name="perspectiveOption">
-              <option value="perspective" selected="selected">
-                perspective
-              </option>
-              <option value="orthographic">orthographic</option>
-              <option value="oblique">oblique</option>
-            </select>
-          </div>
-          <br />
-          <div>
-            <label for="rotasiX">Rotation on axis X:</label>
-            <input
-              type="range"
-              name="rotasiX"
-              min="-180"
-              max="180"
-              value="0"
-              id="rotasiX"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-rot-x">0</output>
-            <br />
-            <label for="rotasiY">Rotation on axis Y:</label>
-            <input
-              type="range"
-              name="rotasiY"
-              min="-180"
-              max="180"
-              value="0"
-              id="rotasiY"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-rot-y">0</output>
-            <br />
-            <label for="rotasiZ">Rotation on axis Z:</label>
-            <input
-              type="range"
-              name="rotasiZ"
-              min="-180"
-              max="180"
-              value="0"
-              id="rotasiZ"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-rot-z">0</output>
-            <br />
-            <br />
-            <label for="translasiX">Translation X:</label>
-            <input
-              type="range"
-              name="translasiX"
-              min="-100"
-              max="100"
-              value="0"
-              id="translasiX"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-trans-x">0</output>
-            <br />
-            <label for="translasiY">Translation Y:</label>
-            <input
-              type="range"
-              name="translasiY"
-              min="-100"
-              max="100"
-              value="0"
-              id="translasiY"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-trans-y"t>0</output>
-            <br />
-            <label for="translasiZ">Translation Z:</label>
-            <input
-              type="range"
-              name="translasiZ"
-              min="-100"
-              max="100"
-              value="0"
-              id="translasiZ"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-trans-z">0</output>
-            <br />
-            <br />
-            <label for="scalingX">Scale X:</label>
-            <input
-              type="range"
-              name="scalingX"
-              min="0"
-              max="3"
-              value="1"
-              step="0.1"
-              id="scalingX"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-scale-x">1</output>
-            <br />
-            <label for="scalingY">Scale Y:</label>
-            <input
-              type="range"
-              name="scalingY"
-              min="0"
-              max="3"
-              value="1"
-              step="0.1"
-              id="scalingY"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-scale-y">1</output>
-            <br />
-            <label for="scalingZ">Scale Z:</label>
-            <input
-              type="range"
-              name="scalingZ"
-              min="0"
-              max="3"
-              value="1"
-              step="0.1"
-              id="scalingZ"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-scale-z">1</output>
-          </div>
-          <br />
-          <div>
-            <label for="cam-radius">Radius Camera:</label>
-            <input
-              type="range"
-              name="cam-radius"
-              min="0"
-              id="cam-radius"
-              max="100"
-              value="0"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-cam-rad">0</output>
-            <br />
-            <label for="eye-y">Angle Camera:</label>
-            <input
-              type="range"
-              name="cam-rotation"
-              min="0"
-              id="cam-rotation"
-              max="360"
-              value="60"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-range">60</output>
-          </div>
-          <br />
-          <div class="shading">
-            <label for="shading">Shading: </label>
-            <input
-              type="checkbox"
-              id="shading"
-              name="shading"
-              value="shading"
-              checked
-            />
-          </div>
-          <div class="idle">
-            <label for="shading">Idle animation: </label>
-            <input type="checkbox" id="idle" name="idle" value="idle" checked />
-          </div>
-          <br>
-          <br>
-          <label for="lightX">Light Position X:</label>
-            <input
-              type="range"
-              name="lightX"
-              min="-10"
-              max="10"
-              value="1"
-              step="0.1"
-              id="lightX"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-light-x">1</output>
-          <br />
-          <label for="lightY">Light Position Y:</label>
-            <input
-              type="range"
-              name="lightY"
-              min="-10"
-              max="10"
-              value="1"
-              step="0.1"
-              id="lightY"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-light-y">1</output>
-            <br>
-            <label for="lightZ">Light Position Z:</label>
-            <input
-              type="range"
-              name="lightZ"
-              min="-10"
-              max="10"
-              value="-1"
-              step="0.1"
-              id="lightZ"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-light-z">-1</output>
-          <br>
-          <br>
-          <label for="ka">ka:</label>
-            <input
-              type="range"
-              name="ka"
-              min="0"
-              max="1"
-              value="0.1"
-              step="0.1"
-              id="ka"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-ka">0.1</output>
-            <input
-              type="color"
-              id="ambient-color"
-              class="button-elmt"
-              value="#00FF00"
-            />
-          <br>
-          <label for="kd">kd:</label>
-            <input
-              type="range"
-              name="kd"
-              min="0"
-              max="1"
-              value="0.8"
-              step="0.1"
-              id="kd"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-kd">0.8</output>
-            <input
-              type="color"
-              id="diffuse-color"
-              class="button-elmt"
-              value="#00FF00"
-            />
-          <br>
-          <label for="ks">ks:</label>
-            <input
-              type="range"
-              name="ks"
-              min="0"
-              max="1"
-              value="1"
-              step="0.1"
-              id="ks"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-ks">1</output>
-            <input
-              type="color"
-              id="specular-color"
-              class="button-elmt"
-              value="#00FF00"
-            />
-          <br>
-          <br>
-          <label for="shininess">Shininess:</label>
-            <input
-              type="range"
-              name="shininess"
-              min="1"
-              max="128"
-              value="10.0"
-              step="0.1"
-              id="shininess"
-              oninput="this.nextElementSibling.value = this.value"
-            />
-            <output id="output-Shininess">10.0</output>
-          <br>
-          <br>
-          <button id="reset-view">Reset Default View</button>
-          <button id="help-canvas">help</button>
-          <label class="file-button">
-            <input type="file" id="load-file" />
-            Upload File
-          </label>
-        </div>
+      <div class="left-container">
+  
+        <canvas id="canvas-main" width="600px" height="450px"></canvas>
+        <h1 style="font-size: 20px">Main Object Canvas</h1>
       </div>
-
-      <div class="flex-item-right">
-        <canvas id="gl-canvas" width="1300" height="1300"></canvas>
+  
+      <div class="right-container">
+        <div class="object-columns">
+          <div>
+            <!-- <div class="tree-display" id="tree-display">
+            </div> -->
+            <canvas id="canvas-tree" width="600px" height="450px"></canvas>
+            <h1 style="font-size: 20px">Tree Object Canvas</h1>
+          </div>
+  
+          <div>
+            <canvas id="canvas-object" width="600px" height="450px"></canvas>
+            <h1 style="font-size: 20px">Component Object Canvas</h1>
+          </div>  
       </div>
     </div>
+    <div class="Controllers">
+      <div class="shading">
+        <label for="shading">Shading: </label>
+        <input
+          type="checkbox"
+          id="shading"
+          name="shading"
+          value="shading"
+          checked
+        />
+        <label for="shading">Idle animation: </label>
+        <input type="checkbox" id="idle" name="idle" value="idle" checked />
+      </div>
+      <!-- <div class="idle">
+        <label for="shading">Idle animation: </label>
+        <input type="checkbox" id="idle" name="idle" value="idle" checked />
+      </div> -->
+      <div>
+        Projection:
+        <select id="perspectiveOption" name="perspectiveOption">
+          <option value="perspective" selected="selected">
+            perspective
+          </option>
+          <option value="orthographic">orthographic</option>
+          <option value="oblique">oblique</option>
+        </select>
+        Projection S:
+        <select id="perspectiveOption" name="perspectiveOption">
+          <option value="perspective" selected="selected">
+            perspective
+          </option>
+          <option value="orthographic">orthographic</option>
+          <option value="oblique">oblique</option>
+        </select>
+      </div>
+      <div>
+        Texture:
+        <select id="perspectiveOption" name="perspectiveOption">
+          <option value="perspective" selected="selected">
+            None
+          </option>
+          <option value="orthographic">Enviroment</option>
+          <option value="oblique">Bump</option>
+        </select>
+        Texture S:
+        <select id="perspectiveOption" name="perspectiveOption">
+          <option value="perspective" selected="selected">
+            None
+          </option>
+          <option value="orthographic">Enviroment</option>
+          <option value="oblique">Bump</option>
+        </select>
+      </div>
+    <label for="translasiX">Translation X:</label>
+    <input
+      type="range"
+      name="translasiX"
+      min="-100"
+      max="100"
+      value="0"
+      id="translasiX"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="translasiX">Translation X S:</label>
+    <input
+      type="range"
+      name="translasiX"
+      min="-100"
+      max="100"
+      value="0"
+      id="translasiX"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="translasiY">Translation Y:</label>
+    <input
+      type="range"
+      name="translasiY"
+      min="-100"
+      max="100"
+      value="0"
+      id="translasiY"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="translasiY">Translation Y S:</label>
+    <input
+      type="range"
+      name="translasiY"
+      min="-100"
+      max="100"
+      value="0"
+      id="translasiY"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="translasiZ">Translation Z:</label>
+    <input
+      type="range"
+      name="translasiZ"
+      min="-100"
+      max="100"
+      value="0"
+      id="translasiZ"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="translasiZ">Translation Z S:</label>
+    <input
+      type="range"
+      name="translasiZ"
+      min="-100"
+      max="100"
+      value="0"
+      id="translasiZ"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="angleX">Angle X:</label>
+    <input
+      type="range"
+      name="angleX"
+      min="-100"
+      max="100"
+      value="0"
+      id="angleX"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="angleX">Angle X S:</label>
+    <input
+      type="range"
+      name="angleX"
+      min="-100"
+      max="100"
+      value="0"
+      id="angleX"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="angleY">Angle Y:</label>
+    <input
+      type="range"
+      name="angleY"
+      min="-100"
+      max="100"
+      value="0"
+      id="angleY"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="angleY">Angle Y S:</label>
+    <input
+      type="range"
+      name="angleY"
+      min="-100"
+      max="100"
+      value="0"
+      id="angleY"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="angleZ">Angle Z:</label>
+    <input
+      type="range"
+      name="angleZ"
+      min="-100"
+      max="100"
+      value="0"
+      id="angleZ"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="angleZ">Angle Z S:</label>
+    <input
+      type="range"
+      name="angleZ"
+      min="-100"
+      max="100"
+      value="0"
+      id="angleZ"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="scaleX">Scale X:</label>
+    <input
+      type="range"
+      name="scaleX"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleX"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="scaleX">Scale X S:</label>
+    <input
+      type="range"
+      name="scaleX"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleX"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="scaleY">Scale Y:</label>
+    <input
+      type="range"
+      name="scaleY"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleY"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="scaleY">Scale Y S:</label>
+    <input
+      type="range"
+      name="scaleY"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleY"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="scaleZ">Scale Z:</label>
+    <input
+      type="range"
+      name="scaleZ"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleZ"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="scaleZ">Scale Z S:</label>
+    <input
+      type="range"
+      name="scaleZ"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleZ"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="scaleY">Camera Radius:</label>
+    <input
+      type="range"
+      name="scaleY"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleY"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="scaleY">Camera Radius S:</label>
+    <input
+      type="range"
+      name="scaleY"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleY"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <br>
+    <label for="scaleZ">Camera Angle:</label>
+    <input
+      type="range"
+      name="scaleZ"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleZ"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    <label for="scaleZ">Camera Angle S:</label>
+    <input
+      type="range"
+      name="scaleZ"
+      min="-100"
+      max="100"
+      value="0"
+      id="scaleZ"
+      oninput="this.nextElementSibling.value = this.value"
+    />
+    </div>
+    <!-- <div class="horizontal-box">
+      <div id="cameraRadius" class="half-width"></div>
+      <div id="cameraAngle"  class="half-width"></div>
+    </div> -->
+    
+    <!-- <div class="horizontal-box">
+      <div class="horizontal-box half-width">
+        <p>Shading Mode</p>
+        <div id="shading"></div>
+      </div>
+      <div class="horizontal-box half-width">
+        <p>Select Projection </p>
+        <select name="projection-dropdown" id="projection-dropdown" class="projection-dropdown">
+          <option value="ORTHOGRAPHIC">Orthographic</option>
+          <option value="PERSPECTIVE">Perspective</option>
+          <option value="OBLIQUE">Oblique</option>
+        </select>
+      </div>
+  </div> -->
   </body>
 </html>

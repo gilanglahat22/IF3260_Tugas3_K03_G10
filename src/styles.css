@@ -14,25 +14,74 @@ body {
   background-color: #292929;
 }
 
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 20px;
+}
+
+/* make the canvas fill its container */
+canvas {
+  background-color: white;
+  display: block;
+  border: 5px solid #0c24ff;
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 15px 0;
+  text-align: center;
+}
+
+h2 {
+  margin: 15px 0;
+  text-align: center;
+}
+
+h3 {
+  margin: 0
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+select {
+  margin-bottom: 10px;
 }
 
 .flex-container {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: start;
+  justify-content: center;
+  column-gap: 20px;
+  height: 100%;
+  width: 100%;
+}                   
+.animation-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  justify-content: center;
+  column-gap: 20px;
+  height: 30%;
+  width: 100%;
 }
-
-.flex-item-left {
-  background-color: #292929;
-  flex: 20%;
-  padding: 20px;
+.object-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  justify-content: center;
+  column-gap: 20px;
+  height: 70%;
+  width: 100%;
 }
-
-#gl-canvas {
-  background-color: #525252;
-  display: block;
+.idle{
+  padding: 2px 1.0vw;
+  display: inline-block;
 }
-
