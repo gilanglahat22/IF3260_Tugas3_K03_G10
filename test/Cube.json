@@ -28,5 +28,5 @@
     "move_subtr": [0, 0, 0],
     "rotation_subtr": [0, 0, 0],
     "scale_subtr": [1, 1, 1],
-    "children": []
+    "child": []
 }  

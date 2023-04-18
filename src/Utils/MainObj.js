@@ -8,6 +8,9 @@ class MainObj{
         this.vertexTextures = [];
         this.buffer = [];
         this.textureMode = -1;
+        this.translation = [0,0,0];
+        this.rotation = [0,0,0];
+        this.scale = [1,1,1];
         
         // Initialize buffer with position buffer, color buffer, texture buffer, normal buffer, tangent buffer, and bitangent buffer
         for(let i = 0; i<6; i++) this.buffer.push(this.gl.createBuffer());

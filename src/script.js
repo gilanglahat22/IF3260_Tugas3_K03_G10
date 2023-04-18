@@ -19,27 +19,28 @@ gl.frontFace(gl.CCW);
 gl.cullFace(gl.BACK);
 
 const changeToLoadFile=(file)=>{
+    
     resetDefault = 1;
     object = JSON.parse(file);
 
     tempColorVal = object["faceColors"];
     resetConf();
     renderObject(object);
-  }
+}
   
-  const loadFile = () =>{
+const loadFile = () =>{
     let selectedFile = document.getElementById("load-file").files;
     if (selectedFile.length == 0) return;
-  
+
     const file = selectedFile[0]; 
-  
+
     let reader = new FileReader();
-    
+
     reader.onload = (e) => changeToLoadFile(e.target.result);
     reader.onerror = (e) => alert(e.target.error.name);
-    
+
     reader.readAsText(file);
-  }
+}
   
 //   const resetConf = () =>{
 //     defaultview();

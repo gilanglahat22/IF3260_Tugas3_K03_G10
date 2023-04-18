@@ -1,13 +1,13 @@
-class Rendering{
+class Render{
     constructor(gl, program){
         this.gl = gl;
         this.program = program;
-        this.setProjection("Orthographic");
         this.projectionMtrix = [1,0,0,0,
                                 0,1,0,0,
                                 0,0,0,1];
         this.obj = null;
         this.next = 0;
+        this.setDefault();
     }
 
     setProjection(type){

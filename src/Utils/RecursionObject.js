@@ -1,7 +1,7 @@
 class RecursionObj{
-    constructor(gl, program, modelObj){
+    constructor(gl, program, obkectModel){
         this.gl = gl;
-        this.obj = new MainObj(gl, program, modelObj);
+        this.obj = new MainObj(gl, program, obkectModel);
         this.program = program;
         this.name = "";
         this.translation = [0,0,0];
@@ -29,4 +29,5 @@ class RecursionObj{
     DFSDraw(projectMat, viewMat, modelMat, cameraPosition, shading){
         for(let i = 0; i<this.child.length; i++) this.child[i].draw(projectMat, viewMat, modelMat, cameraPosition, shading);
     }
+
 }

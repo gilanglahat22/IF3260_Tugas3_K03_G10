@@ -11,9 +11,19 @@
       rel="stylesheet"
     />
     <link href="styles.css" rel="stylesheet" />
+    
+    <!-- Math -->
+    <script src="Math/Common.js" defer></script>
+    <script src="Math/Math.js" defer></script>
+    <script src="Math/Matrix.js" defer></script>
+    <script src="Math/Vector.js" defer></script>
 
     <!-- Utils -->
     <script src="Utils/webgl-utils.js" defer></script>
+    <script src="Utils/MainObj.js" defer></script>
+    <script src="Utils/RecursionObject.js" defer></script>
+    <script src="Utils/Render.js" defer></script>
+    <script src="Utils/Textures.js" defer></script>
 
     <!-- Main -->
     <script src="script.js" defer></script>
@@ -44,6 +54,10 @@
       </div>
     </div>
     <div class="Controllers">
+      <label class="file-button">
+        <input type="file" id="load-file" accept=".json"/>
+        Load File
+      </label>
       <div class="shading">
         <label for="shading">Shading: </label>
         <input
