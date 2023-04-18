@@ -9,26 +9,31 @@ if (!Maingl) {
     alert("WebGL isn't available");
 }
 
-var shadingFragment = FRAGMENT_SHADER_LIGHT;
-const Mainprogram = initShaders(Maingl, VERTEX_SHADER);
-const defaultMainModel = data;
-// console.log("ini debug pertama ",defaultMainModel);
-var defaultMainObject = null;
-if(defaultMainModel!=null){
-    defaultMainObject = createObject(Maingl,Mainprogram,defaultMainModel);
-}
-const MainRenderer = new Render(Maingl,Mainprogram);
-MainRenderer.setObj(defaultMainObject);
+// var shadingFragment = FRAGMENT_SHADER_LIGHT;
+// const Mainprogram = initShaders(Maingl, VERTEX_SHADER);
+// var defaultMainObject = null;
+// const MainRenderer = new Render(Maingl,Mainprogram);
+// defaultMainObject = createObject(Maingl,Mainprogram,data);
+// // var flag = false;
+// // while(data!=null && !flag){
+// //     console.log("ini debug data ", data);
+// //     defaultMainObject = createObject(Maingl,Mainprogram,data);
+// //     flag = true;
+// // }
 
-requestAnimationFrame(MainRenderer.drawFrame.bind(MainRenderer));
-// initShaders(gl, "vertex-shader", "fragment-shader");
+// MainRenderer.setObj(defaultMainObject);
+// // while(k==0){
+// //     console.log("debug main renderer isinya apa ",defaultMainObject)
+// // }
+// requestAnimationFrame(MainRenderer.drawFrame.bind(MainRenderer));
+// // initShaders(gl, "vertex-shader", "fragment-shader");
 
-Maingl.viewport(0, 0, Maincanvas.width, Maincanvas.height);
-Maingl.clearColor(0.0, 0.0, 0.0, 0.66);
-Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
-Maingl.enable(Maingl.DEPTH_TEST);
-Maingl.frontFace(Maingl.CCW);
-Maingl.cullFace(Maingl.BACK);
+// Maingl.viewport(0, 0, Maincanvas.width, Maincanvas.height);
+// Maingl.clearColor(0.0, 0.0, 0.0, 0.66);
+// Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
+// Maingl.enable(Maingl.DEPTH_TEST);
+// Maingl.frontFace(Maingl.CCW);
+// Maingl.cullFace(Maingl.BACK);
 
 // For component object
 const ComponentCanvas = document.getElementById(`canvas-object`);
@@ -41,32 +46,32 @@ if (!Componentgl) {
     alert("WebGL isn't available");
 }
 
-// var shadingFragment = FRAGMENT_SHADER_LIGHT;
-const ComponentProgram = initShaders(Componentgl, VERTEX_SHADER);
-const defaultComponentModel = data;
-var defaultComponentObject = null;
-if(defaultComponentModel!=null){
-    defaultComponentObject = createObject(Componentgl,ComponentProgram,defaultComponentModel);
-}
-// const defaultComponentModel = null;
-// const defaultComponentObject = null;
+var shadingFragment = FRAGMENT_SHADER_LIGHT;
+// const ComponentProgram = initShaders(Componentgl, VERTEX_SHADER);
+// const defaultComponentModel = data;
+// var defaultComponentObject = null;
+// if(defaultComponentModel!=null){
+//     defaultComponentObject = createObject(Componentgl,ComponentProgram,defaultComponentModel);
+// }
+// // const defaultComponentModel = null;
+// // const defaultComponentObject = null;
 
-const ComponentRenderer = new Render(Componentgl,ComponentProgram);
-ComponentRenderer.setObj(defaultComponentObject);
+// const ComponentRenderer = new Render(Componentgl,ComponentProgram);
+// ComponentRenderer.setObj(defaultComponentObject);
 
-const tree = document.querySelector("#tree-display");
-tree.innerHTML = null;
-if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
-let chosenIdx = 0;
-requestAnimationFrame(ComponentRenderer.drawFrame.bind(ComponentRenderer));
-// initShaders(gl, "vertex-shader", "fragment-shader");
+// const tree = document.querySelector("#tree-display");
+// tree.innerHTML = null;
+// if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
+// let chosenIdx = 0;
+// requestAnimationFrame(ComponentRenderer.drawFrame.bind(ComponentRenderer));
+// // initShaders(gl, "vertex-shader", "fragment-shader");
 
-Componentgl.viewport(0, 0, ComponentCanvas.width, ComponentCanvas.height);
-Componentgl.clearColor(0.0, 0.0, 0.0, 0.66);
-Componentgl.clear(Componentgl.COLOR_BUFFER_BIT | Componentgl.DEPTH_BUFFER_BIT);
-Componentgl.enable(Componentgl.DEPTH_TEST);
-Componentgl.frontFace(Componentgl.CCW);
-Componentgl.cullFace(Componentgl.BACK);
+// Componentgl.viewport(0, 0, ComponentCanvas.width, ComponentCanvas.height);
+// Componentgl.clearColor(0.0, 0.0, 0.0, 0.66);
+// Componentgl.clear(Componentgl.COLOR_BUFFER_BIT | Componentgl.DEPTH_BUFFER_BIT);
+// Componentgl.enable(Componentgl.DEPTH_TEST);
+// Componentgl.frontFace(Componentgl.CCW);
+// Componentgl.cullFace(Componentgl.BACK);
 
 // For tree canvas
 
@@ -121,14 +126,14 @@ const renderObject = (object) => {
 const test_obj = {
     "type": "CUBE",
     "vertices": [
-      1, 1, 1,
-      -1, 1, 1,
-      -1, -1, 1,
-      1, -1, 1,
-      1, 1, -1,
-      -1, 1, -1,
-      -1, -1, -1,
-      1, -1, -1
+    1, 1, 1,
+    -1, 1, 1,
+    -1, -1, 1,
+    1, -1, 1,
+    1, 1, -1,
+    -1, 1, -1,
+    -1, -1, -1,
+    1, -1, -1
     ],
     "indices": [
         0, 1, 2, 
@@ -147,7 +152,7 @@ const test_obj = {
     "faceColors": [0.529, 0.424, 0.075, 1.0],
     "vertexCount": 36,
     "faceColorsCount": 20
-  }
+}
 
 // renderObject(test_obj)
 // const obj = createObject(gl, program, x);
@@ -156,7 +161,60 @@ const test_obj = {
 const changeToLoadFile = (file) => {
     resetDefault = 1;
     data = JSON.parse(file);
-    console.log(data);
+
+    const Mainprogram = initShaders(Maingl, VERTEX_SHADER);
+    var defaultMainObject = null;
+    const MainRenderer = new Render(Maingl,Mainprogram);
+    defaultMainObject = createObject(Maingl,Mainprogram,data);
+    // var flag = false;
+    // while(data!=null && !flag){
+    //     console.log("ini debug data ", data);
+    //     defaultMainObject = createObject(Maingl,Mainprogram,data);
+    //     flag = true;
+    // }
+
+    MainRenderer.setObj(defaultMainObject);
+    // while(k==0){
+    //     console.log("debug main renderer isinya apa ",defaultMainObject)
+    // }
+    requestAnimationFrame(MainRenderer.drawFrame.bind(MainRenderer));
+    // initShaders(gl, "vertex-shader", "fragment-shader");
+
+    Maingl.viewport(0, 0, Maincanvas.width, Maincanvas.height);
+    Maingl.clearColor(0.0, 0.0, 0.0, 0.66);
+    Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
+    Maingl.enable(Maingl.DEPTH_TEST);
+    Maingl.frontFace(Maingl.CCW);
+    Maingl.cullFace(Maingl.BACK);
+
+    // var shadingFragment = FRAGMENT_SHADER_LIGHT;
+    const ComponentProgram = initShaders(Componentgl, VERTEX_SHADER);
+    const defaultComponentModel = data;
+    var defaultComponentObject = null;
+    if(defaultComponentModel!=null){
+        defaultComponentObject = createObject(Componentgl,ComponentProgram,defaultComponentModel);
+    }
+    // const defaultComponentModel = null;
+    // const defaultComponentObject = null;
+
+    const ComponentRenderer = new Render(Componentgl,ComponentProgram);
+    ComponentRenderer.setObj(defaultComponentObject);
+
+    const tree = document.querySelector("#tree-display");
+    tree.innerHTML = null;
+    if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
+    let chosenIdx = 0;
+    requestAnimationFrame(ComponentRenderer.drawFrame.bind(ComponentRenderer));
+    // initShaders(gl, "vertex-shader", "fragment-shader");
+
+    Componentgl.viewport(0, 0, ComponentCanvas.width, ComponentCanvas.height);
+    Componentgl.clearColor(0.0, 0.0, 0.0, 0.66);
+    Componentgl.clear(Componentgl.COLOR_BUFFER_BIT | Componentgl.DEPTH_BUFFER_BIT);
+    Componentgl.enable(Componentgl.DEPTH_TEST);
+    Componentgl.frontFace(Componentgl.CCW);
+    Componentgl.cullFace(Componentgl.BACK);
+
+    // console.log(data);
     const objectMain = createObject(MainRenderer.gl, MainRenderer.program, data);
     const objectComponent = createObject(ComponentRenderer.gl, ComponentRenderer.program, data);
     // resetConf();
@@ -176,13 +234,14 @@ const changeToLoadFile = (file) => {
         button.onclick = () => {
             chosenIdx = i;
             let returned = defaultComponentObject.getArticulatedObject(i);
-            renderer.setObject(returned);
+            ComponentRenderer.setObject(returned);
 
             //Resetting object sliders
-            refreshSliders();
+            // refreshSliders();
         }
     }
 }
+
 
 const loadFile = () => {
     let selectedFile = document.getElementById("load-file").files;
@@ -196,6 +255,210 @@ const loadFile = () => {
 
     reader.readAsText(file);
 }
+
+// var data = null;
+// const Maincanvas = document.getElementById(`canvas-main`);
+// const Maingl = WebGLUtils.setupWebGL(Maincanvas, {
+//     preserveDrawingBuffer: true,
+// });
+
+// if (!Maingl) {
+//     console.error("WebGL isn't available");
+//     alert("WebGL isn't available");
+// }
+
+// var shadingFragment = FRAGMENT_SHADER_LIGHT;
+// const Mainprogram = initShaders(Maingl, VERTEX_SHADER);
+// var defaultMainObject = null;
+// const MainRenderer = new Render(Maingl,Mainprogram);
+// var flag = false;
+// while(data!=null && !flag){
+//     console.log("ini debug data ", data);
+//     defaultMainObject = createObject(Maingl,Mainprogram,data);
+//     flag = true;
+// }
+
+// MainRenderer.setObj(defaultMainObject);
+// // while(k==0){
+// //     console.log("debug main renderer isinya apa ",defaultMainObject)
+// // }
+// requestAnimationFrame(MainRenderer.drawFrame.bind(MainRenderer));
+// // initShaders(gl, "vertex-shader", "fragment-shader");
+
+// Maingl.viewport(0, 0, Maincanvas.width, Maincanvas.height);
+// Maingl.clearColor(0.0, 0.0, 0.0, 0.66);
+// Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
+// Maingl.enable(Maingl.DEPTH_TEST);
+// Maingl.frontFace(Maingl.CCW);
+// Maingl.cullFace(Maingl.BACK);
+
+// // For component object
+// const ComponentCanvas = document.getElementById(`canvas-object`);
+// const Componentgl = WebGLUtils.setupWebGL(ComponentCanvas, {
+//     preserveDrawingBuffer: true,
+// });
+
+// if (!Componentgl) {
+//     console.error("WebGL isn't available");
+//     alert("WebGL isn't available");
+// }
+
+// // var shadingFragment = FRAGMENT_SHADER_LIGHT;
+// const ComponentProgram = initShaders(Componentgl, VERTEX_SHADER);
+// const defaultComponentModel = data;
+// var defaultComponentObject = null;
+// if(defaultComponentModel!=null){
+//     defaultComponentObject = createObject(Componentgl,ComponentProgram,defaultComponentModel);
+// }
+// // const defaultComponentModel = null;
+// // const defaultComponentObject = null;
+
+// const ComponentRenderer = new Render(Componentgl,ComponentProgram);
+// ComponentRenderer.setObj(defaultComponentObject);
+
+// const tree = document.querySelector("#tree-display");
+// tree.innerHTML = null;
+// if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
+// let chosenIdx = 0;
+// requestAnimationFrame(ComponentRenderer.drawFrame.bind(ComponentRenderer));
+// // initShaders(gl, "vertex-shader", "fragment-shader");
+
+// Componentgl.viewport(0, 0, ComponentCanvas.width, ComponentCanvas.height);
+// Componentgl.clearColor(0.0, 0.0, 0.0, 0.66);
+// Componentgl.clear(Componentgl.COLOR_BUFFER_BIT | Componentgl.DEPTH_BUFFER_BIT);
+// Componentgl.enable(Componentgl.DEPTH_TEST);
+// Componentgl.frontFace(Componentgl.CCW);
+// Componentgl.cullFace(Componentgl.BACK);
+
+// // For tree canvas
+
+
+
+// // const articulatedRender = new Render(gl, program);
+// // const renderObj = new Render(gl, program);
+
+// var isInit = true;
+
+// const renderObject = (object) => {
+//     const shaderProgram = initShaders(Maingl, VERTEX_SHADER);
+//     const programInfo = {
+//         program: shaderProgram,
+//         attribLocations: {
+//             vertexPosition:  Maingl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+//             vertexColor: Maingl.getAttribLocation(shaderProgram, 'aVertexColor'),
+//             normalLoc: Maingl.getAttribLocation(shaderProgram, 'normal'),
+//         },
+//         uniformLocations: {
+//             projectionMatrix: Maingl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+//             modelViewMatrix: Maingl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+//             normalMatrixLoc: Maingl.getUniformLocation(shaderProgram, "normalMat"),
+//             lightPosLoc: Maingl.getUniformLocation(shaderProgram, "lightPos"),
+//             ambientColorLoc: Maingl.getUniformLocation(shaderProgram, "ambientColor"),
+//             diffuseColorLoc: Maingl.getUniformLocation(shaderProgram, "diffuseColor"),
+//             specularColorLoc: Maingl.getUniformLocation(shaderProgram, "specularColor"),
+//             shininessLoc: Maingl.getUniformLocation(shaderProgram, "shininessVal"),
+//             kaLoc: Maingl.getUniformLocation(shaderProgram, "coefKa"),
+//             kdLoc: Maingl.getUniformLocation(shaderProgram, "coefKd"),
+//             ksLoc: Maingl.getUniformLocation(shaderProgram, "coefKs"),
+//         }
+//     };
+//     // document.getElementById("ambient-color").value = document.getElementById("color-picker").value;
+//     // document.getElementById("diffuse-color").value = document.getElementById("color-picker").value;
+//     var buffers;
+//     if (isInit) {
+//         buffers = initBuffer(Maingl, object);
+//         isInit = false;
+//     }
+//     else {
+//         buffers = updateBuffer(Maingl, object);
+//     }
+//     function render() {
+//         drawObject(Maingl, programInfo, buffers, object.vertexCount);
+//         requestAnimationFrame(render);
+//     }
+//     requestAnimationFrame(render);
+//     // numRender++;
+// }
+
+// const test_obj = {
+//     "type": "CUBE",
+//     "vertices": [
+//       1, 1, 1,
+//       -1, 1, 1,
+//       -1, -1, 1,
+//       1, -1, 1,
+//       1, 1, -1,
+//       -1, 1, -1,
+//       -1, -1, -1,
+//       1, -1, -1
+//     ],
+//     "indices": [
+//         0, 1, 2, 
+//         0, 2, 3,
+//         0, 3, 7, 
+//         0, 7, 4,
+//         0, 4, 5, 
+//         0, 5, 1,
+//         1, 5, 6, 
+//         1, 6, 2,
+//         2, 6, 7, 
+//         2, 7, 3,
+//         4, 7, 6, 
+//         4, 6, 5
+//     ],
+//     "faceColors": [0.529, 0.424, 0.075, 1.0],
+//     "vertexCount": 36,
+//     "faceColorsCount": 20
+//   }
+
+// // renderObject(test_obj)
+// // const obj = createObject(gl, program, x);
+// // console.log(obj);
+
+// const changeToLoadFile = (file) => {
+//     resetDefault = 1;
+//     data = JSON.parse(file);
+//     // console.log(data);
+//     const objectMain = createObject(MainRenderer.gl, MainRenderer.program, data);
+//     const objectComponent = createObject(ComponentRenderer.gl, ComponentRenderer.program, data);
+//     // resetConf();
+//     // renderObject(object);
+//     MainRenderer.clearObj();
+//     ComponentRenderer.clearObj();
+
+//     MainRenderer.setObj(objectMain);
+//     defaultComponentObject = objectComponent;
+//     ComponentRenderer.setObj(objectComponent);
+//     tree.innerHTML = null;
+//     if(MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
+//     chosenIdx = 0;
+//     for (let i = 0; i < getNumObj(MainRenderer.obj); i++) {
+//         let button = document.querySelector("#AO-" + i);
+//         console.log(button);
+//         button.onclick = () => {
+//             chosenIdx = i;
+//             let returned = defaultComponentObject.getArticulatedObject(i);
+//             ComponentRenderer.setObject(returned);
+
+//             //Resetting object sliders
+//             // refreshSliders();
+//         }
+//     }
+// }
+
+
+// const loadFile = () => {
+//     let selectedFile = document.getElementById("load-file").files;
+//     if (selectedFile.length == 0) return;
+//     const file = selectedFile[0];
+
+//     let reader = new FileReader();
+
+//     reader.onload = (e) => changeToLoadFile(e.target.result);
+//     reader.onerror = (e) => alert(e.target.error.name);
+
+//     reader.readAsText(file);
+// }
 
 //   const resetConf = () =>{
 //     defaultview();
@@ -245,13 +508,13 @@ const loadFile = () => {
 //     renderObject(object);
 // }
 
-const handleClickShading = () => {
-    let checkBox = document.getElementById('shading');
-    if (checkBox.checked) {
-        shadingFragment = FRAGMENT_SHADER_LIGHT;
-    } else {
-        shadingFragment = FRAGMENT_SHADER_FLAT;
-    }
-    renderObject(object);
-    resetDefault = 0;
-}
+// const handleClickShading = () => {
+//     let checkBox = document.getElementById('shading');
+//     if (checkBox.checked) {
+//         shadingFragment = FRAGMENT_SHADER_LIGHT;
+//     } else {
+//         shadingFragment = FRAGMENT_SHADER_FLAT;
+//     }
+//     renderObject(object);
+//     resetDefault = 0;
+// }

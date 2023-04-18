@@ -21,7 +21,7 @@ class RecursionObj{
         tempModelMat = Matrix.rotate(tempModelMat, this.rotation[2], [0,0,1]);
         tempModelMat = Matrix.scale(tempModelMat, this.scale);
         // Draw object
-        this.obj.draw(projectMat, view, newModel, cameraPosition, shading);
+        this.obj.drawObj(projectMat, viewMat, tempModelMat, cameraPosition, shading);
         // Do recursion for draw the child
         this.DFSDraw(projectMat,viewMat,tempModelMat,cameraPosition,shading);
     }
@@ -41,6 +41,7 @@ class RecursionObj{
             toReturn += this.child[i].getUI(depth+1, dfsId);
             dfsId += getNumObj(this.child[i]);
         }
+
         return toReturn;
     }
 

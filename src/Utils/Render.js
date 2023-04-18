@@ -45,6 +45,7 @@ class Render{
     }
 
     drawFrame(){
+        console.log("debug drawframe awal");
         const displayWidth  = this.gl.canvas.clientWidth;
         const displayHeight = this.gl.canvas.clientHeight;
         const needResize = (this.gl.canvas.width != displayWidth || this.gl.canvas.height != displayHeight);
@@ -60,12 +61,12 @@ class Render{
         this.gl.enable(this.gl.CULL_FACE);
 
         this.gl.enable(this.gl.DEPTH_TEST);
-
-        if (!this.object) {
+        console.log("ini object di drawframe ", this.obj);
+        if (!this.obj) {
             return;
         }
-
-        const projectionMatrix = this.projectionMatrix.clone();
+        console.log("debug drawframe akhir");
+        const projectionMatrix = this.projectionMatrix;
 
         let cameraMatrix = Matrix.createIdentityMatrix();
         cameraMatrix = Matrix.rotate(cameraMatrix, this.cameraAngle, [0,1,0]);
@@ -76,7 +77,7 @@ class Render{
         var up = [0, 1, 0];
 
         const viewMatrix = Matrix.inverseMatrix(Matrix.lookAt(cameraPosition, target, up));
-        this.object.draw(projectionMatrix, viewMatrix, Matrix.createIdentityMatrix(), cameraPosition, this.shadingMode);
+        this.obj.draw(projectionMatrix, viewMatrix, Matrix.createIdentityMatrix(), cameraPosition, this.shadingMode);
         requestAnimationFrame(this.drawFrame.bind(this));
     }
 

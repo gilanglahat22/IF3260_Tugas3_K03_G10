@@ -46,7 +46,7 @@ class MainObj{
     }
 
     bind(){
-        var gl = gl;
+        var gl = this.gl;
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer[0]);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.position), gl.STATIC_DRAW);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer[1]);
@@ -75,13 +75,13 @@ class MainObj{
         var viewMatrixLoc = this.gl.getUniformLocation(this.program, "u_viewMatrix");
         var modelMatrixLoc = this.gl.getUniformLocation(this.program, "u_modelMatrix");
         var normalMatrixLoc = this.gl.getUniformLocation(this.program, "u_normalMatrix");
-        var reverseLightDirectionLoc = this.gl.getUniformLocation(program, "u_reverseLightDirection");
-        var worldCameraPositionLoc = this.gl.getUniformLocation(program, "u_worldCameraPosition");
+        var reverseLightDirectionLoc = this.gl.getUniformLocation(this.program, "u_reverseLightDirection");
+        var worldCameraPositionLoc = this.gl.getUniformLocation(this.program, "u_worldCameraPosition");
         var shadingOnLoc = this.gl.getUniformLocation(this.program, "u_shadingOn");
         var textureModeLoc = this.gl.getUniformLocation(this.program, "u_textureMode");
-        var textureImageLoc = this.gl.getUniformLocation(program, "u_texture_image");
-        var textureEnvironmentLoc = this.gl.getUniformLocation(program, "u_texture_environment");
-        var textureBumpLoc = this.gl.getUniformLocation(program, "u_texture_bump");
+        var textureImageLoc = this.gl.getUniformLocation(this.program, "u_texture_image");
+        var textureEnvironmentLoc = this.gl.getUniformLocation(this.program, "u_texture_environment");
+        var textureBumpLoc = this.gl.getUniformLocation(this.program, "u_texture_bump");
         
         gl.enableVertexAttribArray(positionLoc);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer[0]);
@@ -113,7 +113,7 @@ class MainObj{
         tempModelMat = Matrix.rotate(tempModelMat, this.rotation[1], [0,1,0]);
         tempModelMat = Matrix.rotate(tempModelMat, this.rotation[2], [0,0,1]);
         tempModelMat = Matrix.scale(tempModelMat, this.scale);
-    
+        console.log("ini projection matrix loc ", projectionMatrixLoc);
         this.gl.uniformMatrix4fv(projectionMatrixLoc, false, projectMat);
         this.gl.uniformMatrix4fv(viewMatrixLoc, false, viewMat);
         this.gl.uniformMatrix4fv(modelMatrixLoc, false, modelMat);
