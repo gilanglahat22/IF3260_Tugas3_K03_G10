@@ -168,20 +168,20 @@ const changeToLoadFile = (file) => {
     defaultComponentObject = objectComponent;
     ComponentRenderer.setObj(objectComponent);
     tree.innerHTML = null;
-    if(MainRenderer.object != null) tree.innerHTML = MainRenderer.object.getUI(0, 0);
+    if(MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
     chosenIdx = 0;
-    // for (let i = 0; i < getNumObj(MainRenderer.obj); i++) {
-    //     let button = document.querySelector("#AO-" + i);
-    //     //console.log(button);
-    //     button.onclick = () => {
-    //         chosenIdx = i;
-    //         let returned = defaultComponentObject.getArticulatedObject(i);
-    //         renderer.setObject(returned);
+    for (let i = 0; i < getNumObj(MainRenderer.obj); i++) {
+        let button = document.querySelector("#AO-" + i);
+        console.log(button);
+        button.onclick = () => {
+            chosenIdx = i;
+            let returned = defaultComponentObject.getArticulatedObject(i);
+            renderer.setObject(returned);
 
-    //         //Resetting object sliders
-    //         refreshSliders();
-    //     }
-    // }
+            //Resetting object sliders
+            refreshSliders();
+        }
+    }
 }
 
 const loadFile = () => {
