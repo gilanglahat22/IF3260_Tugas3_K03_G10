@@ -14,7 +14,7 @@ function initBuffer(gl, data){
 
     // Buat colors
     let colors = [];
-    document.getElementById("color-picker").value = arrayToRGB(faceColors);
+    // document.getElementById("color-picker").value = arrayToRGB(faceColors);
     for (let j = 0; j < faceColorsCount; ++j) {
         const c = faceColors;
 

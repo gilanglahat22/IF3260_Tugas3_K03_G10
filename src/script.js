@@ -21,10 +21,88 @@ gl.enable(gl.DEPTH_TEST);
 gl.frontFace(gl.CCW);
 gl.cullFace(gl.BACK);
 
-const articulatedRender = new Render(gl, program);
-const renderObj = new Render(gl, program);
+// const articulatedRender = new Render(gl, program);
+// const renderObj = new Render(gl, program);
 
-const changeToLoadFile=(file)=>{
+var isInit = true;
+
+const renderObject = (object) => {
+    const shaderProgram = initShaders(gl, VERTEX_SHADER);
+    const programInfo = {
+        program: shaderProgram,
+        attribLocations: {
+            vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+            vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
+            normalLoc: gl.getAttribLocation(shaderProgram, 'normal'),
+        },
+        uniformLocations: {
+            projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+            modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+            normalMatrixLoc: gl.getUniformLocation(shaderProgram, "normalMat"),
+            lightPosLoc: gl.getUniformLocation(shaderProgram, "lightPos"),
+            ambientColorLoc: gl.getUniformLocation(shaderProgram, "ambientColor"),
+            diffuseColorLoc: gl.getUniformLocation(shaderProgram, "diffuseColor"),
+            specularColorLoc: gl.getUniformLocation(shaderProgram, "specularColor"),
+            shininessLoc: gl.getUniformLocation(shaderProgram, "shininessVal"),
+            kaLoc: gl.getUniformLocation(shaderProgram, "coefKa"),
+            kdLoc: gl.getUniformLocation(shaderProgram, "coefKd"),
+            ksLoc: gl.getUniformLocation(shaderProgram, "coefKs"),
+        }
+    };
+    // document.getElementById("ambient-color").value = document.getElementById("color-picker").value;
+    // document.getElementById("diffuse-color").value = document.getElementById("color-picker").value;
+    var buffers;
+    if (isInit) {
+        buffers = initBuffer(gl, object);
+        isInit = false;
+    }
+    else {
+        buffers = updateBuffer(gl, object);
+    }
+    function render() {
+        drawObject(gl, programInfo, buffers, object.vertexCount);
+        requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+    // numRender++;
+}
+
+const test_obj = {
+    "type": "CUBE",
+    "vertices": [
+      1, 1, 1,
+      -1, 1, 1,
+      -1, -1, 1,
+      1, -1, 1,
+      1, 1, -1,
+      -1, 1, -1,
+      -1, -1, -1,
+      1, -1, -1
+    ],
+    "indices": [
+        0, 1, 2, 
+        0, 2, 3,
+        0, 3, 7, 
+        0, 7, 4,
+        0, 4, 5, 
+        0, 5, 1,
+        1, 5, 6, 
+        1, 6, 2,
+        2, 6, 7, 
+        2, 7, 3,
+        4, 7, 6, 
+        4, 6, 5
+    ],
+    "faceColors": [0.529, 0.424, 0.075, 1.0],
+    "vertexCount": 36,
+    "faceColorsCount": 20
+  }
+
+renderObject(test_obj)
+// const obj = createObject(gl, program, x);
+// console.log(obj);
+
+const changeToLoadFile = (file) => {
     resetDefault = 1;
     data = JSON.parse(file);
     console.log(data);
@@ -34,10 +112,10 @@ const changeToLoadFile=(file)=>{
     // renderObject(object);
 }
 
-const loadFile = () =>{
+const loadFile = () => {
     let selectedFile = document.getElementById("load-file").files;
     if (selectedFile.length == 0) return;
-    const file = selectedFile[0]; 
+    const file = selectedFile[0];
 
     let reader = new FileReader();
 
@@ -46,7 +124,7 @@ const loadFile = () =>{
 
     reader.readAsText(file);
 }
-  
+
 //   const resetConf = () =>{
 //     defaultview();
 //     document.getElementById('perspectiveOption').value = 'perspective';
@@ -89,7 +167,7 @@ const loadFile = () =>{
 //     angleAnimation = 0;
 //     incAngle = 0.5;
 //   }
-  
+
 // const resetToDefaultView = () => {
 //     resetConf();
 //     renderObject(object);
@@ -105,4 +183,3 @@ const handleClickShading = () => {
     renderObject(object);
     resetDefault = 0;
 }
-  
