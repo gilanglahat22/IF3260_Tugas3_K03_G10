@@ -1,11 +1,6 @@
 class RecursionObj{
     constructor(gl, program, modelObj){
         this.gl = gl;
-        this.vertexPos = [];
-        this.vertexColors = [];
-        this.texturesCor = [];
-        this.model = modelObj.obj;
-
         this.obj = new MainObj(gl, program, modelObj);
         this.program = program;
         this.name = "";

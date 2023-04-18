@@ -1,5 +1,3 @@
-let object = [];
-let 
 const canvas = document.getElementById(`gl-canvas`);
 const gl = WebGLUtils.setupWebGL(canvas, {
     preserveDrawingBuffer: true,
