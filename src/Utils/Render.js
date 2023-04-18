@@ -15,7 +15,7 @@ class Render{
         const top = gl.canvas.clientHeight;
         const right = gl.canvas.clientWidth;
         const bottom = 0;
-        const aspect = this._gl.canvas.clientWidth / this._gl.canvas.clientHeight;
+        const aspect = this.gl.canvas.clientWidth / this.gl.canvas.clientHeight;
         const near = 850;
         const far = -850;
         const zNear = 0.1;

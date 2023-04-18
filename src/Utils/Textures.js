@@ -2,13 +2,13 @@ class Textures{
     constructor(textures){
         this.textures = textures;
     }
-    image(){
-
+    static image(gl){
+        return null;
     }
-    environment(){
-
+    static environment(gl){
+        return null;
     }
-    bump(){
-        
+    static bump(gl){
+        return  null;
     }
 }

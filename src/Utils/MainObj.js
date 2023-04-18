@@ -19,9 +19,12 @@ class MainObj{
         let indicesIndx = [1,2,3,0,1,3];
         let textureUnit = [0,0,0,1,1,1,1,0,0,0,1,1];
         for(let i = 0; i<lengthIndices; i++){
-            for(let k = 0; k<indicesIndx.length; k++) this.vertexPos.concat(vertices[indices[i*4 + indicesIndx[k]]]);
+            let indices = this.model.indices[i];
+            for(let k = 0; k< indicesIndx.length; k++){
+                this.vertexPos.concat(vertices[indices[i*4 + indicesIndx[k]]]);
+            }
 
-            for(j = 0; j<lengthIndices; j++){
+            for(let j = 0; j<lengthIndices; j++){
                 this.vertexColors = this.vertexColors.concat(this.model.colors);
             }
 

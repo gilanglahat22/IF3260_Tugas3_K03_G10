@@ -1,4 +1,5 @@
-const canvas = document.getElementById(`gl-canvas`);
+var data = [];
+const canvas = document.getElementById(`canvas-main`);
 const gl = WebGLUtils.setupWebGL(canvas, {
     preserveDrawingBuffer: true,
 });
@@ -8,8 +9,10 @@ if (!gl) {
     alert("WebGL isn't available");
 }
 
-canvas.width = innerHeight;
-canvas.height = innerHeight;
+var shadingFragment = FRAGMENT_SHADER_LIGHT;
+const program = initShaders(gl, VERTEX_SHADER);
+
+// initShaders(gl, "vertex-shader", "fragment-shader");
 
 gl.viewport(0, 0, canvas.width, canvas.height);
 gl.clearColor(0.0, 0.0, 0.0, 0.66);
@@ -18,20 +21,21 @@ gl.enable(gl.DEPTH_TEST);
 gl.frontFace(gl.CCW);
 gl.cullFace(gl.BACK);
 
-const changeToLoadFile=(file)=>{
-    
-    resetDefault = 1;
-    object = JSON.parse(file);
+const articulatedRender = new Render(gl, program);
 
-    tempColorVal = object["faceColors"];
-    resetConf();
-    renderObject(object);
+const changeToLoadFile=(file)=>{
+    resetDefault = 1;
+    data = JSON.parse(file);
+    console.log(data);
+    // const articulatedObj = createObject(articulatedRender.gl, articulatedRender.program, data);
+    // const objectMain = createObject(renderObj.gl, renderObj.program, data);
+    // resetConf();
+    // renderObject(object);
 }
-  
+
 const loadFile = () =>{
     let selectedFile = document.getElementById("load-file").files;
     if (selectedFile.length == 0) return;
-
     const file = selectedFile[0]; 
 
     let reader = new FileReader();
