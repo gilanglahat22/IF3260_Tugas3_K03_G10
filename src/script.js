@@ -22,13 +22,14 @@ gl.frontFace(gl.CCW);
 gl.cullFace(gl.BACK);
 
 const articulatedRender = new Render(gl, program);
+const renderObj = new Render(gl, program);
 
 const changeToLoadFile=(file)=>{
     resetDefault = 1;
     data = JSON.parse(file);
     console.log(data);
-    // const articulatedObj = createObject(articulatedRender.gl, articulatedRender.program, data);
-    // const objectMain = createObject(renderObj.gl, renderObj.program, data);
+    const articulatedObj = createObject(articulatedRender.gl, articulatedRender.program, data);
+    const objectMain = createObject(renderObj.gl, renderObj.program, data);
     // resetConf();
     // renderObject(object);
 }
