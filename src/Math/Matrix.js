@@ -8,7 +8,7 @@ class Matrix {
               0,0,1,0,
               0,0,0,1];
     }
-  
+
     static multiply(matrix_l, matrix_r){
       if (matrix_l.cols !== matrix_r.rows) {
         throw new Error("Matrix dimensions don't match");
@@ -43,6 +43,18 @@ class Matrix {
               matrix[4],matrix[5],matrix[6],matrix[7],
               matrix[8],matrix[9],matrix[10],matrix[11],
               moved12,moved13,moved14,moved15];
+    }
+
+    static lookAt(camera, target, u){
+      var zAxis = Matrix.normalizeMatrix(Vector.subtract(camera,target));
+      var xAxis = Matrix.normalizeMatrix(Vector.cross(u, zAxis));
+      var yAxis = Matrix.normalizeMatrix(Vector.cross(zAxis, xAxis));
+      return [
+        xAxis[0], xAxis[1], xAxis[2], 0,
+        yAxis[0], yAxis[1], yAxis[2], 0,
+        zAxis[0], zAxis[1], zAxis[2], 0,
+        camera[0], camera[1], camera[2], 1
+      ]
     }
     
     static rotate(matrix, rad, axis){

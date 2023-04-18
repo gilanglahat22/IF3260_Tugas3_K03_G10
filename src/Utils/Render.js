@@ -62,25 +62,21 @@ class Rendering{
         this.gl.enable(this.gl.DEPTH_TEST);
 
         if (!this.object) {
-        return
+            return;
         }
 
         const projectionMatrix = this.projectionMatrix.clone();
 
-        let cameraMatrix = Matrix4.identity();
-        cameraMatrix.rotateY(this.cameraAngle);
-        cameraMatrix.translate(0, 0, this.cameraRadius);
+        let cameraMatrix = Matrix.createIdentityMatrix();
+        cameraMatrix = Matrix.rotate(cameraMatrix, this.cameraAngle, [0,1,0]);
+        cameraMatrix = Matrix.translate(cameraMatrix, [0,0,this.cameraRadius]);
 
-        var cameraPosition = [
-        cameraMatrix.get(3, 0),
-        cameraMatrix.get(3, 1),
-        cameraMatrix.get(3, 2),
-        ];
+        var cameraPosition = [cameraMatrix[3*3 + 0], cameraMatrix[3*3 + 1], cameraMatrix[3*3 + 2]];
         var target = [0, 0, 0];
         var up = [0, 1, 0];
-        cameraMatrix = Matrix4.lookAt(cameraPosition, target, up);
-        const viewMatrix = cameraMatrix.clone().inverse();
-        this.object.draw(projectionMatrix, viewMatrix, Matrix4.identity(), cameraPosition, this.shadingMode);
+
+        const viewMatrix = Matrix.inverseMatrix(Matrix.lookAt(cameraPosition, target, up));
+        this.object.draw(projectionMatrix, viewMatrix, Matrix.createIdentityMatrix(), cameraPosition, this.shadingMode);
         requestAnimationFrame(this.drawFrame.bind(this));
     }
 
