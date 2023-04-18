@@ -30,4 +30,33 @@ class RecursionObj{
         for(let i = 0; i<this.child.length; i++) this.child[i].draw(projectMat, viewMat, modelMat, cameraPosition, shading);
     }
 
+    getUI(depth, dfsId){
+        let toReturn = "<div class='horizontal-box justify-start'>";
+        for(let i=0; i<depth; i++){
+            toReturn += "&nbsp;&nbsp;&nbsp;&nbsp;"
+        }
+        toReturn += "<button id='AO-" + dfsId + "'>" + this.name +  "</button></div>";
+        dfsId++;
+        for(let i=0; i<this.child.length; i++){
+            toReturn += this.child[i].getUI(depth+1, dfsId);
+            dfsId += getNumObj(this.child[i]);
+        }
+        return toReturn;
+    }
+
+    getArticulatedObject(dfsId) {
+        if(dfsId == 0){t
+            return this;
+        }dfsId--;
+        for(let i=0; i<this.child.length; i++){
+            //console.log("sebelum", dfsId);
+            let returned = this.child[i].getArticulatedObject(dfsId);
+            dfsId -= getNumObj(this.child[i]);
+            //console.log("sesudah", dfsId);
+            if(returned != null){
+                return returned;
+            }
+        }
+        return null;
+    }
 }

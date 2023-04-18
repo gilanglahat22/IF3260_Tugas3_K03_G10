@@ -12,8 +12,8 @@ class Render{
 
     setProjection(type){
         const left = 0;
-        const top = gl.canvas.clientHeight;
-        const right = gl.canvas.clientWidth;
+        const top = this.gl.canvas.clientHeight;
+        const right = this.gl.canvas.clientWidth;
         const bottom = 0;
         const aspect = this.gl.canvas.clientWidth / this.gl.canvas.clientHeight;
         const near = 850;

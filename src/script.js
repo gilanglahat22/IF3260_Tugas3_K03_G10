@@ -1,25 +1,76 @@
-var data = [];
-const canvas = document.getElementById(`canvas-main`);
-const gl = WebGLUtils.setupWebGL(canvas, {
+var data = null;
+const Maincanvas = document.getElementById(`canvas-main`);
+const Maingl = WebGLUtils.setupWebGL(Maincanvas, {
     preserveDrawingBuffer: true,
 });
 
-if (!gl) {
+if (!Maingl) {
     console.error("WebGL isn't available");
     alert("WebGL isn't available");
 }
 
 var shadingFragment = FRAGMENT_SHADER_LIGHT;
-const program = initShaders(gl, VERTEX_SHADER);
+const Mainprogram = initShaders(Maingl, VERTEX_SHADER);
+const defaultMainModel = data;
+// console.log("ini debug pertama ",defaultMainModel);
+var defaultMainObject = null;
+if(defaultMainModel!=null){
+    defaultMainObject = createObject(Maingl,Mainprogram,defaultMainModel);
+}
+const MainRenderer = new Render(Maingl,Mainprogram);
+MainRenderer.setObj(defaultMainObject);
 
+requestAnimationFrame(MainRenderer.drawFrame.bind(MainRenderer));
 // initShaders(gl, "vertex-shader", "fragment-shader");
 
-gl.viewport(0, 0, canvas.width, canvas.height);
-gl.clearColor(0.0, 0.0, 0.0, 0.66);
-gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-gl.enable(gl.DEPTH_TEST);
-gl.frontFace(gl.CCW);
-gl.cullFace(gl.BACK);
+Maingl.viewport(0, 0, Maincanvas.width, Maincanvas.height);
+Maingl.clearColor(0.0, 0.0, 0.0, 0.66);
+Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
+Maingl.enable(Maingl.DEPTH_TEST);
+Maingl.frontFace(Maingl.CCW);
+Maingl.cullFace(Maingl.BACK);
+
+// For component object
+const ComponentCanvas = document.getElementById(`canvas-object`);
+const Componentgl = WebGLUtils.setupWebGL(ComponentCanvas, {
+    preserveDrawingBuffer: true,
+});
+
+if (!Componentgl) {
+    console.error("WebGL isn't available");
+    alert("WebGL isn't available");
+}
+
+// var shadingFragment = FRAGMENT_SHADER_LIGHT;
+const ComponentProgram = initShaders(Componentgl, VERTEX_SHADER);
+const defaultComponentModel = data;
+var defaultComponentObject = null;
+if(defaultComponentModel!=null){
+    defaultComponentObject = createObject(Componentgl,ComponentProgram,defaultComponentModel);
+}
+// const defaultComponentModel = null;
+// const defaultComponentObject = null;
+
+const ComponentRenderer = new Render(Componentgl,ComponentProgram);
+ComponentRenderer.setObj(defaultComponentObject);
+
+const tree = document.querySelector("#tree-display");
+tree.innerHTML = null;
+if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
+let chosenIdx = 0;
+requestAnimationFrame(ComponentRenderer.drawFrame.bind(ComponentRenderer));
+// initShaders(gl, "vertex-shader", "fragment-shader");
+
+Componentgl.viewport(0, 0, ComponentCanvas.width, ComponentCanvas.height);
+Componentgl.clearColor(0.0, 0.0, 0.0, 0.66);
+Componentgl.clear(Componentgl.COLOR_BUFFER_BIT | Componentgl.DEPTH_BUFFER_BIT);
+Componentgl.enable(Componentgl.DEPTH_TEST);
+Componentgl.frontFace(Componentgl.CCW);
+Componentgl.cullFace(Componentgl.BACK);
+
+// For tree canvas
+
+
 
 // const articulatedRender = new Render(gl, program);
 // const renderObj = new Render(gl, program);
@@ -27,40 +78,40 @@ gl.cullFace(gl.BACK);
 var isInit = true;
 
 const renderObject = (object) => {
-    const shaderProgram = initShaders(gl, VERTEX_SHADER);
+    const shaderProgram = initShaders(Maingl, VERTEX_SHADER);
     const programInfo = {
         program: shaderProgram,
         attribLocations: {
-            vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
-            vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
-            normalLoc: gl.getAttribLocation(shaderProgram, 'normal'),
+            vertexPosition:  Maingl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+            vertexColor: Maingl.getAttribLocation(shaderProgram, 'aVertexColor'),
+            normalLoc: Maingl.getAttribLocation(shaderProgram, 'normal'),
         },
         uniformLocations: {
-            projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-            modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
-            normalMatrixLoc: gl.getUniformLocation(shaderProgram, "normalMat"),
-            lightPosLoc: gl.getUniformLocation(shaderProgram, "lightPos"),
-            ambientColorLoc: gl.getUniformLocation(shaderProgram, "ambientColor"),
-            diffuseColorLoc: gl.getUniformLocation(shaderProgram, "diffuseColor"),
-            specularColorLoc: gl.getUniformLocation(shaderProgram, "specularColor"),
-            shininessLoc: gl.getUniformLocation(shaderProgram, "shininessVal"),
-            kaLoc: gl.getUniformLocation(shaderProgram, "coefKa"),
-            kdLoc: gl.getUniformLocation(shaderProgram, "coefKd"),
-            ksLoc: gl.getUniformLocation(shaderProgram, "coefKs"),
+            projectionMatrix: Maingl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+            modelViewMatrix: Maingl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+            normalMatrixLoc: Maingl.getUniformLocation(shaderProgram, "normalMat"),
+            lightPosLoc: Maingl.getUniformLocation(shaderProgram, "lightPos"),
+            ambientColorLoc: Maingl.getUniformLocation(shaderProgram, "ambientColor"),
+            diffuseColorLoc: Maingl.getUniformLocation(shaderProgram, "diffuseColor"),
+            specularColorLoc: Maingl.getUniformLocation(shaderProgram, "specularColor"),
+            shininessLoc: Maingl.getUniformLocation(shaderProgram, "shininessVal"),
+            kaLoc: Maingl.getUniformLocation(shaderProgram, "coefKa"),
+            kdLoc: Maingl.getUniformLocation(shaderProgram, "coefKd"),
+            ksLoc: Maingl.getUniformLocation(shaderProgram, "coefKs"),
         }
     };
     // document.getElementById("ambient-color").value = document.getElementById("color-picker").value;
     // document.getElementById("diffuse-color").value = document.getElementById("color-picker").value;
     var buffers;
     if (isInit) {
-        buffers = initBuffer(gl, object);
+        buffers = initBuffer(Maingl, object);
         isInit = false;
     }
     else {
-        buffers = updateBuffer(gl, object);
+        buffers = updateBuffer(Maingl, object);
     }
     function render() {
-        drawObject(gl, programInfo, buffers, object.vertexCount);
+        drawObject(Maingl, programInfo, buffers, object.vertexCount);
         requestAnimationFrame(render);
     }
     requestAnimationFrame(render);
@@ -98,7 +149,7 @@ const test_obj = {
     "faceColorsCount": 20
   }
 
-renderObject(test_obj)
+// renderObject(test_obj)
 // const obj = createObject(gl, program, x);
 // console.log(obj);
 
@@ -106,10 +157,31 @@ const changeToLoadFile = (file) => {
     resetDefault = 1;
     data = JSON.parse(file);
     console.log(data);
-    const articulatedObj = createObject(articulatedRender.gl, articulatedRender.program, data);
-    const objectMain = createObject(renderObj.gl, renderObj.program, data);
+    const objectMain = createObject(MainRenderer.gl, MainRenderer.program, data);
+    const objectComponent = createObject(ComponentRenderer.gl, ComponentRenderer.program, data);
     // resetConf();
     // renderObject(object);
+    MainRenderer.clearObj();
+    ComponentRenderer.clearObj();
+
+    MainRenderer.setObj(objectMain);
+    defaultComponentObject = objectComponent;
+    ComponentRenderer.setObj(objectComponent);
+    tree.innerHTML = null;
+    if(MainRenderer.object != null) tree.innerHTML = MainRenderer.object.getUI(0, 0);
+    chosenIdx = 0;
+    // for (let i = 0; i < getNumObj(MainRenderer.obj); i++) {
+    //     let button = document.querySelector("#AO-" + i);
+    //     //console.log(button);
+    //     button.onclick = () => {
+    //         chosenIdx = i;
+    //         let returned = defaultComponentObject.getArticulatedObject(i);
+    //         renderer.setObject(returned);
+
+    //         //Resetting object sliders
+    //         refreshSliders();
+    //     }
+    // }
 }
 
 const loadFile = () => {
