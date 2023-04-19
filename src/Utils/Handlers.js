@@ -3,3 +3,4 @@ document.querySelector("#saveBtn").onclick = function (event) {
     let data = toSaveFormat(MainRenderer.obj);
     saveFile(data);
 };
+document.querySelector("#reset").onclick = () => {resetDefaultView();}

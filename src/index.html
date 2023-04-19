@@ -102,31 +102,15 @@
 						<option value="orthographic">orthographic</option>
 						<option value="oblique">oblique</option>
 					</select>
-					Projection S:
-					<select id="perspectiveOption" name="perspectiveOption">
-						<option value="perspective" selected="selected">
-							perspective
-						</option>
-						<option value="orthographic">orthographic</option>
-						<option value="oblique">oblique</option>
-					</select>
 				</div>
 				<div>
 					Texture:
-					<select id="perspectiveOption" name="perspectiveOption">
-						<option value="perspective" selected="selected">
-							None
+					<select id="textureOption" name="textureOption">
+						<option value="reflective" selected="selected">
+							Reflective
 						</option>
-						<option value="orthographic">Enviroment</option>
-						<option value="oblique">Bump</option>
-					</select>
-					Texture S:
-					<select id="perspectiveOption" name="perspectiveOption">
-						<option value="perspective" selected="selected">
-							None
-						</option>
-						<option value="orthographic">Enviroment</option>
-						<option value="oblique">Bump</option>
+						<option value="custom">Custom</option>
+						<option value="bump">Bump</option>
 					</select>
 				</div>
 			</div>
@@ -225,10 +209,11 @@
 						<input
 							type="range"
 							name="scaleX"
-							min="-100"
-							max="100"
-							value="0"
+							min="0"
+							max="2"
+							value="1"
 							id="scaleX"
+							step="0.1"
 							oninput="this.nextElementSibling.value = this.value"
 						/>
 					</div>
@@ -238,10 +223,11 @@
 						<input
 							type="range"
 							name="scaleY"
-							min="-100"
-							max="100"
-							value="0"
+							min="0"
+							max="2"
+							value="1"
 							id="scaleY"
+							step="0.1"
 							oninput="this.nextElementSibling.value = this.value"
 						/>
 					</div>
@@ -251,10 +237,11 @@
 						<input
 							type="range"
 							name="scaleZ"
-							min="-100"
-							max="100"
-							value="0"
+							min="0"
+							max="2"
+							value="1"
 							id="scaleZ"
+							step="0.1"
 							oninput="this.nextElementSibling.value = this.value"
 						/>
 					</div>
@@ -265,8 +252,8 @@
 						<label for="cameraRad">Camera Radius:</label>
 						<input
 							type="range"
-							name="scaleY"
-							min="-100"
+							name="cameraRad"
+							min="0"
 							max="100"
 							value="0"
 							id="cameraRad"
@@ -275,14 +262,14 @@
 					</div>
 					<br>
 					<div>
-						<label for="scaleZ">Camera Angle:</label>
+						<label for="cameraAngle">Camera Angle:</label>
 						<input
 							type="range"
-							name="scaleZ"
-							min="-100"
-							max="100"
+							name="cameraAngle"
+							min="0"
+							max="360"
 							value="0"
-							id="scaleZ"
+							id="cameraAngle"
 							oninput="this.nextElementSibling.value = this.value"
 						/>
 					</div>

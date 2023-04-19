@@ -139,7 +139,7 @@ const changeToLoadFile = (file) => {
             refreshSliders();
         }
     }
-    MainRenderer.draw();
+    resetDefaultView();
 }
 
 const loadFile = () => {
@@ -187,55 +187,6 @@ const saveFile = (data) => {
     anchor.click();
 }
 
-
-//   const resetConf = () =>{
-//     defaultview();
-//     document.getElementById('perspectiveOption').value = 'perspective';
-//     document.getElementById("translasiX").value = 0;
-//     document.getElementById("translasiY").value = 0;
-//     document.getElementById("translasiZ").value = 0;
-//     document.getElementById("rotasiX").value = 0;
-//     document.getElementById("rotasiY").value = 0;
-//     document.querySelector("output").value = 0;
-//     document.getElementById("rotasiZ").value = 0;
-//     document.getElementById("scalingX").value = 1;
-//     document.getElementById("scalingY").value = 1;
-//     document.getElementById("scalingZ").value = 1;
-//     document.getElementById('cam-rotation').value = 60;
-//     document.getElementById('cam-radius').value = 0;
-//     document.getElementById('shading').checked = true;
-//     document.getElementById("output-rot-x").value = 0;
-//     document.getElementById("output-rot-y").value = 0;
-//     document.getElementById("output-rot-z").value = 0;
-//     document.getElementById("output-trans-x").value = 0;
-//     document.getElementById("output-trans-y").value = 0;
-//     document.getElementById("output-trans-z").value = 0;
-//     document.getElementById("output-scale-x").value = 1;
-//     document.getElementById("output-scale-y").value = 1;
-//     document.getElementById("output-scale-z").value = 1;
-//     document.getElementById("output-cam-rad").value = 0;
-//     document.getElementById("output-range").value = 60;
-//     document.getElementById("color-picker").value = arrayToRGB(tempColorVal);
-//     document.getElementById("ka").value = 0.1;
-//     document.getElementById("kd").value = 0.8;
-//     document.getElementById("ks").value = 1.0;
-//     document.getElementById("shininess").value = 10.0;
-//     document.getElementById("specular-color").value = arrayToRGB([1.0,1.0,1.0]);
-//     document.getElementById("output-ka").value = 0.1;
-//     document.getElementById("output-kd").value = 0.8;
-//     document.getElementById("output-ks").value = 1;
-//     document.getElementById("output-Shininess").value = 10.0;
-//     shadingFragment = FRAGMENT_SHADER_LIGHT;
-//     resetDefault = 1;
-//     angleAnimation = 0;
-//     incAngle = 0.5;
-//   }
-
-// const resetToDefaultView = () => {
-//     resetConf();
-//     renderObject(object);
-// }
-
 const handleClickShading = () => {
     let checkBox = document.getElementById('shading');
     if (checkBox.checked) {
@@ -245,4 +196,27 @@ const handleClickShading = () => {
     }
     renderObject(object);
     resetDefault = 0;
+}
+
+const resetConfig = () => {
+    document.getElementById('perspectiveOption').value = 'perspective';
+    document.getElementById("translasiX").value = 0;
+    document.getElementById("translasiY").value = 0;
+    document.getElementById("translasiZ").value = 0;
+    document.getElementById("angleX").value = 0;
+    document.getElementById("angleY").value = 0;
+    document.getElementById("angleZ").value = 0;
+    document.getElementById("scaleX").value = 1;
+    document.getElementById("scaleY").value = 1;
+    document.getElementById("scaleZ").value = 1;
+    document.getElementById("cameraRad").value = 0;
+    document.getElementById("cameraAngle").value = 0;
+    document.getElementById('shading').checked = true;
+    document.getElementById("textureOption").value = "bump";
+}
+
+const resetDefaultView = () => {
+    resetConfig();
+    MainRenderer.draw();
+    // ComponentRenderer.draw();
 }
