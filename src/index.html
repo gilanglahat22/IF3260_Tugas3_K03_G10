@@ -1,378 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Articulated Model - G10</title>
+	<head>
+		<meta charset="utf-8" />
+		<title>Articulated Model - G10</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link href="styles.css" rel="stylesheet" />
-    
-    <!-- Math -->
-    <script src="Math/Common.js" defer></script>
-    <script src="Math/Math.js" defer></script>
-    <script src="Math/Matrix.js" defer></script>
-    <script src="Math/Vector.js" defer></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="styles.css" rel="stylesheet" />
+		
+		<!-- Math -->
+		<script src="Math/Common.js" defer></script>
+		<script src="Math/Math.js" defer></script>
+		<script src="Math/Matrix.js" defer></script>
+		<script src="Math/Vector.js" defer></script>
 
-    <!-- Shader -->
-    <script src="Shaders/fragment_shader.glsl.js" defer></script>
-    <script src="Shaders/vertex_shader.glsl.js" defer></script>
+		<!-- Shader -->
+		<script src="Shaders/fragment_shader.glsl.js" defer></script>
+		<script src="Shaders/vertex_shader.glsl.js" defer></script>
 
-    <!-- Utils -->
-    <script src="Utils/webgl-utils.js" defer></script>
-    <script src="Utils/MainObj.js" defer></script>
-    <script src="Utils/RecursionObject.js" defer></script>
-    <script src="Utils/Render.js" defer></script>
-    <script src="Utils/Textures.js" defer></script>
-    <script src="Utils/Handlers.js" defer></script>
-    <script src="Utils/ObjectUtils.js" defer></script>
-    <script src="Utils/Shader.js" defer></script>
-    <script src="Utils/Buffer.js" defer></script>
-    <script src="Utils/draw.js" defer></script>
+		<!-- Utils -->
+		<script src="Utils/webgl-utils.js" defer></script>
+		<script src="Utils/MainObj.js" defer></script>
+		<script src="Utils/RecursionObject.js" defer></script>
+		<script src="Utils/Render.js" defer></script>
+		<script src="Utils/Textures.js" defer></script>
+		<script src="Utils/Handlers.js" defer></script>
+		<script src="Utils/ObjectUtils.js" defer></script>
+		<script src="Utils/Shader.js" defer></script>
+		<script src="Utils/Buffer.js" defer></script>
+		<script src="Utils/draw.js" defer></script>
 
 
-    <!-- Main -->
-    <script src="script.js" defer></script>
-  </head>
+		<!-- Main -->
+		<script src="script.js" defer></script>
+	</head>
 
-  <body>
-    <h1 style="font-size: 35px">Articulated Model - G10</h1>
-    <div class="flex-container">
-      <div class="left-container">
-  
-        <canvas id="canvas-main" width="600px" height="450px"></canvas>
-        <h1 style="font-size: 20px">Main Object Canvas</h1>
-      </div>
-  
-      <div class="right-container">
-        <div class="object-columns">
-          <div>
-            <!-- <div class="tree-display" id="tree-display">
-            </div> -->
-            <!-- <canvas id="canvas-tree" width="600px" height="450px"></canvas> -->
-            <div class="tree-display" id="tree-display"></div>
-            <h1 style="font-size: 20px">Tree Object Canvas</h1>
-          </div>
-  
-          <div>
-            <canvas id="canvas-object" width="600px" height="450px"></canvas>
-            <h1 style="font-size: 20px">Component Object Canvas</h1>
-          </div>  
-      </div>
-    </div>
-    <div class="Controllers">
-      <label class="file-button">
-        <input type="file" id="load-file" accept=".json"/>
-        Load File
-      </label>
-      <button id="saveBtn">
-        Save
-      </button>
-      <div class="shading">
-        <label for="shading">Shading: </label>
-        <input
-          type="checkbox"
-          id="shading"
-          name="shading"
-          value="shading"
-          checked
-        />
-        <label for="shading">Idle animation: </label>
-        <input type="checkbox" id="idle" name="idle" value="idle" checked />
-      </div>
-      <!-- <div class="idle">
-        <label for="shading">Idle animation: </label>
-        <input type="checkbox" id="idle" name="idle" value="idle" checked />
-      </div> -->
-      <div>
-        Projection:
-        <select id="perspectiveOption" name="perspectiveOption">
-          <option value="perspective" selected="selected">
-            perspective
-          </option>
-          <option value="orthographic">orthographic</option>
-          <option value="oblique">oblique</option>
-        </select>
-        Projection S:
-        <select id="perspectiveOption" name="perspectiveOption">
-          <option value="perspective" selected="selected">
-            perspective
-          </option>
-          <option value="orthographic">orthographic</option>
-          <option value="oblique">oblique</option>
-        </select>
-      </div>
-      <div>
-        Texture:
-        <select id="perspectiveOption" name="perspectiveOption">
-          <option value="perspective" selected="selected">
-            None
-          </option>
-          <option value="orthographic">Enviroment</option>
-          <option value="oblique">Bump</option>
-        </select>
-        Texture S:
-        <select id="perspectiveOption" name="perspectiveOption">
-          <option value="perspective" selected="selected">
-            None
-          </option>
-          <option value="orthographic">Enviroment</option>
-          <option value="oblique">Bump</option>
-        </select>
-      </div>
-    <label for="translasiX">Translation X:</label>
-    <input
-      type="range"
-      name="translasiX"
-      min="-100"
-      max="100"
-      value="0"
-      id="translasiX"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="translasiX">Translation X S:</label>
-    <input
-      type="range"
-      name="translasiX"
-      min="-100"
-      max="100"
-      value="0"
-      id="translasiX"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="translasiY">Translation Y:</label>
-    <input
-      type="range"
-      name="translasiY"
-      min="-100"
-      max="100"
-      value="0"
-      id="translasiY"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="translasiY">Translation Y S:</label>
-    <input
-      type="range"
-      name="translasiY"
-      min="-100"
-      max="100"
-      value="0"
-      id="translasiY"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="translasiZ">Translation Z:</label>
-    <input
-      type="range"
-      name="translasiZ"
-      min="-100"
-      max="100"
-      value="0"
-      id="translasiZ"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="translasiZ">Translation Z S:</label>
-    <input
-      type="range"
-      name="translasiZ"
-      min="-100"
-      max="100"
-      value="0"
-      id="translasiZ"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="angleX">Angle X:</label>
-    <input
-      type="range"
-      name="angleX"
-      min="-100"
-      max="100"
-      value="0"
-      id="angleX"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="angleX">Angle X S:</label>
-    <input
-      type="range"
-      name="angleX"
-      min="-100"
-      max="100"
-      value="0"
-      id="angleX"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="angleY">Angle Y:</label>
-    <input
-      type="range"
-      name="angleY"
-      min="-100"
-      max="100"
-      value="0"
-      id="angleY"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="angleY">Angle Y S:</label>
-    <input
-      type="range"
-      name="angleY"
-      min="-100"
-      max="100"
-      value="0"
-      id="angleY"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="angleZ">Angle Z:</label>
-    <input
-      type="range"
-      name="angleZ"
-      min="-100"
-      max="100"
-      value="0"
-      id="angleZ"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="angleZ">Angle Z S:</label>
-    <input
-      type="range"
-      name="angleZ"
-      min="-100"
-      max="100"
-      value="0"
-      id="angleZ"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="scaleX">Scale X:</label>
-    <input
-      type="range"
-      name="scaleX"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleX"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="scaleX">Scale X S:</label>
-    <input
-      type="range"
-      name="scaleX"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleX"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="scaleY">Scale Y:</label>
-    <input
-      type="range"
-      name="scaleY"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleY"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="scaleY">Scale Y S:</label>
-    <input
-      type="range"
-      name="scaleY"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleY"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="scaleZ">Scale Z:</label>
-    <input
-      type="range"
-      name="scaleZ"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleZ"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="scaleZ">Scale Z S:</label>
-    <input
-      type="range"
-      name="scaleZ"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleZ"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="scaleY">Camera Radius:</label>
-    <input
-      type="range"
-      name="scaleY"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleY"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="scaleY">Camera Radius S:</label>
-    <input
-      type="range"
-      name="scaleY"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleY"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <br>
-    <label for="scaleZ">Camera Angle:</label>
-    <input
-      type="range"
-      name="scaleZ"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleZ"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    <label for="scaleZ">Camera Angle S:</label>
-    <input
-      type="range"
-      name="scaleZ"
-      min="-100"
-      max="100"
-      value="0"
-      id="scaleZ"
-      oninput="this.nextElementSibling.value = this.value"
-    />
-    </div>
-    <!-- <div class="horizontal-box">
-      <div id="cameraRadius" class="half-width"></div>
-      <div id="cameraAngle"  class="half-width"></div>
-    </div> -->
-    
-    <!-- <div class="horizontal-box">
-      <div class="horizontal-box half-width">
-        <p>Shading Mode</p>
-        <div id="shading"></div>
-      </div>
-      <div class="horizontal-box half-width">
-        <p>Select Projection </p>
-        <select name="projection-dropdown" id="projection-dropdown" class="projection-dropdown">
-          <option value="ORTHOGRAPHIC">Orthographic</option>
-          <option value="PERSPECTIVE">Perspective</option>
-          <option value="OBLIQUE">Oblique</option>
-        </select>
-      </div>
-  </div> -->
-  </body>
+	<body>
+		<h1 style="font-size: 35px">Articulated Model - G10</h1>
+		<div class="flex-container">
+			<div class="left-container">
+	
+				<canvas id="canvas-main" width="300px" height="300px"></canvas>
+				<h1 style="font-size: 20px">Main Object Canvas</h1>
+			</div>
+	
+			<div class="right-container">
+				<div class="object-columns">
+					<div>
+						<!-- <div class="tree-display" id="tree-display">
+						</div> -->
+						<!-- <canvas id="canvas-tree" width="600px" height="450px"></canvas> -->
+						<div class="tree-display" id="tree-display"></div>
+						<h1 style="font-size: 20px">Tree Object Canvas</h1>
+					</div>
+	
+					<div>
+						<canvas id="canvas-object" width="300px" height="300px"></canvas>
+						<h1 style="font-size: 20px">Component Object Canvas</h1>
+					</div>  
+				</div>
+			</div>
+		</div>
+		<div class="Controllers">
+			<div class="utils">
+				<label class="file-button">
+					Load File
+					<input type="file" id="load-file" accept=".json"/>
+				</label>
+				<div>
+					<label class="saveLabel">Save</label>
+					<button id="saveBtn">
+						Save
+					</button>
+				</div>
+				<div class="shading">
+					<label for="shading">Shading: </label>
+					<input
+						type="checkbox"
+						id="shading"
+						name="shading"
+						value="shading"
+						checked
+					/>
+					<label for="shading">Idle animation: </label>
+					<input type="checkbox" id="idle" name="idle" value="idle" checked />
+				</div>
+				<!-- <div class="idle">
+					<label for="shading">Idle animation: </label>
+					<input type="checkbox" id="idle" name="idle" value="idle" checked />
+				</div> -->
+				<div>
+					Projection:
+					<select id="perspectiveOption" name="perspectiveOption">
+						<option value="perspective" selected="selected">
+							perspective
+						</option>
+						<option value="orthographic">orthographic</option>
+						<option value="oblique">oblique</option>
+					</select>
+					Projection S:
+					<select id="perspectiveOption" name="perspectiveOption">
+						<option value="perspective" selected="selected">
+							perspective
+						</option>
+						<option value="orthographic">orthographic</option>
+						<option value="oblique">oblique</option>
+					</select>
+				</div>
+				<div>
+					Texture:
+					<select id="perspectiveOption" name="perspectiveOption">
+						<option value="perspective" selected="selected">
+							None
+						</option>
+						<option value="orthographic">Enviroment</option>
+						<option value="oblique">Bump</option>
+					</select>
+					Texture S:
+					<select id="perspectiveOption" name="perspectiveOption">
+						<option value="perspective" selected="selected">
+							None
+						</option>
+						<option value="orthographic">Enviroment</option>
+						<option value="oblique">Bump</option>
+					</select>
+				</div>
+			</div>
+			<div class="transformation">
+				<h3>Translation</h3>
+				<div>
+					<div>
+						<label for="translasiX">Translation X:</label>
+						<input
+							type="range"
+							name="translasiX"
+							min="-100"
+							max="100"
+							value="0"
+							id="translasiX"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+					<br>
+					<div>
+						<label for="translasiY">Translation Y:</label>
+						<input
+							type="range"
+							name="translasiY"
+							min="-100"
+							max="100"
+							value="0"
+							id="translasiY"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+					<br>
+					<div>
+						<label for="translasiZ">Translation Z:</label>
+						<input
+							type="range"
+							name="translasiZ"
+							min="-100"
+							max="100"
+							value="0"
+							id="translasiZ"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+				</div>
+				<h3>Angle</h3>
+				<div>
+					<div>
+						<label for="angleX">Angle X:</label>
+						<input
+							type="range"
+							name="angleX"
+							min="-100"
+							max="100"
+							value="0"
+							id="angleX"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+					<br>
+					<div>
+						<label for="angleY">Angle Y:</label>
+						<input
+							type="range"
+							name="angleY"
+							min="-100"
+							max="100"
+							value="0"
+							id="angleY"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+					<br>
+					<div>
+						<label for="angleZ">Angle Z:</label>
+						<input
+							type="range"
+							name="angleZ"
+							min="-100"
+							max="100"
+							value="0"
+							id="angleZ"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+				</div>
+				<div>
+					<button id="reset">Reset</button>
+				</div>
+			</div>
+			<div class="transformation">
+				<h3>Scale</h3>
+				<div>
+					<div>
+						<label for="scaleX">Scale X:</label>
+						<input
+							type="range"
+							name="scaleX"
+							min="-100"
+							max="100"
+							value="0"
+							id="scaleX"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+					<br>
+					<div>
+						<label for="scaleY">Scale Y:</label>
+						<input
+							type="range"
+							name="scaleY"
+							min="-100"
+							max="100"
+							value="0"
+							id="scaleY"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+					<br>
+					<div>
+						<label for="scaleZ">Scale Z:</label>
+						<input
+							type="range"
+							name="scaleZ"
+							min="-100"
+							max="100"
+							value="0"
+							id="scaleZ"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+				</div>
+				<h3>Camera</h3>
+				<div class="cameraSegment">
+					<div>
+						<label for="cameraRad">Camera Radius:</label>
+						<input
+							type="range"
+							name="scaleY"
+							min="-100"
+							max="100"
+							value="0"
+							id="cameraRad"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+					<br>
+					<div>
+						<label for="scaleZ">Camera Angle:</label>
+						<input
+							type="range"
+							name="scaleZ"
+							min="-100"
+							max="100"
+							value="0"
+							id="scaleZ"
+							oninput="this.nextElementSibling.value = this.value"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="horizontal-box">
+			<div id="cameraRadius" class="half-width"></div>
+			<div id="cameraAngle"  class="half-width"></div>
+		</div> -->
+		
+		<!-- <div class="horizontal-box">
+			<div class="horizontal-box half-width">
+				<p>Shading Mode</p>
+				<div id="shading"></div>
+			</div>
+			<div class="horizontal-box half-width">
+				<p>Select Projection </p>
+				<select name="projection-dropdown" id="projection-dropdown" class="projection-dropdown">
+					<option value="ORTHOGRAPHIC">Orthographic</option>
+					<option value="PERSPECTIVE">Perspective</option>
+					<option value="OBLIQUE">Oblique</option>
+				</select>
+			</div>
+	</div> -->
+	</body>
 </html>

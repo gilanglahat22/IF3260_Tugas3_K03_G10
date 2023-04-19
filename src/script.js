@@ -155,13 +155,6 @@ const loadFile = () => {
     reader.readAsText(file);
 }
 
-const btn = document.querySelector("#saveBtn");
-
-btn.onclick = function (event) {
-    let data = toSaveFormat(MainRenderer.obj);
-    saveFile(data);
-};
-
 const toSaveFormat = (obj) => {
 
     let toSave = {

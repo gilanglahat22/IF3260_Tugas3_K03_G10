@@ -7,11 +7,12 @@
 html,
 body {
   margin: 0;
-  height: 100%;
-  overflow: hidden;
+  height: 100vh;
   font-family: "Quicksand";
   color: white;
   background-color: #292929;
+  display: flex;
+  flex-direction: column;
 }
 
 html {
@@ -21,6 +22,7 @@ html {
 
 body {
   margin: 20px;
+  margin-top: 0px;
 }
 
 /* make the canvas fill its container */
@@ -33,9 +35,9 @@ canvas {
 
 .tree-display{
   width: 600px;
-  max-width: 600px;
+  max-width: 300px;
   height: 450px;
-  max-height: 500px;
+  max-height: 300px;
   overflow: auto;
   background-color: white;
   border: 5px solid #0c24ff;
@@ -72,7 +74,7 @@ select {
   align-items: start;
   justify-content: center;
   column-gap: 20px;
-  height: 100%;
+  height: 50%;
   width: 100%;
 }                   
 .animation-columns {
@@ -96,4 +98,51 @@ select {
 .idle{
   padding: 2px 1.0vw;
   display: inline-block;
+}
+
+.Controllers{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.utils{
+  display: flex;
+  flex-direction: column;
+  width:30%;
+  margin-right: 5px;
+  justify-content: space-between;
+  height: 100%;
+  max-height: 250px;
+}
+
+.transformation{
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  max-width: 525px;
+}
+
+.transformation > div {
+  display: flex;
+}
+
+.transformation > h3 {
+  margin-bottom: 8px;
+}
+
+#saveBtn{
+  max-width: 40px;
+}
+
+.cameraSegment{
+  max-width: 350px;
+}
+
+#reset{
+  width: 60px;
+  max-width: 60px;
+  height: 25px;
+  max-height: 25px;
 }
