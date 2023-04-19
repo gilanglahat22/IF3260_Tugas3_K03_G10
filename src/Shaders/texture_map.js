@@ -5,27 +5,27 @@ function texture_map(gl){
     const faceInfos = [
     {
         target: gl.TEXTURE_CUBE_MAP_POSITIVE_X, 
-        url: '../assets/pos-x.jpg',
+        url: '../src/Img/pos-x.jpeg',
     },
     {
         target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X, 
-        url: '../assets/neg-x.jpg',
+        url: '../src/Img/neg-x.jpeg',
     },
     {
         target: gl.TEXTURE_CUBE_MAP_POSITIVE_Y, 
-        url: '../assets/pos-y.jpg',
+        url: '../src/Img/pos-y.jpeg',
     },
     {
         target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, 
-        url: '../assets/neg-y.jpg',
+        url: '../src/Img/neg-y.jpeg',
     },
     {
         target: gl.TEXTURE_CUBE_MAP_POSITIVE_Z, 
-        url: '../assets/pos-z.jpg',
+        url: '../src/Img/pos-z.jpeg',
     },
     {
         target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, 
-        url: '../assets/neg-z.jpg',
+        url: '../src/Img/neg-z.jpeg',
     },
     ];
     faceInfos.forEach((faceInfo) => {
