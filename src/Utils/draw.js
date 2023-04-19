@@ -1,5 +1,28 @@
 // Buat Draw Object
-function drawObject(gl, programInfo, buffers, vertexCount) {  
+function drawObject(gl, _programInfo, buffers, vertexCount) {  
+    const shaderProgram = initShaders(gl, VERTEX_SHADER);
+    const programInfo = {
+        program: shaderProgram,
+        attribLocations: {
+            vertexPosition:  Maingl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+            vertexColor: Maingl.getAttribLocation(shaderProgram, 'aVertexColor'),
+            normalLoc: Maingl.getAttribLocation(shaderProgram, 'normal'),
+        },
+        uniformLocations: {
+            projectionMatrix: Maingl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+            modelViewMatrix: Maingl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+            normalMatrixLoc: Maingl.getUniformLocation(shaderProgram, "normalMat"),
+            lightPosLoc: Maingl.getUniformLocation(shaderProgram, "lightPos"),
+            ambientColorLoc: Maingl.getUniformLocation(shaderProgram, "ambientColor"),
+            diffuseColorLoc: Maingl.getUniformLocation(shaderProgram, "diffuseColor"),
+            specularColorLoc: Maingl.getUniformLocation(shaderProgram, "specularColor"),
+            shininessLoc: Maingl.getUniformLocation(shaderProgram, "shininessVal"),
+            kaLoc: Maingl.getUniformLocation(shaderProgram, "coefKa"),
+            kdLoc: Maingl.getUniformLocation(shaderProgram, "coefKd"),
+            ksLoc: Maingl.getUniformLocation(shaderProgram, "coefKs"),
+        }
+    };
+
     // gl.enable(gl.DEPTH_TEST);          
     // gl.depthFunc(gl.LEQUAL);           
     // gl.viewport(0.0, 0.0, gl.canvas.clientWidth, gl.canvas.clientHeight);

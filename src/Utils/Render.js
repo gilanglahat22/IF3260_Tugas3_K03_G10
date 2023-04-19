@@ -80,6 +80,17 @@ class Render{
         requestAnimationFrame(this.drawFrame.bind(this));
     }
 
+    draw() {
+        console.log("drawing")
+        console.log(this.obj.obj)
+        this.obj.obj.drawObj()
+        // function render() {
+        //     this.obj.obj.drawObj()
+        //     requestAnimationFrame(render);
+        // }
+        // requestAnimationFrame(render);
+    }
+
     clearObj(){
         this.obj = null;
     }

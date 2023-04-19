@@ -1,7 +1,7 @@
 class RecursionObj{
-    constructor(gl, program, obkectModel){
+    constructor(gl, program, objectModel){
         this.gl = gl;
-        this.obj = new MainObj(gl, program, obkectModel);
+        this.obj = new MainObj(gl, program, objectModel);
         this.program = program;
         this.name = "";
         this.translation = [0,0,0];
@@ -58,5 +58,9 @@ class RecursionObj{
             }
         }
         return null;
+    }
+
+    drawObj() {
+        drawObject(this.gl, null, this.buffer);
     }
 }

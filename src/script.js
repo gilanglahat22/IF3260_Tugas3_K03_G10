@@ -75,120 +75,38 @@ Componentgl.cullFace(Componentgl.BACK);
 // const articulatedRender = new Render(gl, program);
 // const renderObj = new Render(gl, program);
 
-var isInit = true;
+// var isInit = true;
 
-const renderObject = (object) => {
-    const shaderProgram = initShaders(Maingl, VERTEX_SHADER);
-    const programInfo = {
-        program: shaderProgram,
-        attribLocations: {
-            vertexPosition:  Maingl.getAttribLocation(shaderProgram, 'aVertexPosition'),
-            vertexColor: Maingl.getAttribLocation(shaderProgram, 'aVertexColor'),
-            normalLoc: Maingl.getAttribLocation(shaderProgram, 'normal'),
-        },
-        uniformLocations: {
-            projectionMatrix: Maingl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-            modelViewMatrix: Maingl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
-            normalMatrixLoc: Maingl.getUniformLocation(shaderProgram, "normalMat"),
-            lightPosLoc: Maingl.getUniformLocation(shaderProgram, "lightPos"),
-            ambientColorLoc: Maingl.getUniformLocation(shaderProgram, "ambientColor"),
-            diffuseColorLoc: Maingl.getUniformLocation(shaderProgram, "diffuseColor"),
-            specularColorLoc: Maingl.getUniformLocation(shaderProgram, "specularColor"),
-            shininessLoc: Maingl.getUniformLocation(shaderProgram, "shininessVal"),
-            kaLoc: Maingl.getUniformLocation(shaderProgram, "coefKa"),
-            kdLoc: Maingl.getUniformLocation(shaderProgram, "coefKd"),
-            ksLoc: Maingl.getUniformLocation(shaderProgram, "coefKs"),
-        }
-    };
-    // document.getElementById("ambient-color").value = document.getElementById("color-picker").value;
-    // document.getElementById("diffuse-color").value = document.getElementById("color-picker").value;
-    var buffers;
-    if (isInit) {
-        buffers = initBuffer(Maingl, object);
-        isInit = false;
-    }
-    else {
-        buffers = updateBuffer(Maingl, object);
-    }
-    function render() {
-        drawObject(Maingl, programInfo, buffers, object.vertexCount);
-        requestAnimationFrame(render);
-    }
-    requestAnimationFrame(render);
-    // numRender++;
-}
-
-const test_obj = {
-    "type": "CUBE",
-    "vertices": [
-        0.5, 0.5, 0.5,
-        -0.5, 0.5, 0.5,
-        -0.5, -0.5, 0.5,
-        0.5, -0.5, 0.5,
-        0.5, 0.5, -0.5,
-        -0.5, 0.5, -0.5,
-        -0.5, -0.5, -0.5,
-        0.5, -0.5, -0.5
-    ],
-    "indices": [
-        0, 1, 2,
-        0, 2, 3,
-        0, 3, 7,
-        0, 7, 4,
-        0, 4, 5,
-        0, 5, 1,
-        1, 5, 6,
-        1, 6, 2,
-        2, 6, 7,
-        2, 7, 3,
-        4, 7, 6,
-        4, 6, 5
-    ],
-    "faceColors": [0.529, 0.424, 0.075, 1.0],
-    "vertexCount": 36,
-    "faceColorsCount": 20,
-    "children": [{
-        "type": "PRISM",
-        "vertices": [
-            0.25, 1, 0.25,
-            -0.25, 1, 0.25,
-            -0.25, -1, 0.25,
-            0.25, -1, 0.25,
-            0.25, 1, -0.25,
-            -0.25, 1, -0.25,
-            -0.25, -1, -0.25,
-            0.25, -1, -0.25
-        ],
-        "indices": [
-            0, 1, 2,
-            0, 2, 3,
-            0, 3, 7,
-            0, 7, 4,
-            0, 4, 5,
-            0, 5, 1,
-            1, 5, 6,
-            1, 6, 2,
-            2, 6, 7,
-            2, 7, 3,
-            4, 7, 6,
-            4, 6, 5
-        ],
-        "faceColors": [0.529, 0.424, 0.075, 1.0],
-        "vertexCount": 36,
-        "faceColorsCount": 20,
-    }]
-}
+// const renderObjects = () => {
+//     // document.getElementById("ambient-color").value = document.getElementById("color-picker").value;
+//     // document.getElementById("diffuse-color").value = document.getElementById("color-picker").value;
+//     // var buffers;
+//     // if (isInit) {
+//     //     buffers = initBuffer(Maingl, object);
+//     //     isInit = false;
+//     // }
+//     // else {
+//     //     buffers = updateBuffer(Maingl, object);
+//     // }
+//     function render() {
+//         drawObject(Maingl, null, buffers, object.vertexCount);
+//         requestAnimationFrame(render);
+//     }
+//     requestAnimationFrame(render);
+//     // numRender++;
+// }
 
 Maingl.enable(Maingl.DEPTH_TEST);
 Maingl.depthFunc(Maingl.LEQUAL);
 Maingl.viewport(0.0, 0.0, Maingl.canvas.clientWidth, Maingl.canvas.clientHeight);
 Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
 
-renderObject(test_obj)
 
-for (let i = 0; i < test_obj.children.length; i++) {
-    renderObject(test_obj.children[i]);
-}
+// renderObject(test_obj)
+
+// for (let i = 0; i < test_obj.children.length; i++) {
+//     renderObject(test_obj.children[i]);
+// }
 // const obj = createObject(gl, program, x);
 // console.log(obj);
 
@@ -221,6 +139,7 @@ const changeToLoadFile = (file) => {
             refreshSliders();
         }
     }
+    MainRenderer.draw();
 }
 
 const loadFile = () => {
