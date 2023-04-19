@@ -61,10 +61,13 @@ class RecursionObj {
         return null;
     }
 
-    draw() {
+    draw(recurse) {
         this.obj.drawObj();
-        for (let i = 0; i < this.child.length; i++) {
-            this.child[i].draw();
+
+        if (recurse) {
+            for (let i = 0; i < this.child.length; i++) {
+                this.child[i].draw();
+            }
         }
     }
 }

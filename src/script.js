@@ -17,7 +17,7 @@ var defaultMainObject = null;
 // if(defaultMainModel!=null){
 //     defaultMainObject = createObject(Maingl,Mainprogram,defaultMainModel);
 // }
-const MainRenderer = new Render(Maingl, Mainprogram);
+const MainRenderer = new Render(Maingl, Mainprogram, true);
 // MainRenderer.setObj(defaultMainObject);
 
 // requestAnimationFrame(MainRenderer.drawFrame.bind(MainRenderer));
@@ -51,7 +51,7 @@ if (defaultComponentModel != null) {
 // const defaultComponentModel = null;
 // const defaultComponentObject = null;
 
-const ComponentRenderer = new Render(Componentgl, ComponentProgram);
+const ComponentRenderer = new Render(Componentgl, ComponentProgram, false);
 ComponentRenderer.setObj(defaultComponentObject);
 
 const tree = document.querySelector("#tree-display");

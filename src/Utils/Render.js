@@ -1,7 +1,8 @@
 class Render {
-    constructor(gl, program) {
+    constructor(gl, program, render_all) {
         this.gl = gl;
         this.program = program;
+        this.render_all = render_all;
         this.projectionMtrix = [1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 0, 1];
@@ -83,9 +84,10 @@ class Render {
     draw() {
         const model = this.obj;
         const gl = this.gl;
+        const render_all = this.render_all;
         function _render() {
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-            model.draw()
+            model.draw(render_all)
             requestAnimationFrame(_render);
         }
         requestAnimationFrame(_render);
