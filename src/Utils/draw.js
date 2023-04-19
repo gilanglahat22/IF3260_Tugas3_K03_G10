@@ -20,8 +20,15 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
             kaLoc: gl.getUniformLocation(shaderProgram, "coefKa"),
             kdLoc: gl.getUniformLocation(shaderProgram, "coefKd"),
             ksLoc: gl.getUniformLocation(shaderProgram, "coefKs"),
+            textureModeLoc: gl.getUniformLocation(shaderProgram, "textureMode"),
+            projectionLocation: gl.getUniformLocation(shaderProgram, "u_projection"),
+            viewLocation: gl.getUniformLocation(shaderProgram, "u_view"),
+            worldLocation: gl.getUniformLocation(shaderProgram, "u_world"),
+            worldCameraPositionLocation: gl.getUniformLocation(shaderProgram, "u_worldCameraPosition"),
         }
     };
+
+    
 
     // gl.enable(gl.DEPTH_TEST);          
     // gl.depthFunc(gl.LEQUAL);           
@@ -123,7 +130,7 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
       const offset = 0;
       gl.bindBuffer(gl.ARRAY_BUFFER, buffers.vertices);
       gl.vertexAttribPointer(
-          programInfo.attribLocations.vertexPosition,
+          programInfo.attribLocations.vertexPosition, 
           numComponents,
           type,
           normalize,
@@ -181,6 +188,7 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     const kd = 0.8;
     const ks = 1;
     const shininess = 10;
+    gl.uniform1i(programInfo.uniformLocations.textureModeLoc,textureMode);
     gl.uniform1f(programInfo.uniformLocations.kaLoc,ka);
     gl.uniform1f(programInfo.uniformLocations.kdLoc,kd);
     gl.uniform1f(programInfo.uniformLocations.ksLoc,ks);
@@ -189,6 +197,22 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     gl.uniform3fv(programInfo.uniformLocations.ambientColorLoc,[tempambientColor[0],tempambientColor[1],tempambientColor[2]]);
     gl.uniform3fv(programInfo.uniformLocations.diffuseColorLoc,[tempdiffuseColor[0],tempdiffuseColor[1],tempdiffuseColor[2]]);
     gl.uniform3fv(programInfo.uniformLocations.specularColorLoc,[tempspecularColor[0],tempspecularColor[1],tempspecularColor[2]]);
+
+    // environment mapping
+    var textureMode = 0;
+    texture_map(gl)
+    projectionMatrix = Matrix.perspective(fieldOfView, aspect, zNear, zFar);
+    gl.uniformMatrix4fv(programInfo.uniformLocations.projectionLocation,false,projectionMatrix);
+    var cameraPosition = [0,0,2];
+    var cameraTarget = [0,0,0];
+    var up = [0,1,0];
+    var cameraMatrix = Matrix.lookAt(cameraPosition,cameraTarget,up);
+    var viewMatrix = Matrix.inverseMatrix(cameraMatrix);
+
+    gl.uniformMatrix4fv(programInfo.uniformLocations.viewLocation,false,viewMatrix);
+    gl.uniformMatrix4fv(programInfo.uniformLocations.worldLocation,false,viewMatrix);
+    gl.uniform3fv(programInfo.uniformLocations.worldCameraPositionLocation,cameraPosition);
+
     
     {
       const type = gl.UNSIGNED_SHORT;

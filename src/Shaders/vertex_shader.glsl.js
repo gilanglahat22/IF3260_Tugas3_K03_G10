@@ -5,6 +5,7 @@ const VERTEX_SHADER = `
 attribute vec3 aVertexPosition;
 attribute vec3 aVertexColor;
 attribute vec3 normal;
+
 uniform mat4 uProjectionMatrix, uModelViewMatrix, normalMat;
 varying vec3 vertPos;
 
@@ -24,25 +25,44 @@ uniform vec3 lightPos;
 varying vec4 shadingColor; //Shading Color
 varying lowp vec3 basicColor; // Color for default (flat shading)
 
-void main(){
-  basicColor = aVertexColor;
-  vec3 normalInterp = vec3(normalMat * vec4(normal, 0.0));
-  vec4 vertPos4 = uModelViewMatrix * vec4(aVertexPosition, 1.0);
-  vertPos = vec3(vertPos4) / vertPos4.w;
+// Texture mode
+uniform int textureMode;
+uniform mat4 u_projection;
+uniform mat4 u_view;
+uniform mat4 u_world;
 
-  vec3 N = normalize(normalInterp),L = normalize(lightPos - vertPos);
-  
-  // Apply Lambert's cosine law
-  float lambert = max(dot(N, L), 0.0);
-  float specular = 0.0;
-  if(lambert > 0.0) {
-    vec3 R = reflect(-L, N);      // Reflected light vector
-    vec3 V = normalize(-vertPos); // Vector to viewer
-    specular = pow(max(dot(R, V), 0.0), shininessVal); // Compute the specular value
+varying vec3 v_worldPosition;
+varying vec3 v_worldNormal;
+
+void main(){
+  if(textureMode == 0){
+    basicColor = aVertexColor;
+    vec3 normalInterp = vec3(normalMat * vec4(normal, 0.0));
+    vec4 vertPos4 = uModelViewMatrix * vec4(aVertexPosition, 1.0);
+    vertPos = vec3(vertPos4) / vertPos4.w;
+
+    vec3 N = normalize(normalInterp),L = normalize(lightPos - vertPos);
+    
+    // Apply Lambert's cosine law
+    float lambert = max(dot(N, L), 0.0);
+    float specular = 0.0;
+    if(lambert > 0.0) {
+      vec3 R = reflect(-L, N);      // Reflected light vector
+      vec3 V = normalize(-vertPos); // Vector to viewer
+      specular = pow(max(dot(R, V), 0.0), shininessVal); // Compute the specular value
+    }
+    
+    shadingColor = vec4(coefKa * ambientColor + coefKd * lambert * diffuseColor + coefKs * specular * specularColor, 1.0);
+    
+    gl_Position = uProjectionMatrix * vertPos4;
   }
-  
-  shadingColor = vec4(coefKa * ambientColor + coefKd * lambert * diffuseColor + coefKs * specular * specularColor, 1.0);
-  
-  gl_Position = uProjectionMatrix * vertPos4;
+  else if(textureMode == 1){
+    vec4 a_position = vec4(aVertexPosition, 1.0);
+    gl_Position = u_projection * uModelViewMatrix * a_position;
+
+    v_worldPosition = (uModelViewMatrix * a_position).xyz;
+    v_worldNormal = mat3(uModelViewMatrix) * normal;
+
+  }
 }
 `;
