@@ -1,16 +1,16 @@
-class Render{
-    constructor(gl, program){
+class Render {
+    constructor(gl, program) {
         this.gl = gl;
         this.program = program;
-        this.projectionMtrix = [1,0,0,0,
-                                0,1,0,0,
-                                0,0,0,1];
+        this.projectionMtrix = [1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 0, 1];
         this.obj = null;
         this.next = 0;
         this.setDefault();
     }
 
-    setProjection(type){
+    setProjection(type) {
         const left = 0;
         const top = this.gl.canvas.clientHeight;
         const right = this.gl.canvas.clientWidth;
@@ -20,37 +20,37 @@ class Render{
         const far = -850;
         const zNear = 0.1;
         const zFar = 1000.0;
-        if(type == "Orthographic"){
+        if (type == "Orthographic") {
             this.projectionMtrix = Matrix.orthographic(left, right, bottom, top, near, far);
-        }else if(type=="Oblique"){
+        } else if (type == "Oblique") {
             this.projectionMtrix = Matrix.orthographic(left, right, bottom, top, near, far);
-            const oblique = Matrix.multiply(Matrix.oblique(45), Matrix.orthographic(left,right,bottom,top,near,far));
-            oblique = Matrix.translate(oblique, [0,0,500]);
+            const oblique = Matrix.multiply(Matrix.oblique(45), Matrix.orthographic(left, right, bottom, top, near, far));
+            oblique = Matrix.translate(oblique, [0, 0, 500]);
             this.projectionMtrix = oblique;
-        }else{
+        } else {
             this.projectionMtrix = Matrix.perspective(fov, aspect, zNear, zFar);
         }
     }
 
-    setDefault(){
+    setDefault() {
         this.cameraRadius = 500;
         this.cameraAngle = toRadian(0);
         this.shadingMode = false;
         this.setProjection("Orthographic");
     }
 
-    setObj(obj){
+    setObj(obj) {
         this.obj = obj;
         this.setDefault();
     }
 
-    drawFrame(){
-        const displayWidth  = this.gl.canvas.clientWidth;
+    drawFrame() {
+        const displayWidth = this.gl.canvas.clientWidth;
         const displayHeight = this.gl.canvas.clientHeight;
         const needResize = (this.gl.canvas.width != displayWidth || this.gl.canvas.height != displayHeight);
-    
+
         if (needResize) {
-            this.gl.canvas.width  = displayWidth;
+            this.gl.canvas.width = displayWidth;
             this.gl.canvas.height = displayHeight;
         }
 
@@ -68,10 +68,10 @@ class Render{
         const projectionMatrix = this.projectionMatrix.clone();
 
         let cameraMatrix = Matrix.createIdentityMatrix();
-        cameraMatrix = Matrix.rotate(cameraMatrix, this.cameraAngle, [0,1,0]);
-        cameraMatrix = Matrix.translate(cameraMatrix, [0,0,this.cameraRadius]);
+        cameraMatrix = Matrix.rotate(cameraMatrix, this.cameraAngle, [0, 1, 0]);
+        cameraMatrix = Matrix.translate(cameraMatrix, [0, 0, this.cameraRadius]);
 
-        var cameraPosition = [cameraMatrix[3*3 + 0], cameraMatrix[3*3 + 1], cameraMatrix[3*3 + 2]];
+        var cameraPosition = [cameraMatrix[3 * 3 + 0], cameraMatrix[3 * 3 + 1], cameraMatrix[3 * 3 + 2]];
         var target = [0, 0, 0];
         var up = [0, 1, 0];
 
@@ -81,17 +81,17 @@ class Render{
     }
 
     draw() {
-        console.log("drawing")
-        console.log(this.obj.obj)
-        this.obj.obj.drawObj()
-        // function render() {
-        //     this.obj.obj.drawObj()
-        //     requestAnimationFrame(render);
-        // }
-        // requestAnimationFrame(render);
+        const model = this.obj;
+        const gl = this.gl;
+        function _render() {
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            model.draw()
+            requestAnimationFrame(_render);
+        }
+        requestAnimationFrame(_render);
     }
 
-    clearObj(){
+    clearObj() {
         this.obj = null;
     }
 

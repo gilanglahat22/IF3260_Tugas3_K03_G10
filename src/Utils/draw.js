@@ -26,7 +26,7 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     // gl.enable(gl.DEPTH_TEST);          
     // gl.depthFunc(gl.LEQUAL);           
     // gl.viewport(0.0, 0.0, gl.canvas.clientWidth, gl.canvas.clientHeight);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     // const lightPos = [document.getElementById("lightX").value, document.getElementById("lightY").value, document.getElementById("lightZ").value];
     // const tempambientColor = rgbToArray(document.getElementById("ambient-color").value);
     // const tempdiffuseColor = rgbToArray(document.getElementById("diffuse-color").value);

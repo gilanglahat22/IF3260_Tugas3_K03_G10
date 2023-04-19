@@ -11,16 +11,16 @@ if (!Maingl) {
 
 var shadingFragment = FRAGMENT_SHADER_LIGHT;
 const Mainprogram = initShaders(Maingl, VERTEX_SHADER);
-const defaultMainModel = data;
+// const defaultMainModel = data;
 // console.log("ini debug pertama ",defaultMainModel);
 var defaultMainObject = null;
-if(defaultMainModel!=null){
-    defaultMainObject = createObject(Maingl,Mainprogram,defaultMainModel);
-}
-const MainRenderer = new Render(Maingl,Mainprogram);
-MainRenderer.setObj(defaultMainObject);
+// if(defaultMainModel!=null){
+//     defaultMainObject = createObject(Maingl,Mainprogram,defaultMainModel);
+// }
+const MainRenderer = new Render(Maingl, Mainprogram);
+// MainRenderer.setObj(defaultMainObject);
 
-requestAnimationFrame(MainRenderer.drawFrame.bind(MainRenderer));
+// requestAnimationFrame(MainRenderer.drawFrame.bind(MainRenderer));
 // initShaders(gl, "vertex-shader", "fragment-shader");
 
 Maingl.viewport(0, 0, Maincanvas.width, Maincanvas.height);
@@ -45,13 +45,13 @@ if (!Componentgl) {
 const ComponentProgram = initShaders(Componentgl, VERTEX_SHADER);
 const defaultComponentModel = data;
 var defaultComponentObject = null;
-if(defaultComponentModel!=null){
-    defaultComponentObject = createObject(Componentgl,ComponentProgram,defaultComponentModel);
+if (defaultComponentModel != null) {
+    defaultComponentObject = createObject(Componentgl, ComponentProgram, defaultComponentModel);
 }
 // const defaultComponentModel = null;
 // const defaultComponentObject = null;
 
-const ComponentRenderer = new Render(Componentgl,ComponentProgram);
+const ComponentRenderer = new Render(Componentgl, ComponentProgram);
 ComponentRenderer.setObj(defaultComponentObject);
 
 const tree = document.querySelector("#tree-display");
@@ -123,7 +123,7 @@ const changeToLoadFile = (file) => {
     defaultComponentObject = objectComponent;
     ComponentRenderer.setObj(objectComponent);
     tree.innerHTML = null;
-    if(MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
+    if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
     chosenIdx = 0;
     for (let i = 0; i < getNumObj(MainRenderer.obj); i++) {
         let button = document.querySelector("#AO-" + i);
@@ -133,7 +133,6 @@ const changeToLoadFile = (file) => {
             let returned = defaultComponentObject.getArticulatedObject(i);
             ComponentRenderer.setObj(returned);
             ComponentRenderer.draw();
-            console.log("aaa")
         }
     }
     resetDefaultView();
