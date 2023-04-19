@@ -116,8 +116,6 @@ const changeToLoadFile = (file) => {
     console.log(data);
     const objectMain = createObject(MainRenderer.gl, MainRenderer.program, data);
     const objectComponent = createObject(ComponentRenderer.gl, ComponentRenderer.program, data);
-    // resetConf();
-    // renderObject(object);
     MainRenderer.clearObj();
     ComponentRenderer.clearObj();
 
@@ -133,10 +131,9 @@ const changeToLoadFile = (file) => {
         button.onclick = () => {
             chosenIdx = i;
             let returned = defaultComponentObject.getArticulatedObject(i);
-            renderer.setObject(returned);
-
-            //Resetting object sliders
-            refreshSliders();
+            ComponentRenderer.setObj(returned);
+            ComponentRenderer.draw();
+            console.log("aaa")
         }
     }
     resetDefaultView();
@@ -218,5 +215,5 @@ const resetConfig = () => {
 const resetDefaultView = () => {
     resetConfig();
     MainRenderer.draw();
-    // ComponentRenderer.draw();
+    ComponentRenderer.draw();
 }

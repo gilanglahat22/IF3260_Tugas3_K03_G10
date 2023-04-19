@@ -1,32 +1,32 @@
 // Buat Draw Object
-function drawObject(gl, _programInfo, buffers, vertexCount) {  
+function drawObject(gl, _programInfo, buffers, vertexCount) {
     const shaderProgram = initShaders(gl, VERTEX_SHADER);
     const programInfo = {
         program: shaderProgram,
         attribLocations: {
-            vertexPosition:  Maingl.getAttribLocation(shaderProgram, 'aVertexPosition'),
-            vertexColor: Maingl.getAttribLocation(shaderProgram, 'aVertexColor'),
-            normalLoc: Maingl.getAttribLocation(shaderProgram, 'normal'),
+            vertexPosition:  gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+            vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
+            normalLoc: gl.getAttribLocation(shaderProgram, 'normal'),
         },
         uniformLocations: {
-            projectionMatrix: Maingl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-            modelViewMatrix: Maingl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
-            normalMatrixLoc: Maingl.getUniformLocation(shaderProgram, "normalMat"),
-            lightPosLoc: Maingl.getUniformLocation(shaderProgram, "lightPos"),
-            ambientColorLoc: Maingl.getUniformLocation(shaderProgram, "ambientColor"),
-            diffuseColorLoc: Maingl.getUniformLocation(shaderProgram, "diffuseColor"),
-            specularColorLoc: Maingl.getUniformLocation(shaderProgram, "specularColor"),
-            shininessLoc: Maingl.getUniformLocation(shaderProgram, "shininessVal"),
-            kaLoc: Maingl.getUniformLocation(shaderProgram, "coefKa"),
-            kdLoc: Maingl.getUniformLocation(shaderProgram, "coefKd"),
-            ksLoc: Maingl.getUniformLocation(shaderProgram, "coefKs"),
+            projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+            modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+            normalMatrixLoc: gl.getUniformLocation(shaderProgram, "normalMat"),
+            lightPosLoc: gl.getUniformLocation(shaderProgram, "lightPos"),
+            ambientColorLoc: gl.getUniformLocation(shaderProgram, "ambientColor"),
+            diffuseColorLoc: gl.getUniformLocation(shaderProgram, "diffuseColor"),
+            specularColorLoc: gl.getUniformLocation(shaderProgram, "specularColor"),
+            shininessLoc: gl.getUniformLocation(shaderProgram, "shininessVal"),
+            kaLoc: gl.getUniformLocation(shaderProgram, "coefKa"),
+            kdLoc: gl.getUniformLocation(shaderProgram, "coefKd"),
+            ksLoc: gl.getUniformLocation(shaderProgram, "coefKs"),
         }
     };
 
     // gl.enable(gl.DEPTH_TEST);          
     // gl.depthFunc(gl.LEQUAL);           
     // gl.viewport(0.0, 0.0, gl.canvas.clientWidth, gl.canvas.clientHeight);
-    // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     // const lightPos = [document.getElementById("lightX").value, document.getElementById("lightY").value, document.getElementById("lightZ").value];
     // const tempambientColor = rgbToArray(document.getElementById("ambient-color").value);
     // const tempdiffuseColor = rgbToArray(document.getElementById("diffuse-color").value);
