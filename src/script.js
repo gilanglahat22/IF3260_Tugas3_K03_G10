@@ -236,6 +236,46 @@ const loadFile = () => {
     reader.readAsText(file);
 }
 
+const btn = document.querySelector("#saveBtn");
+
+btn.onclick = function (event) {
+    let data = toSaveFormat(MainRenderer.obj);
+    saveFile(data);
+};
+
+const toSaveFormat = (obj) => {
+
+    let toSave = {
+        "name": obj.name,
+        "texture": obj.obj.textureMode,
+        "move_obj": obj.obj.translation,
+        "rotation_obj": obj.obj.rotation,
+        "scale_obj": obj.obj.scale,
+        "move_subtr": obj.translation,
+        "rotation_subtr": obj.rotation,
+        "scale_subtr": obj.scale,
+        "obj": obj.obj.model,
+        "child": []
+    }
+
+    for (let i = 0; i < obj.child.length; i++) {
+        toSave.child.push(toSaveFormat(obj.child[i]));
+    }
+
+    return toSave;
+}
+
+const saveFile = (data) => {
+    const anchor = document.createElement('a');
+
+    const file = new Blob([JSON.stringify(data, null, 4)], { type: 'text/plain' });
+
+    anchor.href = URL.createObjectURL(file);
+    anchor.download = "saved-" + MainRenderer.obj.name + ".json";
+    anchor.click();
+}
+
+
 //   const resetConf = () =>{
 //     defaultview();
 //     document.getElementById('perspectiveOption').value = 'perspective';
