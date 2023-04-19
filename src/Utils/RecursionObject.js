@@ -45,7 +45,7 @@ class RecursionObj{
     }
 
     getArticulatedObject(dfsId) {
-        if(dfsId == 0){t
+        if(dfsId == 0){
             return this;
         }dfsId--;
         for(let i=0; i<this.child.length; i++){
