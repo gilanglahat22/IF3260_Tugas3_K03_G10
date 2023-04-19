@@ -34,7 +34,7 @@ function initBuffer(gl, data){
 }
 
 function updateBuffer(gl, data){
-    const { vertices, indices, faceColorsCount } = data;
+    const { vertices, indices, faceColors, faceColorsCount } = data;
     // Buat verticesnya
     const verticesBuffer = gl.createBuffer();
 
@@ -49,10 +49,11 @@ function updateBuffer(gl, data){
 
     // Buat colors
     let colors = [];
-    const color = document.getElementById("color-picker").value;
-    const rgbcolor = rgbToArray(color);
+    // const color = document.getElementById("color-picker").value;
+    // const rgbcolor = rgbToArray(color);
     for (let j = 0; j < faceColorsCount; ++j) {
-        const c = rgbcolor;
+        // const c = rgbcolor;
+        const c = faceColors;
 
         // Repeat each color four times for the four vertices of the face
         colors = colors.concat(c, c, c, c);

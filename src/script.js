@@ -121,35 +121,74 @@ const renderObject = (object) => {
 const test_obj = {
     "type": "CUBE",
     "vertices": [
-      1, 1, 1,
-      -1, 1, 1,
-      -1, -1, 1,
-      1, -1, 1,
-      1, 1, -1,
-      -1, 1, -1,
-      -1, -1, -1,
-      1, -1, -1
+        0.5, 0.5, 0.5,
+        -0.5, 0.5, 0.5,
+        -0.5, -0.5, 0.5,
+        0.5, -0.5, 0.5,
+        0.5, 0.5, -0.5,
+        -0.5, 0.5, -0.5,
+        -0.5, -0.5, -0.5,
+        0.5, -0.5, -0.5
     ],
     "indices": [
-        0, 1, 2, 
+        0, 1, 2,
         0, 2, 3,
-        0, 3, 7, 
+        0, 3, 7,
         0, 7, 4,
-        0, 4, 5, 
+        0, 4, 5,
         0, 5, 1,
-        1, 5, 6, 
+        1, 5, 6,
         1, 6, 2,
-        2, 6, 7, 
+        2, 6, 7,
         2, 7, 3,
-        4, 7, 6, 
+        4, 7, 6,
         4, 6, 5
     ],
     "faceColors": [0.529, 0.424, 0.075, 1.0],
     "vertexCount": 36,
-    "faceColorsCount": 20
-  }
+    "faceColorsCount": 20,
+    "children": [{
+        "type": "PRISM",
+        "vertices": [
+            0.25, 1, 0.25,
+            -0.25, 1, 0.25,
+            -0.25, -1, 0.25,
+            0.25, -1, 0.25,
+            0.25, 1, -0.25,
+            -0.25, 1, -0.25,
+            -0.25, -1, -0.25,
+            0.25, -1, -0.25
+        ],
+        "indices": [
+            0, 1, 2,
+            0, 2, 3,
+            0, 3, 7,
+            0, 7, 4,
+            0, 4, 5,
+            0, 5, 1,
+            1, 5, 6,
+            1, 6, 2,
+            2, 6, 7,
+            2, 7, 3,
+            4, 7, 6,
+            4, 6, 5
+        ],
+        "faceColors": [0.529, 0.424, 0.075, 1.0],
+        "vertexCount": 36,
+        "faceColorsCount": 20,
+    }]
+}
 
-// renderObject(test_obj)
+Maingl.enable(Maingl.DEPTH_TEST);
+Maingl.depthFunc(Maingl.LEQUAL);
+Maingl.viewport(0.0, 0.0, Maingl.canvas.clientWidth, Maingl.canvas.clientHeight);
+Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
+
+renderObject(test_obj)
+
+for (let i = 0; i < test_obj.children.length; i++) {
+    renderObject(test_obj.children[i]);
+}
 // const obj = createObject(gl, program, x);
 // console.log(obj);
 
