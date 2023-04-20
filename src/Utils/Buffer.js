@@ -28,19 +28,37 @@ function initBuffer(gl, data){
 
     let vertexPositions = []
     for (let i = 0; i < indices.length; i++) {
-        vertexPositions = vertexPositions.concat(vertices[indices[i]])
+        vertexPositions = vertexPositions.concat(vertices[indices[i]], vertices[indices[i]+1], vertices[indices[i]+2])
     }
-    let [vertexNormals, vertexTangents, vertexBitangents] = Vector.getVectorComponents(vertexPositions)
+    // let [vertexNormals, vertexTangents, vertexBitangents] = Vector.getVectorComponents(vertexPositions)
 
     // buffer
+    var bitangs = [
+        0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, // Front
+        0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, // Back
+        0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, // Right
+        0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, // Left
+        0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, // Top
+        0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, // Bot
+    ];
+    var tangs = [
+        1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, // Front
+        -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, // Back
+        0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, // Right
+        0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, // Left
+        1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, // Top
+        1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, // Bottom
+    ];
 
     let vbo_tang = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo_tang);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexTangents), gl.STATIC_DRAW);
+    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexTangents), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tangs), gl.STATIC_DRAW);
 
     let vbo_bitang = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo_bitang);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexBitangents), gl.STATIC_DRAW);
+    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexBitangents), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bitangs), gl.STATIC_DRAW);
 
     return {
         vertices: verticesBuffer,
