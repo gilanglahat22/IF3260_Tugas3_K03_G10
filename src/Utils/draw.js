@@ -239,12 +239,12 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     let vbo_uv = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo_uv);
     var uvs = [
-        0, 1, 1, 0, 0, 0, 1, 1, // Front
-        1, 1, 0, 0, 1, 0, 0, 1, // Back
-        1, 1, 0, 0, 0, 1, 1, 0, // Right
-        0, 1, 1, 0, 1, 1, 0, 0, // Left
-        0, 0, 1, 1, 0, 1, 1, 0, // Top
-        0, 1, 1, 0, 0, 0, 1, 1, // Bottom
+      0, 1, 1, 0, 0, 0, 1, 1, // Front
+      1, 1, 0, 0, 1, 0, 0, 1, // Back
+      1, 1, 0, 0, 0, 1, 1, 0, // Right
+      0, 1, 1, 0, 1, 1, 0, 0, // Left
+      0, 0, 1, 1, 0, 1, 1, 0, // Top
+      0, 1, 1, 0, 0, 0, 1, 1, // Bottom
     ];
     
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);

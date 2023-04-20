@@ -25,8 +25,8 @@ varying vec4 shadingColor;
 
 vec2 parallax_uv(vec2 uv, vec3 view_dir)
 {
-  float depth_scale = 0.05;
-  float num_layers = 4.00;
+  float depth_scale = 0.01;
+  float num_layers = 1.00;
 
   float layer_depth = 1.0 / num_layers;
   float cur_layer_depth = 0.0;
