@@ -235,6 +235,7 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
             tex_norm = load_texture(gl, "./img/bump_normal.png");
             tex_diffuse = load_texture(gl, "./img/bump_diffuse.png");
             tex_depth = load_texture(gl, "./img/bump_depth.png");
+            tex_cust = load_texture(gl, "./img/custom.png");
         }
     }
 
@@ -271,6 +272,14 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
 
     var textureLocation = gl.getUniformLocation(shaderProgram, "u_texture");
     gl.uniform1i(textureLocation, 3);
+
+    {
+      gl.activeTexture(gl.TEXTURE4);
+      gl.bindTexture(gl.TEXTURE_2D, tex_cust);
+      // gl.uniform1i(programInfo.uniformLocations.tex_depthLoc, 2);
+      var uni = gl.getUniformLocation(shaderProgram, "uSampler");
+      gl.uniform1i(uni, 4);
+  }
 
     {
         gl.bindBuffer(gl.ARRAY_BUFFER, buffers.tangents);

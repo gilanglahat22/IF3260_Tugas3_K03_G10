@@ -44,6 +44,8 @@ uniform mat4 u_world;
 varying vec3 v_worldPosition;
 varying vec3 v_worldNormal;
 
+varying highp vec2 vTextureCoord;
+
 mat3 transpose(in mat3 inMatrix)
 {
     vec3 i0 = inMatrix[0];
@@ -102,6 +104,11 @@ void main(){
 
     v_worldPosition = (uModelViewMatrix * a_position).xyz;
     v_worldNormal = mat3(uModelViewMatrix) * normal;
+  } else if (tex_mode == 3) {
+    vec4 a_position = vec4(aVertexPosition, 1.0);
+    gl_Position = u_projection * uModelViewMatrix * a_position;
+
+    vTextureCoord = vert_uv;
   }
 }
 `;

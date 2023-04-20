@@ -14,6 +14,9 @@ uniform sampler2D tex_norm;
 uniform sampler2D tex_diffuse;
 uniform sampler2D tex_depth;
 uniform samplerCube u_texture;
+uniform sampler2D uSampler;
+
+varying highp vec2 vTextureCoord;
 
 varying vec2 frag_uv;
 varying vec3 ts_light_pos;
@@ -87,6 +90,8 @@ void main(void)
       vec3 direction = reflect(eyeToSurfaceDir,worldNormal);
 
       gl_FragColor = textureCube(u_texture, direction);
+    } else if (tex_mode == 3) {
+      gl_FragColor = texture2D(uSampler, vTextureCoord);
     }
 }
 `
