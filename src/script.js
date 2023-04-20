@@ -154,6 +154,7 @@ const changeToLoadFile = (file) => {
     resetConfig();
     MainRenderer.draw();
     ComponentRenderer.draw();
+    document.getElementById("textureOption").value = getTextureCode(data.texture);
 }
 
 const loadFile = () => {
@@ -243,11 +244,28 @@ skalaZ.addEventListener("input", () => {
     MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
 });
 
+const getTextureCode = (name) => {
+    if (name == "BUMP") return 1;
+    if (name == "ENVIRONMENT") return 2;
+    if (name == "CUSTOM") return 3;
+    if (name == "NONE") return 0;
+}
+
+const getTextureName = (code) => {
+    if (code == 1) return "BUMP";
+    if (code == 2) return "ENVIRONMENT";
+    if (code == 3) return "CUSTOM";
+    if (code == 0) return "NONE";
+}
+
 const toSaveFormat = (obj) => {
+
+    let code = document.getElementById("textureOption").value;
+    let texture = getTextureName(code);
 
     let toSave = {
         "name": obj.name,
-        "texture": obj.obj.textureMode,
+        "texture": texture,
         "move_obj": obj.obj.translation,
         "rotation_obj": obj.obj.rotation,
         "scale_obj": obj.obj.scale,
