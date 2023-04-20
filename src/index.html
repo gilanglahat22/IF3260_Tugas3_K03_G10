@@ -42,6 +42,37 @@
 
 	<body>
 		<h1 style="font-size: 35px">Articulated Model - G10</h1>
+		<h2>Animation Part</h2>
+		<div class="controller-container">
+			<div class="left-container">
+				<div>
+					<div class="horizontal-box justify-center">
+						<button id="play-button">Play</button>
+						<button id="pause-button">Pause</button>
+					</div>
+			
+					<div class="horizontal-box justify-start">
+						<div>You are now at frame</div>
+						<div class="horizontal-box half-width">
+							<button id="first-frame">&lt;&lt;</button>
+							<button id="prev-frame">&lt;</button>
+							<p id="cur-frame-id">0</p>
+							<button id="next-frame">&gt;</button>
+							<button id="last-frame">&gt;&gt;</button>
+						</div>
+						<div id="total-frame">Out of x frames</div>
+					</div>
+				</div>
+			</div>
+			<div class="right-container">
+				<div id="time-between-frames"></div>
+				<div class="horizontal-box justify-start">
+					<p>Save and Load: </p>
+					<button disabled="true">Save as</button>
+					<input type="file" id="input-animation" accept=".json">
+				</div>
+			</div>
+		</div>
 		<div class="flex-container">
 			<div class="left-container">
 	

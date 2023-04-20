@@ -110,6 +110,21 @@ Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
 // const obj = createObject(gl, program, x);
 // console.log(obj);
 
+document.getElementById("play-button").disabled = false;
+document.getElementById("pause-button").disabled = true;
+
+const playAnimation = () =>{
+    isPlaying = true;
+    document.getElementById("play-button").disabled = true;
+    document.getElementById("pause-button").disabled = false;
+}
+
+const pauseAnimation = () =>{
+    isPlaying = false;
+    document.getElementById("play-button").disabled = false;
+    document.getElementById("pause-button").disabled = true;
+}
+
 const changeToLoadFile = (file) => {
     resetDefault = 1;
     data = JSON.parse(file);
@@ -195,6 +210,7 @@ const handleClickShading = () => {
 }
 
 const resetConfig = () => {
+    pauseAnimation();
     document.getElementById('perspectiveOption').value = 'perspective';
     document.getElementById("translasiX").value = 0;
     document.getElementById("translasiY").value = 0;

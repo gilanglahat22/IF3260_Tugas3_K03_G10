@@ -4,3 +4,5 @@ document.querySelector("#saveBtn").onclick = function (event) {
     saveFile(data);
 };
 document.querySelector("#reset").onclick = () => {resetDefaultView();}
+document.getElementById("play-button").onclick = () => {playAnimation();}
+document.getElementById("pause-button").onclick = () => {pauseAnimation();}
