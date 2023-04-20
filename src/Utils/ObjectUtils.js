@@ -1,7 +1,3 @@
-// function createObject(gl, program, model){
-//     return new MainObj(gl, program, model);
-// }
-
 function createObject(gl, program, objModel){
     let objArticulated = new RecursionObj(gl, program, objModel["obj"]);
     

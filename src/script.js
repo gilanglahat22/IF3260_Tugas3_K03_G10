@@ -357,11 +357,23 @@ const resetConfig = () => {
     document.getElementById("scaleZ").value = 1;
     document.getElementById("cameraRad").value = 0;
     document.getElementById("cameraAngle").value = 0;
-    // document.getElementById('shading').checked = true;
-    // document.getElementById("textureOption").value = "bump";
+    isPlaying = false;
+    additionMoveX = 0;
+    additionMoveY = 0;
+    additionMoveZ = 0;
+    additionAngleX = 0;
+    additionAngleY = 0;
+    additionAngleZ = 0;
+    additionScaleX = 0;
+    additionScaleY = 0;
+    additionScaleZ = 0;
+    resetDefault = 1;
+    
 }
 
 const resetDefaultView = () => {
+    firstFrame();
+    pauseAnimation();
     resetConfig();
     loadFile();
 }
