@@ -8,10 +8,20 @@ class RecursionObj {
         this.rotation = [0, 0, 0];
         this.scale = [1, 1, 1];
         this.child = [];
+        this.transformation = [
+            [0,0,0],
+            [0,0,0],
+            [0,0,0]
+        ]
+        this.isUpdated = false;
     }
 
     addChild(newObj) {
         this.child.push(newObj);
+    }
+
+    setIsUpdated() {
+        this.isUpdated = true;
     }
 
     draw(projectMat, viewMat, modelMat, cameraPosition, shading) {
@@ -61,13 +71,30 @@ class RecursionObj {
         return null;
     }
 
-    draw(recurse) {
-        this.obj.drawObj();
+    updateChild(transformation){
+        if (!this.isUpdated) return;
+        console.log("update child");
+        this.transformation = transformation;
+        for (let i = 0; i < this.child.length; i++) {
+            this.child[i].isUpdated = true;
+            this.child[i].updateChild(this.transformation);
+        }
+    }
 
+    draw(recurse) {
+        this.updateChild(this.transformation)
+        this.isUpdated = false;
+        this.obj.drawObj(this.translation, this.rotation, this.scale, this.transformation);
+        this.transformation = [
+            [0,0,0],
+            [0,0,0],
+            [0,0,0]
+        ]
         if (recurse) {
             for (let i = 0; i < this.child.length; i++) {
-                this.child[i].draw();
+                this.child[i].draw(recurse);
             }
         }
+        recurse = false;
     }
 }

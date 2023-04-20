@@ -67,7 +67,20 @@ p {
 select {
   margin-bottom: 10px;
 }
-
+.Animation-Controllers{
+  align-items: center;
+}
+.controller-container {
+  display: grid;
+  margin-left: 25%;
+  margin-bottom: 1.8%;
+  grid-template-columns: 1fr 2fr;
+  align-items: start;
+  justify-content: center;
+  column-gap: 20px;
+  height: 30%;
+  width: 100%;
+}
 .flex-container {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -76,7 +89,12 @@ select {
   column-gap: 20px;
   height: 50%;
   width: 100%;
-}                   
+}
+
+.half-width{
+  width: 40%;
+}
+
 .animation-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -145,4 +163,18 @@ select {
   max-width: 60px;
   height: 25px;
   max-height: 25px;
+}
+
+.horizontal-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.justify-center{
+  justify-content: center;
+}
+.justify-start{
+  justify-content: flex-start;
 }

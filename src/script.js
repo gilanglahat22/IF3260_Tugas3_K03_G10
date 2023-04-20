@@ -57,7 +57,7 @@ ComponentRenderer.setObj(defaultComponentObject);
 const tree = document.querySelector("#tree-display");
 tree.innerHTML = null;
 if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
-let chosenIdx = 0;
+let componentSelected = 0;
 requestAnimationFrame(ComponentRenderer.drawFrame.bind(ComponentRenderer));
 // initShaders(gl, "vertex-shader", "fragment-shader");
 
@@ -110,6 +110,21 @@ Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
 // const obj = createObject(gl, program, x);
 // console.log(obj);
 
+document.getElementById("play-button").disabled = false;
+document.getElementById("pause-button").disabled = true;
+
+const playAnimation = () =>{
+    isPlaying = true;
+    document.getElementById("play-button").disabled = true;
+    document.getElementById("pause-button").disabled = false;
+}
+
+const pauseAnimation = () =>{
+    isPlaying = false;
+    document.getElementById("play-button").disabled = false;
+    document.getElementById("pause-button").disabled = true;
+}
+
 const changeToLoadFile = (file) => {
     resetDefault = 1;
     data = JSON.parse(file);
@@ -124,15 +139,16 @@ const changeToLoadFile = (file) => {
     ComponentRenderer.setObj(objectComponent);
     tree.innerHTML = null;
     if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
-    chosenIdx = 0;
+    componentSelected = 0;
     for (let i = 0; i < getNumObj(MainRenderer.obj); i++) {
         let button = document.querySelector("#AO-" + i);
         console.log(button);
         button.onclick = () => {
-            chosenIdx = i;
+            componentSelected = i;
             let returned = defaultComponentObject.getArticulatedObject(i);
             ComponentRenderer.setObj(returned);
             ComponentRenderer.draw();
+            resetConfig();
         }
     }
     resetDefaultView();
@@ -150,6 +166,80 @@ const loadFile = () => {
 
     reader.readAsText(file);
 }
+
+translasiX = document.getElementById("translasiX");
+translasiY = document.getElementById("translasiY");
+translasiZ = document.getElementById("translasiZ");
+rotasiX = document.getElementById("angleX");
+rotasiY = document.getElementById("angleY");
+rotasiZ = document.getElementById("angleZ");
+skalaX = document.getElementById("scaleX");
+skalaY = document.getElementById("scaleY");
+skalaZ = document.getElementById("scaleZ");
+
+translasiX.addEventListener("input", () => {
+    let newVal = parseInt(translasiX.value);
+    // ComponentRenderer.obj.translation[0] = newVal;
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).translation[0];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[0][0] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+translasiY.addEventListener("input", () => {
+    let newVal = parseInt(translasiY.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).translation[1];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[0][1] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+translasiZ.addEventListener("input", () => {
+    let newVal = parseInt(translasiZ.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).translation[2];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[0][2] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+rotasiX.addEventListener("input", () => {
+    let newVal = parseInt(rotasiX.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).rotation[0];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[1][0] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+rotasiY.addEventListener("input", () => {
+    let newVal = parseInt(rotasiY.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).rotation[1];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[1][1] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+rotasiZ.addEventListener("input", () => {
+    let newVal = parseInt(rotasiZ.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).rotation[2];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[1][2] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+skalaX.addEventListener("input", () => {
+    let newVal = parseInt(skalaX.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[0];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][0] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+skalaY.addEventListener("input", () => {
+    let newVal = parseInt(skalaY.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[1];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][1] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+skalaZ.addEventListener("input", () => {
+    let newVal = parseInt(skalaZ.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[2];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][2] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
 
 const toSaveFormat = (obj) => {
 
