@@ -224,21 +224,21 @@ rotasiZ.addEventListener("input", () => {
 });
 
 skalaX.addEventListener("input", () => {
-    let newVal = parseInt(skalaX.value);
+    let newVal = parseFloat(skalaX.value);
     let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[0];
     MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][0] += diff;
     MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
 });
 
 skalaY.addEventListener("input", () => {
-    let newVal = parseInt(skalaY.value);
+    let newVal = parseFloat(skalaY.value);
     let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[1];
     MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][1] += diff;
     MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
 });
 
 skalaZ.addEventListener("input", () => {
-    let newVal = parseInt(skalaZ.value);
+    let newVal = parseFloat(skalaZ.value);
     let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[2];
     MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][2] += diff;
     MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
