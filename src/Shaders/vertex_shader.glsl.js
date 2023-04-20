@@ -8,6 +8,11 @@ attribute vec3 normal;
 uniform mat4 uProjectionMatrix, uModelViewMatrix, normalMat;
 varying vec3 vertPos;
 
+attribute vec3 vert_tang;
+attribute vec3 vert_bitang;
+uniform vec3 camera_pos;
+attribute vec2 vert_uv;
+
 // Reflect Coefficients
 uniform float coefKa, coefKd, coefKs;
 
@@ -23,6 +28,28 @@ uniform vec3 lightPos;
 // Vector Color
 varying vec4 shadingColor; //Shading Color
 varying lowp vec3 basicColor; // Color for default (flat shading)
+
+// Bump maping
+// varying mat3 v_tbn;
+varying vec2 frag_uv;
+varying vec3 ts_light_pos; // Tangent space values
+varying vec3 ts_view_pos;  //
+varying vec3 ts_frag_pos;  //
+
+mat3 transpose(in mat3 inMatrix)
+{
+    vec3 i0 = inMatrix[0];
+    vec3 i1 = inMatrix[1];
+    vec3 i2 = inMatrix[2];
+
+    mat3 outMatrix = mat3(
+        vec3(i0.x, i1.x, i2.x),
+        vec3(i0.y, i1.y, i2.y),
+        vec3(i0.z, i1.z, i2.z)
+    );
+
+    return outMatrix;
+}
 
 void main(){
   basicColor = aVertexColor;
@@ -44,5 +71,17 @@ void main(){
   shadingColor = vec4(coefKa * ambientColor + coefKd * lambert * diffuseColor + coefKs * specular * specularColor, 1.0);
   
   gl_Position = uProjectionMatrix * vertPos4;
+
+  // Bump mapping variables
+  vec3 t = normalize(mat3(normalMat) * vert_tang);
+  vec3 b = normalize(mat3(normalMat) * vert_bitang);
+  vec3 n = normalize(mat3(normalMat) * normal);
+  mat3 tbn = transpose(mat3(t, b, n));
+
+  ts_light_pos = tbn * lightPos;
+  ts_view_pos = tbn * camera_pos;
+  ts_frag_pos = tbn * vertPos;
+
+  frag_uv = vert_uv;
 }
 `;

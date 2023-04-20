@@ -190,12 +190,17 @@ const handleClickShading = () => {
     } else {
         shadingFragment = FRAGMENT_SHADER_FLAT;
     }
-    renderObject(object);
-    resetDefault = 0;
+    // renderObject(object);
+    // resetDefault = 0;
+    MainRenderer.draw();
+    ComponentRenderer.draw();
 }
 
+// add on change check listener
+document.getElementById('shading').addEventListener('change', handleClickShading);
+
 const resetConfig = () => {
-    document.getElementById('perspectiveOption').value = 'perspective';
+    // document.getElementById('perspectiveOption').value = 'perspective';
     document.getElementById("translasiX").value = 0;
     document.getElementById("translasiY").value = 0;
     document.getElementById("translasiZ").value = 0;
@@ -207,8 +212,8 @@ const resetConfig = () => {
     document.getElementById("scaleZ").value = 1;
     document.getElementById("cameraRad").value = 0;
     document.getElementById("cameraAngle").value = 0;
-    document.getElementById('shading').checked = true;
-    document.getElementById("textureOption").value = "bump";
+    // document.getElementById('shading').checked = true;
+    // document.getElementById("textureOption").value = "bump";
 }
 
 const resetDefaultView = () => {
