@@ -151,7 +151,9 @@ const changeToLoadFile = (file) => {
             resetConfig();
         }
     }
-    resetDefaultView();
+    resetConfig();
+    MainRenderer.draw();
+    ComponentRenderer.draw();
 }
 
 const loadFile = () => {
@@ -308,6 +310,5 @@ const resetConfig = () => {
 
 const resetDefaultView = () => {
     resetConfig();
-    MainRenderer.draw();
-    ComponentRenderer.draw();
+    loadFile();
 }

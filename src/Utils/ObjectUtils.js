@@ -7,9 +7,9 @@ function createObject(gl, program, objModel){
     
     // Initialize parent obj
     objArticulated.obj = new MainObj(gl, program, objModel.obj);
-    objModel.rotation_obj[0] = toRadian(objModel.rotation_obj[0]);
-    objModel.rotation_obj[1] = toRadian(objModel.rotation_obj[1]);
-    objModel.rotation_obj[2] = toRadian(objModel.rotation_obj[2]);
+    objModel.rotation_obj[0] = (objModel.rotation_obj[0]);
+    objModel.rotation_obj[1] = (objModel.rotation_obj[1]);
+    objModel.rotation_obj[2] = (objModel.rotation_obj[2]);
     objArticulated.obj.translation = objModel.move_obj;
     objArticulated.obj.rotation = objModel.rotation_obj;
     objArticulated.obj.scale = objModel.scale_obj;
@@ -18,9 +18,9 @@ function createObject(gl, program, objModel){
     // Initialize value for the children
     objArticulated.name = objModel.name;
     objArticulated.translation = objModel.move_subtr;
-    objModel.rotation_subtr[0] = toRadian(objModel.rotation_subtr[0]);
-    objModel.rotation_subtr[1] = toRadian(objModel.rotation_subtr[1]);
-    objModel.rotation_subtr[2] = toRadian(objModel.rotation_subtr[2]);
+    objModel.rotation_subtr[0] = (objModel.rotation_subtr[0]);
+    objModel.rotation_subtr[1] = (objModel.rotation_subtr[1]);
+    objModel.rotation_subtr[2] = (objModel.rotation_subtr[2]);
     objArticulated.rotation = objModel.rotation_subtr;
     objArticulated.scale = objModel.scale_subtr;
 
