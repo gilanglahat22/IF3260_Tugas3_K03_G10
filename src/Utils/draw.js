@@ -1,7 +1,6 @@
 // Buat Draw Object
-
+var first_init = true;
 function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotation, scale) {
-// function drawObject(gl, _programInfo, buffers, vertexCount) {
     const shaderProgram = initShaders(gl, VERTEX_SHADER);
     const programInfo = {
         program: shaderProgram,
@@ -55,16 +54,16 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     let cameraAngleRadian = ((document.getElementById('cameraAngle').value  - 50.0) * Math.PI) / 25.0;
     let radius = -((document.getElementById('cameraRad').value - 50.0) / 25.0) + 5.5;
     let projectionType = document.getElementById('perspectiveOption').value;
-    let angleX = rotation[0]/ 100;
-    let angleY = rotation[1]/ 100;
-    let angleZ = rotation[2]/ 100;
-    let x = translation[0]/ 100;
-    let y = translation[1]/ 100;
-    let z = translation[2]/ 100;
-    let scalesX = scale[0];
-    let scalesY = scale[1];
-    let scalesZ = scale[2];
-
+    let angleX = (rotation[0] + additionAngleX)/ 100;
+    let angleY = (rotation[1] + additionAngleY)/ 100;
+    let angleZ = (rotation[2] + additionAngleZ)/ 100;
+    let x = (translation[0] + additionMoveX)/ 100;
+    let y = (translation[1] + additionMoveY)/ 100;
+    let z = (translation[2] + additionMoveZ)/ 100;
+    let scalesX = scale[0] + additionScaleX;
+    let scalesY = scale[1] + additionScaleY;
+    let scalesZ = scale[2] + additionScaleZ;
+    shutterSpeed = document.getElementById("time-between-frames").value;
     if (projectionType === "perspective") {
       projectionMatrix = Matrix.perspective(fieldOfView,aspect,zNear,zFar);
     }else if(projectionType === "oblique"){
@@ -85,7 +84,6 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     
     {
         var cameraPosition = [modelViewMatrix[3 * 3 + 0], modelViewMatrix[3 * 3 + 1], modelViewMatrix[3 * 3 + 2]];
-        // gl.uniform3fv(programInfo.uniformLocations.cameraPosLoc,  cameraPosition);
     }
   
     modelViewMatrix = Matrix.translate(modelViewMatrix,[x,y,z]);
@@ -157,10 +155,6 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     gl.uniform3fv(programInfo.uniformLocations.cameraPosLoc,  cameraPosition);
     let texture_mode =  document.getElementById("textureOption").value;
     gl.uniform1i(programInfo.uniformLocations.tex_modeLoc, texture_mode);
-    // gl.uniform1f(programInfo.uniformLocations.kaLoc,document.getElementById("ka").value);
-    // gl.uniform1f(programInfo.uniformLocations.kdLoc,document.getElementById("kd").value);
-    // gl.uniform1f(programInfo.uniformLocations.ksLoc,document.getElementById("ks").value);
-    // gl.uniform1f(programInfo.uniformLocations.shininessLoc,document.getElementById("shininess").value);
     const ka = 0.1;
     const kd = 0.8;
     const ks = 1;
@@ -186,11 +180,6 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     gl.uniformMatrix4fv(programInfo.uniformLocations.viewLocation,false,viewMatrix);
     gl.uniformMatrix4fv(programInfo.uniformLocations.worldLocation,false,viewMatrix);
     gl.uniform3fv(programInfo.uniformLocations.worldCameraPositionLocation,cameraPosition);
-
-    // var textureLocation = gl.getUniformLocation(shaderProgram, "u_texture");
-    // gl.uniform1i(textureLocation, 0);
-
-    // Init textures
     {
         if (typeof tex_norm == 'undefined') {
             tex_norm = load_texture(gl, "./img/bump_normal.png");
@@ -237,7 +226,6 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     {
       gl.activeTexture(gl.TEXTURE4);
       gl.bindTexture(gl.TEXTURE_2D, tex_cust);
-      // gl.uniform1i(programInfo.uniformLocations.tex_depthLoc, 2);
       var uni = gl.getUniformLocation(shaderProgram, "uSampler");
       gl.uniform1i(uni, 4);
   }

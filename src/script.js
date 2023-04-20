@@ -1,5 +1,17 @@
 var data = null;
 var dataAnimation = null;
+var additionMoveX = 0;
+var additionMoveY = 0;
+var additionMoveZ = 0;
+var additionAngleX = 0;
+var additionAngleY = 0;
+var additionAngleZ = 0;
+var additionScaleX = 0;
+var additionScaleY = 0;
+var additionScaleZ = 0;
+var isPlaying = false;
+var resetDefault = 1;
+
 const Maincanvas = document.getElementById(`canvas-main`);
 const Maingl = WebGLUtils.setupWebGL(Maincanvas, {
     preserveDrawingBuffer: true,
@@ -69,47 +81,12 @@ Componentgl.enable(Componentgl.DEPTH_TEST);
 Componentgl.frontFace(Componentgl.CCW);
 Componentgl.cullFace(Componentgl.BACK);
 
-// For tree canvas
-
-
-
-// const articulatedRender = new Render(gl, program);
-// const renderObj = new Render(gl, program);
-
-// var isInit = true;
-
-// const renderObjects = () => {
-//     // document.getElementById("ambient-color").value = document.getElementById("color-picker").value;
-//     // document.getElementById("diffuse-color").value = document.getElementById("color-picker").value;
-//     // var buffers;
-//     // if (isInit) {
-//     //     buffers = initBuffer(Maingl, object);
-//     //     isInit = false;
-//     // }
-//     // else {
-//     //     buffers = updateBuffer(Maingl, object);
-//     // }
-//     function render() {
-//         drawObject(Maingl, null, buffers, object.vertexCount);
-//         requestAnimationFrame(render);
-//     }
-//     requestAnimationFrame(render);
-//     // numRender++;
-// }
 
 Maingl.enable(Maingl.DEPTH_TEST);
 Maingl.depthFunc(Maingl.LEQUAL);
 Maingl.viewport(0.0, 0.0, Maingl.canvas.clientWidth, Maingl.canvas.clientHeight);
 Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
 
-
-// renderObject(test_obj)
-
-// for (let i = 0; i < test_obj.children.length; i++) {
-//     renderObject(test_obj.children[i]);
-// }
-// const obj = createObject(gl, program, x);
-// console.log(obj);
 var animation = new Animation();
 
 document.getElementById("play-button").disabled = false;
@@ -137,6 +114,7 @@ const firstFrame = () => {
     animation.indexCurFrame = 0;
     document.getElementById("cur-frame-id").innerHTML = "" + animation.indexCurFrame;
     MainRenderer.obj.setFrame(animation.frames[animation.indexCurFrame]);
+    
 }
 
 const prevFrame = () => {
@@ -168,6 +146,20 @@ const pauseAnimation = () =>{
     document.getElementById("play-button").disabled = false;
     document.getElementById("pause-button").disabled = true;
 }
+
+var shutterSpeed = 0.5;
+
+let globalTimer = 0;
+setInterval(function () {
+    globalTimer++;
+    if(isPlaying){
+        if(globalTimer % Math.round(shutterSpeed * 10) == 0){
+        animation.indexCurFrame = Math.min(animation.frames.length - 1, animation.indexCurFrame + 1);
+        document.querySelector("#cur-frame-id").innerHTML = "" + animation.indexCurFrame;
+        MainRenderer.obj.setFrame(animation.frames[animation.indexCurFrame]);
+        };
+    }
+}, 100);
 
 const changeToLoadFile = (file) => {
     resetDefault = 1;
@@ -226,7 +218,6 @@ skalaZ = document.getElementById("scaleZ");
 
 translasiX.addEventListener("input", () => {
     let newVal = parseInt(translasiX.value);
-    // ComponentRenderer.obj.translation[0] = newVal;
     let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).translation[0];
     MainRenderer.obj.getArticulatedObject(componentSelected).transformation[0][0] += diff;
     MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
