@@ -1,4 +1,6 @@
 // Buat Draw Object
+let first_init = true;
+
 function drawObject(gl, _programInfo, buffers, vertexCount) {
     const shaderProgram = initShaders(gl, VERTEX_SHADER);
     const programInfo = {
@@ -188,7 +190,7 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     const kd = 0.8;
     const ks = 1;
     const shininess = 10;
-    gl.uniform1i(programInfo.uniformLocations.textureModeLoc,textureMode);
+    
     gl.uniform1f(programInfo.uniformLocations.kaLoc,ka);
     gl.uniform1f(programInfo.uniformLocations.kdLoc,kd);
     gl.uniform1f(programInfo.uniformLocations.ksLoc,ks);
@@ -199,8 +201,14 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     gl.uniform3fv(programInfo.uniformLocations.specularColorLoc,[tempspecularColor[0],tempspecularColor[1],tempspecularColor[2]]);
 
     // environment mapping
-    var textureMode = 0;
-    texture_map(gl)
+    var textureMode = 1;
+    gl.uniform1i(programInfo.uniformLocations.textureModeLoc,textureMode);
+
+    if (first_init) {
+      texture_map(gl)
+      first_init = false;
+    }
+
     projectionMatrix = Matrix.perspective(fieldOfView, aspect, zNear, zFar);
     gl.uniformMatrix4fv(programInfo.uniformLocations.projectionLocation,false,projectionMatrix);
     var cameraPosition = [0,0,2];
@@ -213,7 +221,9 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     gl.uniformMatrix4fv(programInfo.uniformLocations.worldLocation,false,viewMatrix);
     gl.uniform3fv(programInfo.uniformLocations.worldCameraPositionLocation,cameraPosition);
 
-    
+    var textureLocation = gl.getUniformLocation(shaderProgram, "u_texture");
+    gl.uniform1i(textureLocation, 0);
+
     {
       const type = gl.UNSIGNED_SHORT;
       const offset = 0;

@@ -1,11 +1,11 @@
-const FRAGMENT_SHADER_LIGHT = `
-precision mediump float;
+// const FRAGMENT_SHADER_LIGHT = `
+// precision mediump float;
 
-varying vec4 shadingColor;
-void main() {
-  gl_FragColor = shadingColor;
-}
-`;
+// varying vec4 shadingColor;
+// void main() {
+//   gl_FragColor = shadingColor;
+// }
+// `;
 
 const FRAGMENT_SHADER_FLAT = `
 precision mediump float;
@@ -16,7 +16,7 @@ void main(void) {
 }
 `;
 
-const FRAGMENT_SHADER_ENVIRONMENT = `
+const FRAGMENT_SHADER_LIGHT = `
 precision mediump float;
 
 // Passed in from the vertex shader.
