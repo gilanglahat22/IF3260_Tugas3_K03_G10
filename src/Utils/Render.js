@@ -62,7 +62,7 @@ class Render {
 
         this.gl.enable(this.gl.DEPTH_TEST);
 
-        if (!this.object) {
+        if (!this.obj) {
             return;
         }
 
@@ -77,7 +77,7 @@ class Render {
         var up = [0, 1, 0];
 
         const viewMatrix = Matrix.inverseMatrix(Matrix.lookAt(cameraPosition, target, up));
-        this.object.draw(projectionMatrix, viewMatrix, Matrix.createIdentityMatrix(), cameraPosition, this.shadingMode);
+        this.obj.draw(projectionMatrix, viewMatrix, Matrix.createIdentityMatrix(), cameraPosition, this.shadingMode);
         requestAnimationFrame(this.drawFrame.bind(this));
     }
 

@@ -1,4 +1,5 @@
 var data = null;
+var dataAnimation = null;
 const Maincanvas = document.getElementById(`canvas-main`);
 const Maingl = WebGLUtils.setupWebGL(Maincanvas, {
     preserveDrawingBuffer: true,
@@ -109,9 +110,52 @@ Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
 // }
 // const obj = createObject(gl, program, x);
 // console.log(obj);
+var animation = new Animation();
 
 document.getElementById("play-button").disabled = false;
 document.getElementById("pause-button").disabled = true;
+
+const changeAnimationToLoadFIle = (file) => {
+    dataAnimation = JSON.parse(file);
+    animation = setAnimation(dataAnimation);
+}
+
+const loadAnimation = () => {
+    let selectedFile = document.getElementById("input-animation").files;
+    if (selectedFile.length == 0) return;
+    const file = selectedFile[0];
+
+    let reader = new FileReader();
+
+    reader.onload = (e) => changeAnimationToLoadFIle(e.target.result);
+    reader.onerror = (e) => alert(e.target.error.name);
+
+    reader.readAsText(file);
+}
+
+const firstFrame = () => {
+    animation.indexCurFrame = 0;
+    document.getElementById("cur-frame-id").innerHTML = "" + animation.indexCurFrame;
+    MainRenderer.obj.setFrame(animation.frames[animation.indexCurFrame]);
+}
+
+const prevFrame = () => {
+    if(animation.indexCurFrame - 1 >= 0) animation.indexCurFrame--;
+    document.getElementById("cur-frame-id").innerHTML = "" + animation.indexCurFrame;
+    MainRenderer.obj.setFrame(animation.frames[animation.indexCurFrame]);
+}
+
+const nextFrame = () => {
+    if(animation.indexCurFrame + 1 <= animation.frames.length-1) animation.indexCurFrame++;
+    document.getElementById("cur-frame-id").innerHTML = "" + animation.indexCurFrame;
+    MainRenderer.obj.setFrame(animation.frames[animation.indexCurFrame]);
+}
+
+const lastFrame = () => {
+    animation.indexCurFrame = animation.frames.length-1;
+    document.getElementById("cur-frame-id").innerHTML = "" + animation.indexCurFrame;
+    MainRenderer.obj.setFrame(animation.frames[animation.indexCurFrame]);
+}
 
 const playAnimation = () =>{
     isPlaying = true;

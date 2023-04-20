@@ -14,23 +14,6 @@ class RecursionObj {
         this.child.push(newObj);
     }
 
-    draw(projectMat, viewMat, modelMat, cameraPosition, shading) {
-        var tempModelMat = modelMat;
-        tempModelMat = Matrix.translate(tempModelMat, this.translation);
-        tempModelMat = Matrix.rotate(tempModelMat, this.rotation[0], [1, 0, 0]);
-        tempModelMat = Matrix.rotate(tempModelMat, this.rotation[1], [0, 1, 0]);
-        tempModelMat = Matrix.rotate(tempModelMat, this.rotation[2], [0, 0, 1]);
-        tempModelMat = Matrix.scale(tempModelMat, this.scale);
-        // Draw object
-        this.obj.draw(projectMat, view, newModel, cameraPosition, shading);
-        // Do recursion for draw the child
-        this.DFSDraw(projectMat, viewMat, tempModelMat, cameraPosition, shading);
-    }
-
-    DFSDraw(projectMat, viewMat, modelMat, cameraPosition, shading) {
-        for (let i = 0; i < this.child.length; i++) this.child[i].draw(projectMat, viewMat, modelMat, cameraPosition, shading);
-    }
-
     getUI(depth, dfsId) {
         let toReturn = "<div class='horizontal-box justify-start'>";
         for (let i = 0; i < depth; i++) {
@@ -68,6 +51,33 @@ class RecursionObj {
             for (let i = 0; i < this.child.length; i++) {
                 this.child[i].draw();
             }
+        }
+    }
+
+    setFrame(inputFrame, index=0){
+        document.getElementById("translasiX").value = inputFrame.transformations[index].move_obj[0];
+        document.getElementById("translasiY").value = inputFrame.transformations[index].move_obj[1];
+        document.getElementById("translasiZ").value = inputFrame.transformations[index].move_obj[2];
+        document.getElementById("angleX").value = toRadian(inputFrame.transformations[index].rotation_obj[0]);
+        document.getElementById("angleY").value = toRadian(inputFrame.transformations[index].rotation_obj[1]);
+        document.getElementById("angleZ").value = toRadian(inputFrame.transformations[index].rotation_obj[2]);
+        document.getElementById("scaleX").value = inputFrame.transformations[index].scale_obj[0];
+        document.getElementById("scaleY").value = inputFrame.transformations[index].scale_obj[1];
+        document.getElementById("scaleZ").value = inputFrame.transformations[index].scale_obj[2];
+
+    }
+
+    getFrame(loadFrame){
+        let transformation = new Transformation();
+        transformation.move_obj = this.obj.translation;
+        transformation.rotation_obj = toRadian(this.obj.rotation);
+        transformation.scale_obj = this.obj.scale;
+        transformation.move_subtr = this.translation;
+        transformation.rotation_subtr = toRadian(this.rotation);
+        transformation.scale_subtr = this.scale;
+        loadFrame.transformations.push(transformation);
+        for(let i = 0; i<this.child.length; i++){
+            this.child[i].getFrame(loadFrame);
         }
     }
 }
