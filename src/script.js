@@ -151,7 +151,10 @@ const changeToLoadFile = (file) => {
             resetConfig();
         }
     }
-    resetDefaultView();
+    resetConfig();
+    MainRenderer.draw();
+    ComponentRenderer.draw();
+    document.getElementById("textureOption").value = getTextureCode(data.texture);
 }
 
 const loadFile = () => {
@@ -221,31 +224,48 @@ rotasiZ.addEventListener("input", () => {
 });
 
 skalaX.addEventListener("input", () => {
-    let newVal = parseInt(skalaX.value);
+    let newVal = parseFloat(skalaX.value);
     let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[0];
     MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][0] += diff;
     MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
 });
 
 skalaY.addEventListener("input", () => {
-    let newVal = parseInt(skalaY.value);
+    let newVal = parseFloat(skalaY.value);
     let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[1];
     MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][1] += diff;
     MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
 });
 
 skalaZ.addEventListener("input", () => {
-    let newVal = parseInt(skalaZ.value);
+    let newVal = parseFloat(skalaZ.value);
     let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[2];
     MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][2] += diff;
     MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
 });
 
+const getTextureCode = (name) => {
+    if (name == "BUMP") return 1;
+    if (name == "ENVIRONMENT") return 2;
+    if (name == "CUSTOM") return 3;
+    if (name == "NONE") return 0;
+}
+
+const getTextureName = (code) => {
+    if (code == 1) return "BUMP";
+    if (code == 2) return "ENVIRONMENT";
+    if (code == 3) return "CUSTOM";
+    if (code == 0) return "NONE";
+}
+
 const toSaveFormat = (obj) => {
+
+    let code = document.getElementById("textureOption").value;
+    let texture = getTextureName(code);
 
     let toSave = {
         "name": obj.name,
-        "texture": obj.obj.textureMode,
+        "texture": texture,
         "move_obj": obj.obj.translation,
         "rotation_obj": obj.obj.rotation,
         "scale_obj": obj.obj.scale,
@@ -308,6 +328,5 @@ const resetConfig = () => {
 
 const resetDefaultView = () => {
     resetConfig();
-    MainRenderer.draw();
-    ComponentRenderer.draw();
+    loadFile();
 }
