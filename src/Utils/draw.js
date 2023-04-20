@@ -1,7 +1,8 @@
 // Buat Draw Object
 let first_init = true;
 
-function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotation, scale) {
+// function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotation, scale) {
+function drawObject(gl, _programInfo, buffers, vertexCount) {
     const shaderProgram = initShaders(gl, VERTEX_SHADER);
     const programInfo = {
         program: shaderProgram,
@@ -30,6 +31,10 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
             tex_depthLoc: gl.getUniformLocation(shaderProgram, "tex_depth"),
             cameraPosLoc: gl.getUniformLocation(shaderProgram, 'camera_pos'),
             tex_modeLoc: gl.getUniformLocation(shaderProgram, 'tex_mode'),
+            projectionLocation: gl.getUniformLocation(shaderProgram, "u_projection"),
+            viewLocation: gl.getUniformLocation(shaderProgram, "u_view"),
+            worldLocation: gl.getUniformLocation(shaderProgram, "u_world"),
+            worldCameraPositionLocation: gl.getUniformLocation(shaderProgram, "u_worldCameraPosition"),
         }
     };
 
@@ -60,24 +65,24 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     let cameraAngleRadian = ((document.getElementById('cameraAngle').value  - 50.0) * Math.PI) / 25.0;
     let radius = -((document.getElementById('cameraRad').value - 50.0) / 25.0) + 5.5;
     let projectionType = document.getElementById('perspectiveOption').value;
-    // let angleX = document.getElementById("angleX").value / 100;
-    // let angleY = document.getElementById("angleY").value / 100;
-    // let angleZ = document.getElementById("angleZ").value / 100;
-    // let x = document.getElementById("translasiX").value / 100;
-    // let y = document.getElementById("translasiY").value / 100;
-    // let z = document.getElementById("translasiZ").value / 100;
-    // let scalesX = document.getElementById("scaleX").value;
-    // let scalesY = document.getElementById("scaleY").value;
-    // let scalesZ = document.getElementById("scaleZ").value;
-    let angleX = rotation[0]/ 100;
-    let angleY = rotation[1]/ 100;
-    let angleZ = rotation[2]/ 100;
-    let x = translation[0]/ 100;
-    let y = translation[1]/ 100;
-    let z = translation[2]/ 100;
-    let scalesX = scale[0];
-    let scalesY = scale[1];
-    let scalesZ = scale[2];
+    let angleX = document.getElementById("angleX").value / 100;
+    let angleY = document.getElementById("angleY").value / 100;
+    let angleZ = document.getElementById("angleZ").value / 100;
+    let x = document.getElementById("translasiX").value / 100;
+    let y = document.getElementById("translasiY").value / 100;
+    let z = document.getElementById("translasiZ").value / 100;
+    let scalesX = document.getElementById("scaleX").value;
+    let scalesY = document.getElementById("scaleY").value;
+    let scalesZ = document.getElementById("scaleZ").value;
+    // let angleX = rotation[0]/ 100;
+    // let angleY = rotation[1]/ 100;
+    // let angleZ = rotation[2]/ 100;
+    // let x = translation[0]/ 100;
+    // let y = translation[1]/ 100;
+    // let z = translation[2]/ 100;
+    // let scalesX = scale[0];
+    // let scalesY = scale[1];
+    // let scalesZ = scale[2];
 
     if (projectionType === "perspective") {
       projectionMatrix = Matrix.perspective(fieldOfView,aspect,zNear,zFar);
@@ -208,7 +213,22 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     gl.uniform3fv(programInfo.uniformLocations.ambientColorLoc,[tempambientColor[0],tempambientColor[1],tempambientColor[2]]);
     gl.uniform3fv(programInfo.uniformLocations.diffuseColorLoc,[tempdiffuseColor[0],tempdiffuseColor[1],tempdiffuseColor[2]]);
     gl.uniform3fv(programInfo.uniformLocations.specularColorLoc,[tempspecularColor[0],tempspecularColor[1],tempspecularColor[2]]);
-    
+
+    projectionMatrix = Matrix.perspective(fieldOfView, aspect, zNear, zFar);
+    gl.uniformMatrix4fv(programInfo.uniformLocations.projectionLocation,false,projectionMatrix);
+    var cameraPosition = [0,0,2];
+    var cameraTarget = [0,0,0];
+    var up = [0,1,0];
+    var cameraMatrix = Matrix.lookAt(cameraPosition,cameraTarget,up);
+    var viewMatrix = Matrix.inverseMatrix(cameraMatrix);
+
+    gl.uniformMatrix4fv(programInfo.uniformLocations.viewLocation,false,viewMatrix);
+    gl.uniformMatrix4fv(programInfo.uniformLocations.worldLocation,false,viewMatrix);
+    gl.uniform3fv(programInfo.uniformLocations.worldCameraPositionLocation,cameraPosition);
+
+    // var textureLocation = gl.getUniformLocation(shaderProgram, "u_texture");
+    // gl.uniform1i(textureLocation, 0);
+
     // Init textures
     {
         if (typeof tex_norm == 'undefined') {
@@ -240,6 +260,17 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
         var uni = gl.getUniformLocation(shaderProgram, "tex_depth");
         gl.uniform1i(uni, 2);
     }
+
+    if (first_init) {
+      tex_env = texture_map(gl)
+      first_init = false;
+    }
+
+    gl.activeTexture(gl.TEXTURE3);
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, tex_env);
+
+    var textureLocation = gl.getUniformLocation(shaderProgram, "u_texture");
+    gl.uniform1i(textureLocation, 3);
 
     {
         gl.bindBuffer(gl.ARRAY_BUFFER, buffers.tangents);

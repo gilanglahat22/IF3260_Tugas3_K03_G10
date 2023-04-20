@@ -13,15 +13,26 @@ precision highp float;
 uniform sampler2D tex_norm;
 uniform sampler2D tex_diffuse;
 uniform sampler2D tex_depth;
+uniform samplerCube u_texture;
 
 varying vec2 frag_uv;
 varying vec3 ts_light_pos;
 varying vec3 ts_view_pos;
 varying vec3 ts_frag_pos;
 
-uniform int tex_mode; // 0: no texture, 1: bump
+uniform highp int tex_mode; // 0: no texture, 1: bump, 2: env
 
 varying vec4 shadingColor;
+
+// Passed in from the vertex shader.
+varying vec3 v_worldPosition;
+varying vec3 v_worldNormal;
+
+// The texture.
+// uniform samplerCube u_texture;
+
+// The position of the camera
+uniform vec3 u_worldCameraPosition;
 
 vec2 parallax_uv(vec2 uv, vec3 view_dir)
 {
@@ -70,6 +81,12 @@ void main(void)
       vec3 norm = normalize(texture2D(tex_norm, uv).rgb * 2.0 - 1.0);
       float diffuse = max(dot(light_dir, norm), 0.0);
       gl_FragColor = vec4(diffuse * albedo + ambient, 1.0);
+    } else if (tex_mode == 2) {
+      vec3 worldNormal = normalize(v_worldNormal);
+      vec3 eyeToSurfaceDir = normalize(v_worldPosition - u_worldCameraPosition);
+      vec3 direction = reflect(eyeToSurfaceDir,worldNormal);
+
+      gl_FragColor = textureCube(u_texture, direction);
     }
 }
 `
