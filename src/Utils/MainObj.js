@@ -69,7 +69,7 @@ class MainObj{
     // drawObj(projectMat, viewMat, modelMat, cameraPosition, shading){
     drawObj() {
         // console.log("drawObj");
-        drawObject(this.gl, null, this.buffer, this.model.vertexCount);
+        drawObject(this.gl, this.program, this.buffer, this.model.vertexCount);
         // this.gl.useProgram(this.program);
         // this.bind();
         // var gl = this.gl;

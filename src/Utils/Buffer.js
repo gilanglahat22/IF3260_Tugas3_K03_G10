@@ -26,10 +26,28 @@ function initBuffer(gl, data){
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 
+    let vertexPositions = []
+    for (let i = 0; i < indices.length; i++) {
+        vertexPositions = vertexPositions.concat(vertices[indices[i]])
+    }
+    let [vertexNormals, vertexTangents, vertexBitangents] = Vector.getVectorComponents(vertexPositions)
+
+    // buffer
+
+    let vbo_tang = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbo_tang);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexTangents), gl.STATIC_DRAW);
+
+    let vbo_bitang = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbo_bitang);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexBitangents), gl.STATIC_DRAW);
+
     return {
         vertices: verticesBuffer,
         indices: indexBuffer,
         colors: colorBuffer,
+        tangents: vbo_tang,
+        bitangents: vbo_bitang,
     };
 }
 

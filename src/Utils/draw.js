@@ -9,6 +9,9 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
             vertexPosition:  gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
             vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
             normalLoc: gl.getAttribLocation(shaderProgram, 'normal'),
+            tangentLoc: gl.getAttribLocation(shaderProgram, 'vert_tang'),
+            bitangentLoc: gl.getAttribLocation(shaderProgram, 'vert_bitang'),
+            uvLoc: gl.getAttribLocation(shaderProgram, 'vert_uv'),
         },
         uniformLocations: {
             projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
@@ -22,11 +25,11 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
             kaLoc: gl.getUniformLocation(shaderProgram, "coefKa"),
             kdLoc: gl.getUniformLocation(shaderProgram, "coefKd"),
             ksLoc: gl.getUniformLocation(shaderProgram, "coefKs"),
-            textureModeLoc: gl.getUniformLocation(shaderProgram, "textureMode"),
-            projectionLocation: gl.getUniformLocation(shaderProgram, "u_projection"),
-            viewLocation: gl.getUniformLocation(shaderProgram, "u_view"),
-            worldLocation: gl.getUniformLocation(shaderProgram, "u_world"),
-            worldCameraPositionLocation: gl.getUniformLocation(shaderProgram, "u_worldCameraPosition"),
+            tex_normLoc: gl.getUniformLocation(shaderProgram, "tex_norm"),
+            tex_diffuseLoc: gl.getUniformLocation(shaderProgram, "tex_diffuse"),
+            tex_depthLoc: gl.getUniformLocation(shaderProgram, "tex_depth"),
+            cameraPosLoc: gl.getUniformLocation(shaderProgram, 'camera_pos'),
+            tex_modeLoc: gl.getUniformLocation(shaderProgram, 'tex_mode'),
         }
     };
 
@@ -54,30 +57,18 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     const zFar = 1000.0;
     var projectionMatrix = Matrix.createIdentityMatrix();
     var modelViewMatrix = Matrix.createIdentityMatrix();
-    // const cameraAngleRadian = ((document.getElementById('cam-rotation').value  - 50.0) * Math.PI) / 25.0;
-    const cameraAngleRadian = 0;
-    // const projectionType = document.getElementById('perspectiveOption').value;
-    const projectionType = "perspective";
-    // let radius = -((document.getElementById('cam-radius').value - 50.0) / 25.0) + 5.5;
-    let radius = 5.5;
-    // const angleX = document.getElementById("rotasiX").value / 100;
-    // const angleY = document.getElementById("rotasiY").value / 100;
-    // const angleZ = document.getElementById("rotasiZ").value / 100;
-    // const x = document.getElementById("translasiX").value / 100;
-    // const y = document.getElementById("translasiY").value / 100;
-    // const z = document.getElementById("translasiZ").value / 100;
-    // var scalesX = document.getElementById("scalingX").value;
-    // var scalesY = document.getElementById("scalingY").value;
-    // var scalesZ = document.getElementById("scalingZ").value;
-    const angleX = 0;
-    const angleY = 10;
-    const angleZ = 10;
-    const x = 0;
-    const y = 0;
-    const z = 0;
-    var scalesX = 1;
-    var scalesY = 1;
-    var scalesZ = 1;
+    let cameraAngleRadian = ((document.getElementById('cameraAngle').value  - 50.0) * Math.PI) / 25.0;
+    let radius = -((document.getElementById('cameraRad').value - 50.0) / 25.0) + 5.5;
+    let projectionType = document.getElementById('perspectiveOption').value;
+    let angleX = document.getElementById("angleX").value / 100;
+    let angleY = document.getElementById("angleY").value / 100;
+    let angleZ = document.getElementById("angleZ").value / 100;
+    let x = document.getElementById("translasiX").value / 100;
+    let y = document.getElementById("translasiY").value / 100;
+    let z = document.getElementById("translasiZ").value / 100;
+    let scalesX = document.getElementById("scaleX").value;
+    let scalesY = document.getElementById("scaleY").value;
+    let scalesZ = document.getElementById("scaleZ").value;
     if (projectionType === "perspective") {
       projectionMatrix = Matrix.perspective(fieldOfView,aspect,zNear,zFar);
     }else if(projectionType === "oblique"){
@@ -94,8 +85,13 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     }
   
     modelViewMatrix = Matrix.translate(modelViewMatrix,[0.0, 0.0, -radius]);  
-    modelViewMatrix = Matrix.rotate(modelViewMatrix,cameraAngleRadian,[0, 1, 0]);           
+    modelViewMatrix = Matrix.rotate(modelViewMatrix,cameraAngleRadian,[0, 1, 0]);       
     
+    {
+        var cameraPosition = [modelViewMatrix[3 * 3 + 0], modelViewMatrix[3 * 3 + 1], modelViewMatrix[3 * 3 + 2]];
+        // gl.uniform3fv(programInfo.uniformLocations.cameraPosLoc,  cameraPosition);
+    }
+
     // if(resetDefault==0){
     //   if(state.animation && state.timeout && angleAnimation<180){
     //     modelViewMatrix = Matrix.rotate(modelViewMatrix,angleAnimation/100,[1,0,0]);
@@ -182,6 +178,9 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     gl.uniformMatrix4fv(programInfo.uniformLocations.projectionMatrix,false,projectionMatrix);
     gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix,false,modelViewMatrix);
     gl.uniformMatrix4fv(programInfo.uniformLocations.normalMatrixLoc,false,normalMatrix);
+    gl.uniform3fv(programInfo.uniformLocations.cameraPosLoc,  cameraPosition);
+    let texture_mode =  document.getElementById("textureOption").value;
+    gl.uniform1i(programInfo.uniformLocations.tex_modeLoc, texture_mode);
     // gl.uniform1f(programInfo.uniformLocations.kaLoc,document.getElementById("ka").value);
     // gl.uniform1f(programInfo.uniformLocations.kdLoc,document.getElementById("kd").value);
     // gl.uniform1f(programInfo.uniformLocations.ksLoc,document.getElementById("ks").value);
@@ -199,30 +198,63 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
     gl.uniform3fv(programInfo.uniformLocations.ambientColorLoc,[tempambientColor[0],tempambientColor[1],tempambientColor[2]]);
     gl.uniform3fv(programInfo.uniformLocations.diffuseColorLoc,[tempdiffuseColor[0],tempdiffuseColor[1],tempdiffuseColor[2]]);
     gl.uniform3fv(programInfo.uniformLocations.specularColorLoc,[tempspecularColor[0],tempspecularColor[1],tempspecularColor[2]]);
-
-    // environment mapping
-    var textureMode = 1;
-    gl.uniform1i(programInfo.uniformLocations.textureModeLoc,textureMode);
-
-    if (first_init) {
-      texture_map(gl)
-      first_init = false;
+    
+    // Init textures
+    {
+        if (typeof tex_norm == 'undefined') {
+            tex_norm = load_texture(gl, "./img/bump_normal.png");
+            tex_diffuse = load_texture(gl, "./img/bump_diffuse.png");
+            tex_depth = load_texture(gl, "./img/bump_depth.png");
+        }
     }
 
-    projectionMatrix = Matrix.perspective(fieldOfView, aspect, zNear, zFar);
-    gl.uniformMatrix4fv(programInfo.uniformLocations.projectionLocation,false,projectionMatrix);
-    var cameraPosition = [0,0,2];
-    var cameraTarget = [0,0,0];
-    var up = [0,1,0];
-    var cameraMatrix = Matrix.lookAt(cameraPosition,cameraTarget,up);
-    var viewMatrix = Matrix.inverseMatrix(cameraMatrix);
+    {
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, tex_norm);
+        var uni = gl.getUniformLocation(shaderProgram, "tex_norm");
+        gl.uniform1i(uni, 0);
+    }
 
-    gl.uniformMatrix4fv(programInfo.uniformLocations.viewLocation,false,viewMatrix);
-    gl.uniformMatrix4fv(programInfo.uniformLocations.worldLocation,false,viewMatrix);
-    gl.uniform3fv(programInfo.uniformLocations.worldCameraPositionLocation,cameraPosition);
+    {
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, tex_diffuse);
+        // gl.uniform1i(programInfo.uniformLocations.tex_diffuseLoc, 1);
+        var uni = gl.getUniformLocation(shaderProgram, "tex_diffuse");
+        gl.uniform1i(uni, 1);
+    }
 
-    var textureLocation = gl.getUniformLocation(shaderProgram, "u_texture");
-    gl.uniform1i(textureLocation, 0);
+    {
+        gl.activeTexture(gl.TEXTURE2);
+        gl.bindTexture(gl.TEXTURE_2D, tex_depth);
+        // gl.uniform1i(programInfo.uniformLocations.tex_depthLoc, 2);
+        var uni = gl.getUniformLocation(shaderProgram, "tex_depth");
+        gl.uniform1i(uni, 2);
+    }
+
+    {
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.tangents);
+        gl.vertexAttribPointer(programInfo.attribLocations.tangentLoc, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(programInfo.attribLocations.tangentLoc);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.bitangents);
+        gl.vertexAttribPointer(programInfo.attribLocations.bitangentLoc, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(programInfo.attribLocations.bitangentLoc);
+    }
+
+    let vbo_uv = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbo_uv);
+    var uvs = [
+        0, 1, 1, 0, 0, 0, 1, 1, // Front
+        1, 1, 0, 0, 1, 0, 0, 1, // Back
+        1, 1, 0, 0, 0, 1, 1, 0, // Right
+        0, 1, 1, 0, 1, 1, 0, 0, // Left
+        0, 0, 1, 1, 0, 1, 1, 0, // Top
+        0, 1, 1, 0, 0, 0, 1, 1, // Bottom
+    ];
+    
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
+    gl.vertexAttribPointer(programInfo.attribLocations.uvLoc, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(programInfo.attribLocations.uvLoc);
 
     {
       const type = gl.UNSIGNED_SHORT;
@@ -230,3 +262,21 @@ function drawObject(gl, _programInfo, buffers, vertexCount) {
       gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
     }
   }
+
+  function load_texture(gl, img_path) {
+    var tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+        new Uint8Array([255, 0, 0, 255])); // red
+
+    var img = new Image();
+    img.onload = function () {
+        console.log("binded")
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    }
+    img.src = img_path;
+    return tex;
+}
