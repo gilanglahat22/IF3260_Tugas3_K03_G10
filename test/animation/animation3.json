@@ -1,0 +1,13 @@
+{
+    "frames":[
+        {"transformations":[{"move_obj":[30,0,0],"rotation_obj":[8,1,6],"scale_obj":[1,1,1],"move_subtr":[0,0,0],"rotation_subtr":[3,3,2],"scale_subtr":[1,1,1]}]},
+        {"transformations":[{"move_obj":[10,0,11],"rotation_obj":[9,2,5],"scale_obj":[1,1,1],"move_subtr":[0,0,0],"rotation_subtr":[3,5,1],"scale_subtr":[1,1,1]}]},
+        {"transformations":[{"move_obj":[10,5,21],"rotation_obj":[10,5,6],"scale_obj":[1,1,1],"move_subtr":[0,0,0],"rotation_subtr":[2,1,1],"scale_subtr":[1,1,1]}]},
+        {"transformations":[{"move_obj":[3,10,6],"rotation_obj":[11,4,7],"scale_obj":[1,1,1],"move_subtr":[0,0,0],"rotation_subtr":[2,3,2],"scale_subtr":[1,1,1]}]},
+        {"transformations":[{"move_obj":[15,20,11],"rotation_obj":[12,9,0],"scale_obj":[1,1,1],"move_subtr":[0,0,0],"rotation_subtr":[3,2,0],"scale_subtr":[1,1,1]}]},
+        {"transformations":[{"move_obj":[13,10,9],"rotation_obj":[13,8,0],"scale_obj":[1,1,1],"move_subtr":[0,0,0],"rotation_subtr":[4,2,5],"scale_subtr":[1,1,1]}]},
+        {"transformations":[{"move_obj":[8,20,15],"rotation_obj":[14,6,0],"scale_obj":[1,1,1],"move_subtr":[0,0,0],"rotation_subtr":[4,1,2],"scale_subtr":[1,1,1]}]},
+        {"transformations":[{"move_obj":[7,5,12],"rotation_obj":[8,6,0],"scale_obj":[1,1,1],"move_subtr":[0,0,0],"rotation_subtr":[3,5,2],"scale_subtr":[1,1,1]}]},
+        {"transformations":[{"move_obj":[9,8,5],"rotation_obj":[9,5,0],"scale_obj":[1,1,1],"move_subtr":[0,0,0],"rotation_subtr":[1,2,4],"scale_subtr":[1,1,1]}]}
+    ]
+}
