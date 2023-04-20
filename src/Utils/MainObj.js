@@ -68,20 +68,20 @@ class MainObj{
 
     // drawObj(projectMat, viewMat, modelMat, cameraPosition, shading){
 
-    // drawObj(translation, rotation, scale, transformation) {
-    drawObj() {
+    drawObj(translation, rotation, scale, transformation) {
+    // drawObj() {
         // console.log("drawObj");
-        // translation[0] += transformation[0][0];
-        // translation[1] += transformation[0][1];
-        // translation[2] += transformation[0][2];
-        // rotation[0] += transformation[1][0];
-        // rotation[1] += transformation[1][1];
-        // rotation[2] += transformation[1][2];
-        // scale[0] += transformation[2][0];
-        // scale[1] += transformation[2][1];
-        // scale[2] += transformation[2][2];
+        translation[0] += transformation[0][0];
+        translation[1] += transformation[0][1];
+        translation[2] += transformation[0][2];
+        rotation[0] += transformation[1][0];
+        rotation[1] += transformation[1][1];
+        rotation[2] += transformation[1][2];
+        scale[0] += transformation[2][0];
+        scale[1] += transformation[2][1];
+        scale[2] += transformation[2][2];
         
-        drawObject(this.gl, this.program, this.buffer, this.model.vertexCount);
+        drawObject(this.gl, this.program, this.buffer, this.model.vertexCount, translation, rotation, scale);
         // this.gl.useProgram(this.program);
         // this.bind();
         // var gl = this.gl;
