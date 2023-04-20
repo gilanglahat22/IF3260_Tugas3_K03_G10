@@ -49,41 +49,38 @@ class RecursionObj {
     }
 
     setFrame(inputFrame, index=0){
-        document.getElementById("translasiX").value = inputFrame.transformations[index].move_obj[0];
-        document.getElementById("translasiY").value = inputFrame.transformations[index].move_obj[1];
-        document.getElementById("translasiZ").value = inputFrame.transformations[index].move_obj[2];
-        document.getElementById("angleX").value = toRadian(inputFrame.transformations[index].rotation_obj[0]);
-        document.getElementById("angleY").value = toRadian(inputFrame.transformations[index].rotation_obj[1]);
-        document.getElementById("angleZ").value = toRadian(inputFrame.transformations[index].rotation_obj[2]);
-        document.getElementById("scaleX").value = inputFrame.transformations[index].scale_obj[0];
-        document.getElementById("scaleY").value = inputFrame.transformations[index].scale_obj[1];
-        document.getElementById("scaleZ").value = inputFrame.transformations[index].scale_obj[2];
-
+        additionMoveX = inputFrame.transformations[index].move_obj[0];
+        additionMoveY  = inputFrame.transformations[index].move_obj[1];
+        additionMoveZ = inputFrame.transformations[index].move_obj[2];
+        additionAngleX = toRadian(inputFrame.transformations[index].rotation_obj[0]);
+        additionAngleY = toRadian(inputFrame.transformations[index].rotation_obj[1]);
+        additionAngleZ = toRadian(inputFrame.transformations[index].rotation_obj[2]);
+        additionScaleX = inputFrame.transformations[index].scale_obj[0];
+        additionScaleY = inputFrame.transformations[index].scale_obj[1];
+        additionScaleZ = inputFrame.transformations[index].scale_obj[2];
     }
 
-    getFrame(loadFrame){
-        let transformation = new Transformation();
-        transformation.move_obj = this.obj.translation;
-        transformation.rotation_obj = toRadian(this.obj.rotation);
-        transformation.scale_obj = this.obj.scale;
-        transformation.move_subtr = this.translation;
-        transformation.rotation_subtr = toRadian(this.rotation);
-        transformation.scale_subtr = this.scale;
-        loadFrame.transformations.push(transformation);
-        for(let i = 0; i<this.child.length; i++){
-            this.child[i].getFrame(loadFrame);
-        }
-    }
+    // getFrame(loadFrame){
+    //     let transformation = new Transformation();
+    //     transformation.move_obj = this.obj.translation;
+    //     transformation.rotation_obj = toRadian(this.obj.rotation);
+    //     transformation.scale_obj = this.obj.scale;
+    //     transformation.move_subtr = this.translation;
+    //     transformation.rotation_subtr = toRadian(this.rotation);
+    //     transformation.scale_subtr = this.scale;
+    //     loadFrame.transformations.push(transformation);
+    //     for(let i = 0; i<this.child.length; i++){
+    //         this.child[i].getFrame(loadFrame);
+    //     }
+    // }
 
     getArticulatedObject(dfsId) {
         if (dfsId == 0) {
             return this;
         } dfsId--;
         for (let i = 0; i < this.child.length; i++) {
-            //console.log("sebelum", dfsId);
             let returned = this.child[i].getArticulatedObject(dfsId);
             dfsId -= getNumObj(this.child[i]);
-            //console.log("sesudah", dfsId);
             if (returned != null) {
                 return returned;
             }
