@@ -1,7 +1,7 @@
 // Buat Draw Object
 let first_init = true;
 
-function drawObject(gl, _programInfo, buffers, vertexCount, inputTranslation, inputRotation, inputScale) {
+function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotation, scale) {
     const shaderProgram = initShaders(gl, VERTEX_SHADER);
     const programInfo = {
         program: shaderProgram,
@@ -60,15 +60,25 @@ function drawObject(gl, _programInfo, buffers, vertexCount, inputTranslation, in
     let cameraAngleRadian = ((document.getElementById('cameraAngle').value  - 50.0) * Math.PI) / 25.0;
     let radius = -((document.getElementById('cameraRad').value - 50.0) / 25.0) + 5.5;
     let projectionType = document.getElementById('perspectiveOption').value;
-    let angleX = inputRotation[0];
-    let angleY = inputRotation[1];
-    let angleZ = inputRotation[2];
-    let x = inputTranslation[0];
-    let y = inputTranslation[1];
-    let z = inputTranslation[2];
-    let scalesX = inputScale[0];
-    let scalesY = inputScale[1];
-    let scalesZ = inputScale[2];
+    // let angleX = document.getElementById("angleX").value / 100;
+    // let angleY = document.getElementById("angleY").value / 100;
+    // let angleZ = document.getElementById("angleZ").value / 100;
+    // let x = document.getElementById("translasiX").value / 100;
+    // let y = document.getElementById("translasiY").value / 100;
+    // let z = document.getElementById("translasiZ").value / 100;
+    // let scalesX = document.getElementById("scaleX").value;
+    // let scalesY = document.getElementById("scaleY").value;
+    // let scalesZ = document.getElementById("scaleZ").value;
+    let angleX = rotation[0]/ 100;
+    let angleY = rotation[1]/ 100;
+    let angleZ = rotation[2]/ 100;
+    let x = translation[0]/ 100;
+    let y = translation[1]/ 100;
+    let z = translation[2]/ 100;
+    let scalesX = scale[0];
+    let scalesY = scale[1];
+    let scalesZ = scale[2];
+
     if (projectionType === "perspective") {
       projectionMatrix = Matrix.perspective(fieldOfView,aspect,zNear,zFar);
     }else if(projectionType === "oblique"){

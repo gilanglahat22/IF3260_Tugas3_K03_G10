@@ -70,11 +70,94 @@ class MainObj{
     }
 
     // drawObj(projectMat, viewMat, modelMat, cameraPosition, shading){
-    drawObj() {
+    drawObj(translation, rotation, scale, transformation) {
         // console.log("drawObj");
-        this.translation = [document.getElementById("translasiX").value / 100, document.getElementById("translasiY").value / 100, document.getElementById("translasiZ").value / 100];
-        this.rotation = [document.getElementById("angleX").value / 100,document.getElementById("angleY").value / 100,document.getElementById("angleZ").value / 100];
-        this.scale = [document.getElementById("scaleX").value,document.getElementById("scaleY").value,document.getElementById("scaleZ").value];
-        drawObject(this.gl, this.program, this.buffer, this.model.vertexCount, this.translation, this.rotation, this.scale);
+        translation[0] += transformation[0][0];
+        translation[1] += transformation[0][1];
+        translation[2] += transformation[0][2];
+        rotation[0] += transformation[1][0];
+        rotation[1] += transformation[1][1];
+        rotation[2] += transformation[1][2];
+        scale[0] += transformation[2][0];
+        scale[1] += transformation[2][1];
+        scale[2] += transformation[2][2];
+        
+        drawObject(this.gl, this.program, this.buffer, this.model.vertexCount, translation, rotation, scale);
+        // this.gl.useProgram(this.program);
+        // this.bind();
+        // var gl = this.gl;
+        // var positionLoc = this.gl.getAttribLocation(this.program, "a_position");
+        // var colorLoc = this.gl.getAttribLocation(this.program, "a_color");
+        // var normalLoc = this.gl.getAttribLocation(this.program, "a_normal");
+        // var tangentLoc = this.gl.getAttribLocation(this.program, "a_tangent");
+        // var bitangentLoc = this.gl.getAttribLocation(this.program, "a_bitangent");
+        // var textureCoordLoc = this.gl.getAttribLocation(this.program, "a_textureCoord");
+        // var projectionMatrixLoc = this.gl.getUniformLocation(this.program, "u_projectionMatrix");
+        // var viewMatrixLoc = this.gl.getUniformLocation(this.program, "u_viewMatrix");
+        // var modelMatrixLoc = this.gl.getUniformLocation(this.program, "u_modelMatrix");
+        // var normalMatrixLoc = this.gl.getUniformLocation(this.program, "u_normalMatrix");
+        // var reverseLightDirectionLoc = this.gl.getUniformLocation(program, "u_reverseLightDirection");
+        // var worldCameraPositionLoc = this.gl.getUniformLocation(program, "u_worldCameraPosition");
+        // var shadingOnLoc = this.gl.getUniformLocation(this.program, "u_shadingOn");
+        // var textureModeLoc = this.gl.getUniformLocation(this.program, "u_textureMode");
+        // var textureImageLoc = this.gl.getUniformLocation(program, "u_texture_image");
+        // var textureEnvironmentLoc = this.gl.getUniformLocation(program, "u_texture_environment");
+        // var textureBumpLoc = this.gl.getUniformLocation(program, "u_texture_bump");
+        
+        // gl.enableVertexAttribArray(positionLoc);
+        // gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer[0]);
+        // gl.vertexAttribPointer(positionLoc, 3, gl.FLOAT, false, 0, 0);
+
+        // gl.enableVertexAttribArray(colorLoc);
+        // gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer[1]);
+        // gl.vertexAttribPointer(colorLoc, 4, gl.UNSIGNED_BYTE, true, 0, 0);
+
+        // gl.enableVertexAttribArray(textureCoordLoc);
+        // gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer[2]);
+        // gl.vertexAttribPointer(textureCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+        // gl.enableVertexAttribArray(normalLoc);
+        // gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer[3]);
+        // gl.vertexAttribPointer(normalLoc, 3, gl.FLOAT, false, 0, 0);
+
+        // gl.enableVertexAttribArray(tangentLoc);
+        // gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer[4]);
+        // gl.vertexAttribPointer(tangentLoc, 3, gl.FLOAT, false, 0, 0);
+
+        // gl.enableVertexAttribArray(bitangentLoc);
+        // gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer[5]);
+        // gl.vertexAttribPointer(bitangentLoc, 3, gl.FLOAT, false, 0, 0);
+
+        // var tempModelMat = modelMat;
+        // tempModelMat = Matrix.translate(tempModelMat, this.translation);
+        // tempModelMat = Matrix.rotate(tempModelMat, this.rotation[0], [1,0,0]);
+        // tempModelMat = Matrix.rotate(tempModelMat, this.rotation[1], [0,1,0]);
+        // tempModelMat = Matrix.rotate(tempModelMat, this.rotation[2], [0,0,1]);
+        // tempModelMat = Matrix.scale(tempModelMat, this.scale);
+    
+        // this.gl.uniformMatrix4fv(projectionMatrixLoc, false, projectMat);
+        // this.gl.uniformMatrix4fv(viewMatrixLoc, false, viewMat);
+        // this.gl.uniformMatrix4fv(modelMatrixLoc, false, modelMat);
+        // this.gl.uniform3fv(reverseLightDirectionLoc, normalize([0.1, 0.3, 1]));
+
+        // const normalMatrix = Matrix.normalizeMatrix(Matrix.multiply(viewMat, modelMat));
+        // this.gl.uniformMatrix4fv(normalMatrixLoc, false, normalMatrix);
+        // this.gl.uniform3fv(worldCameraPositionLoc, cameraPosition);
+        // this.gl.uniform1i(shadingOnLoc, shading);
+        // this.gl.uniform1i(textureModeLoc, this.textureMode);
+        // this.gl.uniform1i(textureImageLoc, 0);
+        // this.gl.activeTexture(this.gl.TEXTURE0);
+        // this.gl.bindTexture(this.gl.TEXTURE_2D, this.textures[0]);
+
+        // this.gl.uniform1i(textureEnvironmentLoc, 1);
+        // this.gl.activeTexture(this.gl.TEXTURE1);
+        // this.gl.bindTexture(this.gl.TEXTURE_CUBE_MAP, this.textures[1]);
+
+        // this.gl.uniform1i(textureBumpLoc, 2);
+        // this.gl.activeTexture(this.gl.TEXTURE2);
+        // this.gl.bindTexture(this.gl.TEXTURE_2D, this.textures[2]);
+
+        // // Draw the component of the object
+        // this.gl.drawArrays(this.gl.TRIANGLES, 0, this.numVertices);   
     }
 }

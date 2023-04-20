@@ -150,11 +150,12 @@
 				<div>
 					Texture:
 					<select id="textureOption" name="textureOption">
-						<option value="0" selected="selected">
+						<option value="2" selected="selected">
 							Reflective
 						</option>
-						<option value="0">Custom</option>
+						<option value="3">Custom</option>
 						<option value="1">Bump</option>
+						<option value="0">None</option>
 					</select>
 				</div>
 			</div>
@@ -170,7 +171,6 @@
 							max="100"
 							value="0"
 							id="translasiX"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-trans-x"t>0</output>
 					</div>
@@ -184,7 +184,6 @@
 							max="100"
 							value="0"
 							id="translasiY"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-trans-y"t>0</output>
 					</div>
@@ -198,7 +197,6 @@
 							max="100"
 							value="0"
 							id="translasiZ"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-trans-z"t>0</output>
 					</div>
@@ -210,11 +208,10 @@
 						<input
 							type="range"
 							name="angleX"
-							min="-100"
-							max="100"
+							min="-360"
+							max="360"
 							value="0"
 							id="angleX"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-angle-x"t>0</output>
 					</div>
@@ -224,11 +221,10 @@
 						<input
 							type="range"
 							name="angleY"
-							min="-100"
-							max="100"
+							min="-360"
+							max="360"
 							value="0"
 							id="angleY"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-angle-y"t>0</output>
 					</div>
@@ -238,11 +234,10 @@
 						<input
 							type="range"
 							name="angleZ"
-							min="-100"
-							max="100"
+							min="-360"
+							max="360"
 							value="0"
 							id="angleZ"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-angle-z"t>0</output>
 					</div>
@@ -264,7 +259,6 @@
 							value="1"
 							id="scaleX"
 							step="0.1"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-scale-x"t>0</output>
 					</div>
@@ -279,7 +273,6 @@
 							value="1"
 							id="scaleY"
 							step="0.1"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-scale-y"t>0</output>
 					</div>
@@ -294,7 +287,6 @@
 							value="1"
 							id="scaleZ"
 							step="0.1"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-scale-z"t>0</output>
 					</div>
@@ -310,7 +302,6 @@
 							max="100"
 							value="0"
 							id="cameraRad"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-camera-rad"t>0</output>
 					</div>
@@ -324,7 +315,6 @@
 							max="360"
 							value="0"
 							id="cameraAngle"
-							oninput="this.nextElementSibling.value = this.value"
 						/>
 						<output id="output-camera-angle"t>0</output>
 					</div>
