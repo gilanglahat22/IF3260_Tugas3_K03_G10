@@ -1,5 +1,4 @@
 // Buat Draw Object
-let first_init = true;
 
 function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotation, scale) {
     const shaderProgram = initShaders(gl, VERTEX_SHADER);
@@ -34,15 +33,6 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     };
 
     
-
-    // gl.enable(gl.DEPTH_TEST);          
-    // gl.depthFunc(gl.LEQUAL);           
-    // gl.viewport(0.0, 0.0, gl.canvas.clientWidth, gl.canvas.clientHeight);
-    // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    // const lightPos = [document.getElementById("lightX").value, document.getElementById("lightY").value, document.getElementById("lightZ").value];
-    // const tempambientColor = rgbToArray(document.getElementById("ambient-color").value);
-    // const tempdiffuseColor = rgbToArray(document.getElementById("diffuse-color").value);
-    // const tempspecularColor = rgbToArray(document.getElementById("specular-color").value);
     const lightPos = [0.0, 0.0, 0.0];
     const tempambientColor = [0.2, 0.2, 0.2];
     const tempdiffuseColor = [0.8, 0.8, 0.8];
@@ -60,15 +50,6 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     let cameraAngleRadian = ((document.getElementById('cameraAngle').value  - 50.0) * Math.PI) / 25.0;
     let radius = -((document.getElementById('cameraRad').value - 50.0) / 25.0) + 5.5;
     let projectionType = document.getElementById('perspectiveOption').value;
-    // let angleX = document.getElementById("angleX").value / 100;
-    // let angleY = document.getElementById("angleY").value / 100;
-    // let angleZ = document.getElementById("angleZ").value / 100;
-    // let x = document.getElementById("translasiX").value / 100;
-    // let y = document.getElementById("translasiY").value / 100;
-    // let z = document.getElementById("translasiZ").value / 100;
-    // let scalesX = document.getElementById("scaleX").value;
-    // let scalesY = document.getElementById("scaleY").value;
-    // let scalesZ = document.getElementById("scaleZ").value;
     let angleX = rotation[0]/ 100;
     let angleY = rotation[1]/ 100;
     let angleZ = rotation[2]/ 100;
@@ -101,26 +82,6 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
         var cameraPosition = [modelViewMatrix[3 * 3 + 0], modelViewMatrix[3 * 3 + 1], modelViewMatrix[3 * 3 + 2]];
         // gl.uniform3fv(programInfo.uniformLocations.cameraPosLoc,  cameraPosition);
     }
-
-    // if(resetDefault==0){
-    //   if(state.animation && state.timeout && angleAnimation<180){
-    //     modelViewMatrix = Matrix.rotate(modelViewMatrix,angleAnimation/100,[1,0,0]);
-    //     modelViewMatrix = Matrix.rotate(modelViewMatrix,angleAnimation/100,[0,1,0]);
-    //     if(angleAnimation + incAngle/numRender >=180){
-    //       incAngle = -0.5;
-    //       angleAnimation += (incAngle/numRender);
-    //     }else if(angleAnimation + incAngle/numRender <=-180){
-    //       incAngle = 0.5;
-    //       angleAnimation += (incAngle/numRender);
-    //     }else{
-    //       angleAnimation += (incAngle/numRender);
-    //     }
-    //   }
-    //   else{
-    //     modelViewMatrix = Matrix.rotate(modelViewMatrix,angleAnimation/100,[1,0,0]);
-    //     modelViewMatrix = Matrix.rotate(modelViewMatrix,angleAnimation/100,[0,1,0]);
-    //   }
-    // }
   
     modelViewMatrix = Matrix.translate(modelViewMatrix,[x,y,z]);
     modelViewMatrix = Matrix.rotate(modelViewMatrix,angleX,[1,0,0]);
