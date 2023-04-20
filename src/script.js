@@ -1,16 +1,5 @@
 var data = null;
 var dataAnimation = null;
-var additionMoveX = 0;
-var additionMoveY = 0;
-var additionMoveZ = 0;
-var additionAngleX = 0;
-var additionAngleY = 0;
-var additionAngleZ = 0;
-var additionScaleX = 0;
-var additionScaleY = 0;
-var additionScaleZ = 0;
-var isPlaying = false;
-
 const Maincanvas = document.getElementById(`canvas-main`);
 const Maingl = WebGLUtils.setupWebGL(Maincanvas, {
     preserveDrawingBuffer: true,
@@ -23,10 +12,17 @@ if (!Maingl) {
 
 var shadingFragment = FRAGMENT_SHADER_LIGHT;
 const Mainprogram = initShaders(Maingl, VERTEX_SHADER);
-
+// const defaultMainModel = data;
+// console.log("ini debug pertama ",defaultMainModel);
 var defaultMainObject = null;
-
+// if(defaultMainModel!=null){
+//     defaultMainObject = createObject(Maingl,Mainprogram,defaultMainModel);
+// }
 const MainRenderer = new Render(Maingl, Mainprogram, true);
+// MainRenderer.setObj(defaultMainObject);
+
+// requestAnimationFrame(MainRenderer.drawFrame.bind(MainRenderer));
+// initShaders(gl, "vertex-shader", "fragment-shader");
 
 Maingl.viewport(0, 0, Maincanvas.width, Maincanvas.height);
 Maingl.clearColor(0.0, 0.0, 0.0, 0.66);
@@ -46,12 +42,15 @@ if (!Componentgl) {
     alert("WebGL isn't available");
 }
 
+// var shadingFragment = FRAGMENT_SHADER_LIGHT;
 const ComponentProgram = initShaders(Componentgl, VERTEX_SHADER);
 const defaultComponentModel = data;
 var defaultComponentObject = null;
 if (defaultComponentModel != null) {
     defaultComponentObject = createObject(Componentgl, ComponentProgram, defaultComponentModel);
 }
+// const defaultComponentModel = null;
+// const defaultComponentObject = null;
 
 const ComponentRenderer = new Render(Componentgl, ComponentProgram, false);
 ComponentRenderer.setObj(defaultComponentObject);
@@ -59,8 +58,9 @@ ComponentRenderer.setObj(defaultComponentObject);
 const tree = document.querySelector("#tree-display");
 tree.innerHTML = null;
 if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
-let chosenIdx = 0;
+let componentSelected = 0;
 requestAnimationFrame(ComponentRenderer.drawFrame.bind(ComponentRenderer));
+// initShaders(gl, "vertex-shader", "fragment-shader");
 
 Componentgl.viewport(0, 0, ComponentCanvas.width, ComponentCanvas.height);
 Componentgl.clearColor(0.0, 0.0, 0.0, 0.66);
@@ -69,12 +69,47 @@ Componentgl.enable(Componentgl.DEPTH_TEST);
 Componentgl.frontFace(Componentgl.CCW);
 Componentgl.cullFace(Componentgl.BACK);
 
+// For tree canvas
+
+
+
+// const articulatedRender = new Render(gl, program);
+// const renderObj = new Render(gl, program);
+
+// var isInit = true;
+
+// const renderObjects = () => {
+//     // document.getElementById("ambient-color").value = document.getElementById("color-picker").value;
+//     // document.getElementById("diffuse-color").value = document.getElementById("color-picker").value;
+//     // var buffers;
+//     // if (isInit) {
+//     //     buffers = initBuffer(Maingl, object);
+//     //     isInit = false;
+//     // }
+//     // else {
+//     //     buffers = updateBuffer(Maingl, object);
+//     // }
+//     function render() {
+//         drawObject(Maingl, null, buffers, object.vertexCount);
+//         requestAnimationFrame(render);
+//     }
+//     requestAnimationFrame(render);
+//     // numRender++;
+// }
 
 Maingl.enable(Maingl.DEPTH_TEST);
 Maingl.depthFunc(Maingl.LEQUAL);
 Maingl.viewport(0.0, 0.0, Maingl.canvas.clientWidth, Maingl.canvas.clientHeight);
 Maingl.clear(Maingl.COLOR_BUFFER_BIT | Maingl.DEPTH_BUFFER_BIT);
 
+
+// renderObject(test_obj)
+
+// for (let i = 0; i < test_obj.children.length; i++) {
+//     renderObject(test_obj.children[i]);
+// }
+// const obj = createObject(gl, program, x);
+// console.log(obj);
 var animation = new Animation();
 
 document.getElementById("play-button").disabled = false;
@@ -102,7 +137,6 @@ const firstFrame = () => {
     animation.indexCurFrame = 0;
     document.getElementById("cur-frame-id").innerHTML = "" + animation.indexCurFrame;
     MainRenderer.obj.setFrame(animation.frames[animation.indexCurFrame]);
-    
 }
 
 const prevFrame = () => {
@@ -135,20 +169,6 @@ const pauseAnimation = () =>{
     document.getElementById("pause-button").disabled = true;
 }
 
-var shutterSpeed = 0.5;
-
-let globalTimer = 0;
-setInterval(function () {
-    globalTimer++;
-    if(isPlaying){
-        if(globalTimer % Math.round(shutterSpeed * 10) == 0){
-        animation.indexCurFrame = Math.min(animation.frames.length - 1, animation.indexCurFrame + 1);
-        document.querySelector("#cur-frame-id").innerHTML = "" + animation.indexCurFrame;
-        MainRenderer.obj.setFrame(animation.frames[animation.indexCurFrame]);
-        };
-    }
-}, 100);
-
 const changeToLoadFile = (file) => {
     resetDefault = 1;
     data = JSON.parse(file);
@@ -163,18 +183,22 @@ const changeToLoadFile = (file) => {
     ComponentRenderer.setObj(objectComponent);
     tree.innerHTML = null;
     if (MainRenderer.obj != null) tree.innerHTML = MainRenderer.obj.getUI(0, 0);
-    chosenIdx = 0;
+    componentSelected = 0;
     for (let i = 0; i < getNumObj(MainRenderer.obj); i++) {
         let button = document.querySelector("#AO-" + i);
         console.log(button);
         button.onclick = () => {
-            chosenIdx = i;
+            componentSelected = i;
             let returned = defaultComponentObject.getArticulatedObject(i);
             ComponentRenderer.setObj(returned);
             ComponentRenderer.draw();
+            resetConfig();
         }
     }
-    resetDefaultView();
+    resetConfig();
+    MainRenderer.draw();
+    ComponentRenderer.draw();
+    document.getElementById("textureOption").value = getTextureCode(data.texture);
 }
 
 const loadFile = () => {
@@ -190,11 +214,102 @@ const loadFile = () => {
     reader.readAsText(file);
 }
 
+translasiX = document.getElementById("translasiX");
+translasiY = document.getElementById("translasiY");
+translasiZ = document.getElementById("translasiZ");
+rotasiX = document.getElementById("angleX");
+rotasiY = document.getElementById("angleY");
+rotasiZ = document.getElementById("angleZ");
+skalaX = document.getElementById("scaleX");
+skalaY = document.getElementById("scaleY");
+skalaZ = document.getElementById("scaleZ");
+
+translasiX.addEventListener("input", () => {
+    let newVal = parseInt(translasiX.value);
+    // ComponentRenderer.obj.translation[0] = newVal;
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).translation[0];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[0][0] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+translasiY.addEventListener("input", () => {
+    let newVal = parseInt(translasiY.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).translation[1];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[0][1] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+translasiZ.addEventListener("input", () => {
+    let newVal = parseInt(translasiZ.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).translation[2];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[0][2] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+rotasiX.addEventListener("input", () => {
+    let newVal = parseInt(rotasiX.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).rotation[0];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[1][0] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+rotasiY.addEventListener("input", () => {
+    let newVal = parseInt(rotasiY.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).rotation[1];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[1][1] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+rotasiZ.addEventListener("input", () => {
+    let newVal = parseInt(rotasiZ.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).rotation[2];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[1][2] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+skalaX.addEventListener("input", () => {
+    let newVal = parseFloat(skalaX.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[0];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][0] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+skalaY.addEventListener("input", () => {
+    let newVal = parseFloat(skalaY.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[1];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][1] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+skalaZ.addEventListener("input", () => {
+    let newVal = parseFloat(skalaZ.value);
+    let diff = newVal - MainRenderer.obj.getArticulatedObject(componentSelected).scale[2];
+    MainRenderer.obj.getArticulatedObject(componentSelected).transformation[2][2] += diff;
+    MainRenderer.obj.getArticulatedObject(componentSelected).isUpdated = true;
+});
+
+const getTextureCode = (name) => {
+    if (name == "BUMP") return 1;
+    if (name == "ENVIRONMENT") return 2;
+    if (name == "CUSTOM") return 3;
+    if (name == "NONE") return 0;
+}
+
+const getTextureName = (code) => {
+    if (code == 1) return "BUMP";
+    if (code == 2) return "ENVIRONMENT";
+    if (code == 3) return "CUSTOM";
+    if (code == 0) return "NONE";
+}
+
 const toSaveFormat = (obj) => {
+
+    let code = document.getElementById("textureOption").value;
+    let texture = getTextureName(code);
 
     let toSave = {
         "name": obj.name,
-        "texture": obj.obj.textureMode,
+        "texture": texture,
         "move_obj": obj.obj.translation,
         "rotation_obj": obj.obj.rotation,
         "scale_obj": obj.obj.scale,
@@ -229,6 +344,8 @@ const handleClickShading = () => {
     } else {
         shadingFragment = FRAGMENT_SHADER_FLAT;
     }
+    // renderObject(object);
+    // resetDefault = 0;
     MainRenderer.draw();
     ComponentRenderer.draw();
 }
@@ -237,6 +354,7 @@ const handleClickShading = () => {
 document.getElementById('shading').addEventListener('change', handleClickShading);
 
 const resetConfig = () => {
+    // document.getElementById('perspectiveOption').value = 'perspective';
     document.getElementById("translasiX").value = 0;
     document.getElementById("translasiY").value = 0;
     document.getElementById("translasiZ").value = 0;
@@ -248,10 +366,11 @@ const resetConfig = () => {
     document.getElementById("scaleZ").value = 1;
     document.getElementById("cameraRad").value = 0;
     document.getElementById("cameraAngle").value = 0;
+    // document.getElementById('shading').checked = true;
+    // document.getElementById("textureOption").value = "bump";
 }
 
 const resetDefaultView = () => {
     resetConfig();
-    MainRenderer.draw();
-    ComponentRenderer.draw();
+    loadFile();
 }

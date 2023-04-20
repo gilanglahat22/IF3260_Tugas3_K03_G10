@@ -55,16 +55,16 @@ function drawObject(gl, _programInfo, buffers, vertexCount, translation, rotatio
     let cameraAngleRadian = ((document.getElementById('cameraAngle').value  - 50.0) * Math.PI) / 25.0;
     let radius = -((document.getElementById('cameraRad').value - 50.0) / 25.0) + 5.5;
     let projectionType = document.getElementById('perspectiveOption').value;
-    let angleX = (rotation[0] + additionAngleX)/ 100;
-    let angleY = (rotation[1] + additionAngleY)/ 100;
-    let angleZ = (rotation[2] + additionAngleZ)/ 100;
-    let x = (translation[0] + additionMoveX)/ 100;
-    let y = (translation[1] + additionMoveY)/ 100;
-    let z = (translation[2] + additionMoveZ)/ 100;
-    let scalesX = scale[0] + additionScaleX;
-    let scalesY = scale[1] + additionScaleY;
-    let scalesZ = scale[2] + additionScaleZ;
-    shutterSpeed = document.getElementById("time-between-frames").value;
+    let angleX = rotation[0]/ 100;
+    let angleY = rotation[1]/ 100;
+    let angleZ = rotation[2]/ 100;
+    let x = translation[0]/ 100;
+    let y = translation[1]/ 100;
+    let z = translation[2]/ 100;
+    let scalesX = scale[0];
+    let scalesY = scale[1];
+    let scalesZ = scale[2];
+
     if (projectionType === "perspective") {
       projectionMatrix = Matrix.perspective(fieldOfView,aspect,zNear,zFar);
     }else if(projectionType === "oblique"){
